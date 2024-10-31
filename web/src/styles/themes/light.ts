@@ -20,6 +20,7 @@ export default {
       background: "transparent",
       background_hover: "#13BB81",
       border: "#13BB81",
+      theme_switcher_hover: "black",
     },
   },
 
@@ -31,7 +32,7 @@ export default {
       h4: "1.75rem",
       h5: "1.25rem",
       p: "0.875rem",
-      p_small: "0.625rem",
+      p_small: "0.725rem",
       caption: "0.53125rem",
     },
     mobile: {

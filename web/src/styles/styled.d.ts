@@ -22,6 +22,7 @@ declare module 'styled-components' {
         background: string,
         background_hover: string,
         border: string,
+        theme_switcher_hover: string,
       }
     },
   
