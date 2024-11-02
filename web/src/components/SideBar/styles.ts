@@ -149,7 +149,6 @@ export const MenuItem = styled.a`
   &:hover, &:focus {
     opacity: 1;
     outline: none;
-    text-decoration: underline;
   }
 
   &:focus-visible {
