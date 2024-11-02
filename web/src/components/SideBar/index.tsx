@@ -19,8 +19,11 @@ import {
   MenuToggleButton
 } from "./styles";
 
+
 interface Props {
   toggleTheme: () => void;
+  selectedItem: string | null;
+  setSelectedItem: React.Dispatch<React.SetStateAction<"Início" | "Cursos" | "Planos" | "Sair" | null>>;
 }
 
 interface UserInfo {
@@ -31,11 +34,12 @@ interface UserInfo {
   maxProgress: number;
 }
 
-const Sidebar: React.FC<Props> = ({ toggleTheme }) => {
+const Sidebar: React.FC<Props> = ({ toggleTheme, selectedItem, setSelectedItem }) => {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1024);
   const theme = useContext(ThemeContext);
+
 
   const toggleMenu = () => {
     if (!isLargeScreen) {
@@ -130,10 +134,17 @@ const Sidebar: React.FC<Props> = ({ toggleTheme }) => {
           </UserDetailsContainer>
         </UserInfo>
         <Menu role="menubar">
-          <MenuItem role="menuitem" tabIndex={0}>Início</MenuItem>
-          <MenuItem role="menuitem" tabIndex={1}>Cursos</MenuItem>
-          <MenuItem role="menuitem" tabIndex={2}>Planos</MenuItem>
-          <MenuItem role="menuitem" tabIndex={3}>Sair</MenuItem>
+          {["Início", "Cursos", "Planos", "Sair"].map((item, index) => (
+            <MenuItem
+              key={item}
+              role="menuitem"
+              tabIndex={index}
+              aria-selected={selectedItem === item}
+              onClick={() => setSelectedItem(item as "Início" | "Cursos" | "Planos" | "Sair")}
+            >
+              {item}
+            </MenuItem>
+          ))}
         </Menu>
       </SidebarContainer>
     </>
