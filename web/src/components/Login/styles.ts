@@ -94,7 +94,7 @@ export const LoginForm = styled.form`
 `;
 
 export const LoginText = styled.p`
-  font-size: 1.1rem;
+  font-size: ${({ theme }) => theme.fontsSizes.desktop.h6};
   margin: 0.3rem;
   color: ${({ theme }) => theme.colors.primary};
 `;
@@ -123,10 +123,9 @@ export const Input = styled.input`
 
 export const ForgotPassword = styled.a`
   color: #13BB81;
-  font-size: ${({ theme }) => theme.fontsSizes.mobile.h5};
+  font-size: ${({ theme }) => theme.fontsSizes.desktop.p};
   align-self: flex-start;
   cursor: pointer;
-  margin-top: 1rem;
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.input.background_hover};
@@ -203,6 +202,7 @@ export const IconButton = styled.button`
   &:hover {
     background-color: #13BB81;
   }
+
   img {
     width: 24px;
     height: 24px;
@@ -219,7 +219,7 @@ export const WelcomeImage = styled.img`
 
 export const WelcomeText = styled.h2`
   color: ${({ theme }) => theme.fontsSizes.colors.white};
-  font-size: ${({ theme }) => theme.fontsSizes.desktop.h4};
+  font-size: ${({ theme }) => theme.fontsSizes.desktop.h3};
   line-height: 1.4;
   max-width: 80%;
   text-align: center;
@@ -229,6 +229,6 @@ export const WelcomeText = styled.h2`
   }
 
   @media (max-width: 1280px) {
-    font-size: ${({ theme }) => theme.fontsSizes.desktop.h4};
+    font-size: ${({ theme }) => theme.fontsSizes.mobile.h4};
   }
 `;

@@ -1,8 +1,12 @@
+import React from "react";
+import { useNavigate } from 'react-router-dom';
+
 interface PageSelectorProps {
     page: "Início" | "Cursos" | "Planos" | "Sair" | null;
 }
 
 export const PageSelector: React.FC<PageSelectorProps> = ({ page }) => {
+    const navigate = useNavigate();
     const style = { color: 'red' };
 
     switch (page) {
@@ -13,7 +17,8 @@ export const PageSelector: React.FC<PageSelectorProps> = ({ page }) => {
         case "Planos":
             return <div style={style}>Planos Page</div>;
         case "Sair":
-            return <div style={style}>Sair Page</div>;
+            navigate('/login');
+            return null;
         default:
             return <div style={style}>Início Page</div>
     }

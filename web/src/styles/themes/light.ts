@@ -31,6 +31,7 @@ export default {
       h3: "2.25rem", //
       h4: "1.75rem",
       h5: "1.25rem",
+      h6: "1rem",
       p: "0.875rem",
       p_small: "0.725rem",
       caption: "0.53125rem",
@@ -41,6 +42,7 @@ export default {
       h3: "1.5rem",
       h4: "1.125rem",
       h5: "1rem",
+      h6: "0.875rem",
       p: "0.875rem",
       p_small: "0.625rem",
       caption: "0.53125rem",

@@ -33,6 +33,7 @@ declare module 'styled-components' {
         h3: string,
         h4: string,
         h5: string,
+        h6: string,
         p: string,
         p_small: string,
         caption: string,

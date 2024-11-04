@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
-import { Moon, Sun } from "@phosphor-icons/react";
+import { Moon, Sun, GithubLogo } from "@phosphor-icons/react";
 import {
   Container,
   LeftSection,
@@ -81,7 +81,7 @@ const LoginPage: React.FC<Props> = ({ toggleTheme, onClick }) => {
             </DivorOrContent>
             <IconContainer>
               <IconButton>
-                  <img src="/github_icon.png" alt="Github Icon" />
+                <GithubLogo size={32} color={theme?.colors.icons.color} />
               </IconButton>
               <IconButton>
                 <img src="/google_icon.png" alt="Google Icon" />
