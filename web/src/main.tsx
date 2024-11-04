@@ -1,14 +1,11 @@
-import { createRoot } from 'react-dom/client';
-import { ThemeProvider } from 'styled-components';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
-import light from './styles/themes/light';
 
-const container = document.getElementById('root');
-if (container) {
-  const root = createRoot(container);
-  root.render(
-    <ThemeProvider theme={light}>
-      <App />
-    </ThemeProvider>
-  );
-}
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+
+root.render(
+  <Router>
+    <App />
+  </Router>
+);
