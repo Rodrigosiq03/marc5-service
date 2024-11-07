@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./src/server.ts",
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
@@ -10,6 +10,9 @@
     "mongoose": "^8.7.1",
     "serverless-http": "^3.2.0",
     "uuid": "^10.0.0"
+  },
+  "scripts": {
+    "dev": "nodemon"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
