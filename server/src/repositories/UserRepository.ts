@@ -1,5 +1,5 @@
 import { connectDB } from "../database/connection";
-import User from "../domain/entities/User";
+import User from "../domain/entities/user";
 
 export class UserRepository {
 
