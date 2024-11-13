@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { AppContainer, MainContent } from './styles';
 import { PageSelector } from './components/PageSelector';
 import { LoginPage } from './components/Login';
+import CoursesScreen from './components/Courses';
 
 function App() {
   const [theme, setTheme] = usePersistedState<DefaultTheme>('theme', light);
@@ -34,7 +35,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Navigate to="/inicio" />} />
             <Route path="/inicio" element={<PageSelector page="Início" />} />
-            <Route path="/cursos" element={<PageSelector page="Cursos" />} />
+            <Route path="/cursos" element={<CoursesScreen />} />
             <Route path="/planos" element={<PageSelector page="Planos" />} />
             <Route path="/login" element={<LoginPage toggleTheme={toggleTheme} onClick={() => {}} />} />
           </Routes>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { ThemeContext } from "styled-components";
 import { List, Moon, Sun, X } from "@phosphor-icons/react";
+import { useNavigate } from 'react-router-dom';
 import {
   SidebarContainer,
   ThemeSwitcher,
@@ -22,8 +23,6 @@ import {
 
 interface Props {
   toggleTheme: () => void;
-  selectedItem: string | null;
-  setSelectedItem: React.Dispatch<React.SetStateAction<"Início" | "Cursos" | "Planos" | "Sair" | null>>;
 }
 
 interface UserInfo {
@@ -34,11 +33,12 @@ interface UserInfo {
   maxProgress: number;
 }
 
-const Sidebar: React.FC<Props> = ({ toggleTheme, selectedItem, setSelectedItem }) => {
+const Sidebar: React.FC<Props> = ({ toggleTheme}) => {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1024);
   const theme = useContext(ThemeContext);
+  const navigate = useNavigate();
 
 
   const toggleMenu = () => {
@@ -134,17 +134,22 @@ const Sidebar: React.FC<Props> = ({ toggleTheme, selectedItem, setSelectedItem }
           </UserDetailsContainer>
         </UserInfo>
         <Menu role="menubar">
-          {["Início", "Cursos", "Planos", "Sair"].map((item, index) => (
-            <MenuItem
-              key={item}
-              role="menuitem"
-              tabIndex={index}
-              aria-selected={selectedItem === item}
-              onClick={() => setSelectedItem(item as "Início" | "Cursos" | "Planos" | "Sair")}
-            >
-              {item}
-            </MenuItem>
-          ))}
+          {["Início", "Cursos", "Planos", "Sair"].map((item, index) => {
+            const itemPath = item === "Sair" ? "/login" : `/${item.toLowerCase()}`;
+            const isSelected = location.pathname === itemPath;
+            
+            return (
+              <MenuItem
+                key={item}
+                role="menuitem"
+                tabIndex={index}
+                aria-selected={isSelected}
+                onClick={() => navigate(itemPath)}
+              >
+                {item}
+              </MenuItem>
+            );
+          })}
         </Menu>
       </SidebarContainer>
     </>
