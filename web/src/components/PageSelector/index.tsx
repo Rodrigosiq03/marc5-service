@@ -11,7 +11,8 @@ export const PageSelector: React.FC<PageSelectorProps> = ({ page }) => {
 
     switch (page) {
         case "Início":
-            return <div style={style}>Início Page</div>;
+            navigate('/inicio');
+            return null;
         case "Cursos":
             return <div style={style}>Cursos Page</div>;
         case "Planos":

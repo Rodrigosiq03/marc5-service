@@ -140,7 +140,7 @@ export const MenuItem = styled.a`
   font-size: ${({ theme }) => theme.fontsSizes.desktop.h3};
   cursor: pointer;
   color: ${({ theme }) => theme.fontsSizes.colors.white};
-  opacity: 0.6;
+  opacity: ${props => props['aria-selected'] ? '1' : '0.6'};
   text-decoration: none;
   transition: opacity 0.2s ease-in-out;
   width: 100%;
