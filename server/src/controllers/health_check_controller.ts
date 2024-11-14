@@ -6,16 +6,16 @@ import { HealthRepositoryMongo } from "../repositories/HealthRepository";
 class HealthCheckController {
   constructor(
     private readonly usecase: HealthCheckUsecase
-  ) {}
+  ) { }
 
 
-  async handle (req: Request, res: Response, next?: NextFunction) {
+  async handle(req: Request, res: Response, next?: NextFunction) {
     try {
       const health = await this.usecase.execute()
-      return res.status(200).json(health);
+      res.status(200).json(health);
     } catch (error: any) {
       if (error instanceof Error) {
-        return res.status(500).send({ message: error.message });
+        res.status(500).send({ message: error.message });
       }
     }
   }

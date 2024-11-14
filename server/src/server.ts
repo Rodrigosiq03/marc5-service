@@ -9,7 +9,7 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 app.get('/health', (req, res) => {
-  return res.status(200).json({ status: 'ok' })
+  res.status(200).json({ status: 'ok' })
 })
 
 app.listen(3000, () => {

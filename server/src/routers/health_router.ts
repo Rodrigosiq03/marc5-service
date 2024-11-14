@@ -7,7 +7,7 @@ import { envs } from "../helpers/envs";
 export const healthRouter = Router();
 
 // if (envs.STAGE === "dev" || envs.STAGE === "prod" || envs.STAGE === "hmg") {
-  
+
 //   healthRouter.get("/", 
 //   } else {
 //     throw new Error("Invalid stage");
@@ -15,7 +15,7 @@ export const healthRouter = Router();
 
 healthRouter.get('/health-db', healthCheckHandler);
 healthRouter.get('/health', (req: Request, res: Response) => {
-  return res.status(200).json({ status: 'ok' });
+  res.status(200).json({ status: 'ok' });
 })
 
 
