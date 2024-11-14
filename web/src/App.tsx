@@ -10,6 +10,7 @@ import { AppContainer, MainContent, SidebarContainer } from './styles';
 import { PageSelector } from './components/PageSelector';
 import { LoginPage } from './components/Login';
 import CoursesScreen from './components/Courses';
+import PlansScreen from './components/Plans';
 import HomeScreen from './components/Home';
 import { useEffect, useState } from 'react';
 
@@ -48,7 +49,7 @@ function App() {
             <Route path="/" element={<Navigate to="/inicio" />} />
             <Route path="/inicio" element={<HomeScreen />} />
             <Route path="/cursos" element={<CoursesScreen />} />
-            <Route path="/planos" element={<PageSelector page="Planos" />} />
+            <Route path="/planos" element={<PlansScreen />} />
             <Route path="/login" element={<LoginPage toggleTheme={toggleTheme} onClick={() => {}} />} />
           </Routes>
         </MainContent>
