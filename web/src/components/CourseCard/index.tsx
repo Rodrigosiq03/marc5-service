@@ -13,20 +13,21 @@ import {
 } from './styles';
 
 interface CourseCardProps {
+  _id: string;
   title: string;
   description: string;
-  deadline?: string;
+  price?: string;
   imageUrl?: string;
-  instructor?: string;
+  creator?: string;
   category?: string;
 }
 
 const CourseCard: React.FC<CourseCardProps> = ({ 
   title, 
   description, 
-  deadline, 
+  price, 
   imageUrl, 
-  instructor,
+  creator,
   category
 }) => {
   return (
@@ -46,11 +47,11 @@ const CourseCard: React.FC<CourseCardProps> = ({
         <CourseDescription>{description}</CourseDescription>
         
         <CardFooter>
-          {instructor && (
-            <InstructorName>{instructor}</InstructorName>
+          {creator && (
+            <InstructorName>{creator}</InstructorName>
           )}
-          {deadline && (
-            <Deadline>Até {deadline}</Deadline>
+          {price && (
+            <Deadline>Até {price}</Deadline>
           )}
         </CardFooter>
       </CardContent>

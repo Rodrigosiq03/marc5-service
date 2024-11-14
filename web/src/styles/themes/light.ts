@@ -43,7 +43,7 @@ export default {
       h4: "1.125rem",
       h5: "1rem",
       h6: "0.875rem",
-      p: "0.875rem",
+      p: "0.75rem",
       p_small: "0.625rem",
       caption: "0.53125rem",
     },

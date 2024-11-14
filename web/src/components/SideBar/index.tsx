@@ -134,7 +134,7 @@ const Sidebar: React.FC<Props> = ({ toggleTheme}) => {
           </UserDetailsContainer>
         </UserInfo>
         <Menu role="menubar">
-          {["Início", "Cursos", "Planos", "Sair"].map((item, index) => {
+          {["Inicio", "Cursos", "Planos", "Sair"].map((item, index) => {
             const itemPath = item === "Sair" ? "/login" : `/${item.toLowerCase()}`;
             const isSelected = location.pathname === itemPath;
             
