@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   CardContainer,
   ImageContainer,
@@ -9,7 +10,8 @@ import {
   CourseDescription,
   CardFooter,
   InstructorName,
-  Deadline
+  Price,
+  CardWrapper
 } from './styles';
 
 interface CourseCardProps {
@@ -23,6 +25,7 @@ interface CourseCardProps {
 }
 
 const CourseCard: React.FC<CourseCardProps> = ({ 
+  _id,
   title, 
   description, 
   price, 
@@ -30,32 +33,40 @@ const CourseCard: React.FC<CourseCardProps> = ({
   creator,
   category
 }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/courses/${_id}`);
+  };
+
   return (
-    <CardContainer>
-      {imageUrl && (
-        <ImageContainer>
-          <CourseImage src={imageUrl} alt={`${title} course thumbnail`} />
-        </ImageContainer>
-      )}
-      
-      <CardContent>
-        {category && (
-          <CategoryBadge>{category}</CategoryBadge>
+    <CardWrapper onClick={handleClick}>
+      <CardContainer>
+        {imageUrl && (
+          <ImageContainer>
+            <CourseImage src={imageUrl} alt={`${title} thumbnail`} />
+          </ImageContainer>
         )}
         
-        <CourseTitle>{title}</CourseTitle>
-        <CourseDescription>{description}</CourseDescription>
-        
-        <CardFooter>
-          {creator && (
-            <InstructorName>{creator}</InstructorName>
+        <CardContent>
+          {category && (
+            <CategoryBadge>{category}</CategoryBadge>
           )}
-          {price && (
-            <Deadline>Até {price}</Deadline>
-          )}
-        </CardFooter>
-      </CardContent>
-    </CardContainer>
+          
+          <CourseTitle>{title}</CourseTitle>
+          <CourseDescription>{description}</CourseDescription>
+          
+          <CardFooter>
+            {creator && (
+              <InstructorName>{creator}</InstructorName>
+            )}
+            {price && (
+              <Price>Até {price}</Price>
+            )}
+          </CardFooter>
+        </CardContent>
+      </CardContainer>
+    </CardWrapper>
   );
 };
 
