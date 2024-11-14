@@ -18,10 +18,27 @@ export const SidebarContainer = styled.aside<SidebarContainerProps>`
   transform: ${({ isOpen }) => (isOpen ? "translateX(0)" : "translateX(-100%)")};
   transition: transform 0.3s ease-in-out;
   overflow-y: auto;
+  z-index: 1000;
 
-  @media (max-width: 1024px) {
-    width: 80%;
-    max-width: 300px;
+  @media (min-width: 1024px) {
+    transform: none;
+  }
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
   }
 `;
 
@@ -124,15 +141,15 @@ export const ProgressText = styled.div`
 export const Menu = styled.nav`
   list-style: none;
   padding: 0;
-  display: flex;
   margin: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: calc(100vh - 350px); /* Ajusta a altura considerando os outros elementos */
   gap: 4rem;
+  padding-bottom: 2rem;
+
   @media (max-height: 600px) {
-    height: auto;
+    gap: 2rem;
   }
 `;
 
@@ -162,12 +179,13 @@ export const MenuToggleButton = styled.button`
   position: fixed;
   top: 20px;
   left: 20px;
-  background: none;
+  background: ${({ theme }) => theme.colors.green_500};
   border: none;
   cursor: pointer;
   color: ${({ theme }) => theme.fontsSizes.colors.white};
   padding: 8px;
   border-radius: 4px;
+  z-index: 1001;
 
   &:focus-visible {
     outline: 2px solid ${({ theme }) => theme.fontsSizes.colors.white};
