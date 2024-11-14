@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+export const CardWrapper = styled.div`
+  cursor: pointer;
+`;
+
 export const CardContainer = styled.div`
   position: relative;
   border-radius: 0.5rem;
@@ -42,6 +46,10 @@ export const CategoryBadge = styled.span`
   color: ${({ theme }) => theme.fontsSizes.colors.white};
   background-color: ${({ theme }) => theme.colors.green_500};
   border-radius: 0.25rem;
+
+  @media (max-width: 768px) {
+    font-size: ${({ theme }) => theme.fontsSizes.mobile.p_small};
+  }
 `;
 
 export const CourseTitle = styled.h3`
@@ -49,6 +57,10 @@ export const CourseTitle = styled.h3`
   color: ${({ theme }) => theme.colors.primary};
   margin-bottom: 0.5rem;
   font-weight: bold;
+
+  @media (max-width: 768px) {
+    font-size: ${({ theme }) => theme.fontsSizes.mobile.h5};
+  }
 `;
 
 export const CourseDescription = styled.p`
@@ -59,6 +71,10 @@ export const CourseDescription = styled.p`
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    font-size: ${({ theme }) => theme.fontsSizes.mobile.p};
+  }
 `;
 
 export const CardFooter = styled.div`
@@ -70,9 +86,17 @@ export const CardFooter = styled.div`
 export const InstructorName = styled.span`
   font-size: ${({ theme }) => theme.fontsSizes.desktop.p_small};
   color: ${({ theme }) => theme.colors.primary};
+
+  @media (max-width: 768px) {
+    font-size: ${({ theme }) => theme.fontsSizes.mobile.p_small};
+  }
 `;
 
-export const Deadline = styled.span`
+export const Price = styled.span`
   font-size: ${({ theme }) => theme.fontsSizes.desktop.p_small};
   color: ${({ theme }) => theme.colors.primary};
+
+  @media (max-width: 768px) {
+    font-size: ${({ theme }) => theme.fontsSizes.mobile.p_small};
+  }
 `;
