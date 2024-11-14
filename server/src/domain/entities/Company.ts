@@ -1,4 +1,4 @@
-import Creator from "./Creator";
+import Creator from "./creator";
 
 export default class Company extends Creator {
     collaborators: string[]; // [userId]
