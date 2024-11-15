@@ -8,7 +8,7 @@ export default {
     green_300: "#13BB81",
 
     input: {
-      background: "rgba(75, 75, 75, 0.3)",
+      background: "rgba(255, 255, 255, 0.3)",
       placeholder: "#4B4B4B",
       border: "rgba(0, 0, 0, 0.2)",
       background_hover: "rgba(75, 75, 75, 0.6)",

@@ -9,7 +9,7 @@ export default {
 
     input: {
       background: "#4B4B4B",
-      placeholder: "rgba(75, 75, 75, 0.3)",
+      placeholder: "rgba(255, 255, 255, 0.3)",
       border: "rgba(0, 0, 0, 0.2)",
       background_hover: "rgba(75, 75, 75, 0.7)",
       border_hover: "#13BB81",
