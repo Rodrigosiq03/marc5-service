@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Course } from "../../hooks/useCoursesFilter";
 import {
   CardContainer,
   ImageContainer,
@@ -14,24 +15,17 @@ import {
   CardWrapper
 } from './styles';
 
-interface CourseCardProps {
-  _id: string;
-  title: string;
-  description: string;
-  price?: string;
-  imageUrl?: string;
-  creator?: string;
-  category?: string;
-}
 
-const CourseCard: React.FC<CourseCardProps> = ({ 
+const CourseCard: React.FC<Course> = ({ 
   _id,
-  title, 
-  description, 
-  price, 
-  imageUrl, 
+  title,
+  description,
   creator,
-  category
+  imageUrl,
+  category,
+  price,
+  date,
+  subscribers,
 }) => {
   const navigate = useNavigate();
 
@@ -61,7 +55,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
               <InstructorName>{creator}</InstructorName>
             )}
             {price && (
-              <Price>Até {price}</Price>
+              <Price>{price}</Price>
             )}
           </CardFooter>
         </CardContent>

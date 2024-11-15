@@ -7,7 +7,6 @@ import light from './styles/themes/light';
 import dark from './styles/themes/dark';
 import usePersistedState from './utils/usePersistedState';
 import { AppContainer, MainContent, SidebarContainer } from './styles';
-import { PageSelector } from './components/PageSelector';
 import { LoginPage } from './components/Login';
 import CoursesScreen from './components/Courses';
 import PlansScreen from './components/Plans';
