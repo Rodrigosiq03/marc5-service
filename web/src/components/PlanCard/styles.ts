@@ -35,22 +35,12 @@ export const PlanDescription = styled.ul`
   padding: 0;
 
   li {
-    position: relative;
-    padding-left: 1.5rem;
     margin-bottom: 0.5rem;
+  }
 
-    &::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 16px;
-      height: 16px;
-      background-image: url('../../../public/check.svg');
-      background-size: contain;
-      background-repeat: no-repeat;
-    }
+  svg {
+    vertical-align: bottom;
+    margin-right: 0.5rem;
   }
 `;
 
