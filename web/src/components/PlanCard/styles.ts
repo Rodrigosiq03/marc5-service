@@ -1,27 +1,22 @@
 import styled from 'styled-components';
 
 export const CardContainer = styled.div`
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
   border-radius: 0.5rem;
-  overflow: hidden;
-  background-color: ${({ theme }) => theme.colors.background};
+  background-color: transparent;
   transition: transform 0.3s ease-in-out;
   border: 1px solid ${({ theme }) => theme.colors.primary};
-  padding: 2rem;
-  text-align: center;
+  padding: 1rem;
 
   &:hover {
     transform: scale(1.05);
     border: 1px solid ${({ theme }) => theme.colors.green_500};
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
-`;
-
-export const PriceTag = styled.div`
-  font-size: ${({ theme }) => theme.fontsSizes.desktop.h3};
-  color: ${({ theme }) => theme.colors.green_500};
-  margin: 1rem 0;
-  font-weight: bold;
 `;
 
 export const PlanTitle = styled.h3`
@@ -33,27 +28,46 @@ export const PlanTitle = styled.h3`
 
 export const PlanDescription = styled.ul`
   font-size: ${({ theme }) => theme.fontsSizes.desktop.p};
+  text-align: left;
   color: ${({ theme }) => theme.colors.primary};
   margin-bottom: 1.5rem;
   list-style-type: none;
   padding: 0;
 
   li {
+    position: relative;
+    padding-left: 1.5rem;
     margin-bottom: 0.5rem;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      background-image: url('../../../public/check.svg');
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
   }
 `;
 
 export const SubscribeButton = styled.button`
   background-color: ${({ theme }) => theme.colors.green_500};
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.primary};
   border: none;
   border-radius: 0.25rem;
   padding: 0.75rem 1.5rem;
+  margin-top: auto;
+  margin-bottom: 1.5rem;
   cursor: pointer;
-  font-size: ${({ theme }) => theme.fontsSizes.desktop.p};
+  font-size: ${({ theme }) => theme.fontsSizes.desktop.h5};
+  font-weight: bold;
   transition: background-color 0.3s ease-in-out;
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.green_700};
+    background-color: ${({ theme }) => theme.colors.green_300};
   }
 `;

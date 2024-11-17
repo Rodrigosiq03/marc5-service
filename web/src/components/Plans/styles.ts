@@ -12,22 +12,26 @@ export const PlansContainer = styled.div`
 `;
 
 export const SectionTitle = styled.h2`
-  font-size: ${({ theme }) => theme.fontsSizes.desktop.h2};
+  font-size: ${({ theme }) => theme.fontsSizes.desktop.h3};
   color: ${({ theme }) => theme.colors.primary};
   margin-bottom: 1.5rem;
   font-weight: bold;
+  text-align: center;
 `;
 
 export const PlanGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: 1.5rem;
+  justify-content: center;
+  align-content: center;
 
   @media (min-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1440px) {
     grid-template-columns: repeat(3, 1fr);
   }
 `;

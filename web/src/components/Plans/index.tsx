@@ -5,7 +5,7 @@ import { PlansContainer, SectionTitle, PlanGrid } from './styles';
 
 interface PlanType {
   title: string;
-  price: string;
+  price: number;
   description: string[];
 }
 
@@ -15,16 +15,16 @@ const PlansScreen: React.FC = () => {
   const plans: PlanType[] = [
     {
       title: 'Starter',
-      price: 'R$ 7,50 usuário/mês',
+      price: 7.50,
       description: [
         'Limite de até 50 colaboradores.',
         'Limite de 5 equipes.',
-        'Limite de até 50 colaboradores.'
+        'Suporte básico.'
       ],
     },
     {
       title: 'Pro',
-      price: 'R$ 15,00 usuário/mês',
+      price: 15.00,
       description: [
         'Limite de até 100 colaboradores.',
         'Limite de 10 equipes.',
@@ -33,12 +33,11 @@ const PlansScreen: React.FC = () => {
     },
     {
       title: 'Business',
-      price: 'R$ 25,00 usuário/mês',
+      price: 25.00,
       description: [
         'Colaboradores ilimitados.',
         'Equipes ilimitadas.',
         'Suporte 24/7.',
-        'Gerenciamento avançado de permissões.',
       ],
     },
   ];

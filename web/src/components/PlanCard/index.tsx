@@ -1,23 +1,28 @@
 import React from 'react';
 import {
   CardContainer,
-  PriceTag,
   PlanTitle,
   PlanDescription,
   SubscribeButton,
 } from './styles';
+import PriceTag from '../PriceTag';
 
 interface PlanCardProps {
   title: string;
-  price: string;
+  price: number;
   description: string[];
 }
 
-const PlanCard: React.FC<PlanCardProps> = ({ title, price, description }) => {
+
+const PlanCard: React.FC<PlanCardProps> = ({
+  title,
+  price,
+  description
+}) => {
   return (
     <CardContainer>
       <PlanTitle>{title}</PlanTitle>
-      <PriceTag>{price}</PriceTag>
+      <PriceTag price={price} />
       <PlanDescription>
         {description.map((item, index) => (
           <li key={index}>{item}</li>
