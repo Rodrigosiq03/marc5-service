@@ -32,20 +32,24 @@ const HomeScreen: React.FC = () => {
       title: "Deep Learning",
       description:
         "O curso abrange todas as técnicas mais atualizadas de DeepLearning do mercado",
-      instructor: "Rodrigo Siqueira",
-      deadline: "28/11/24",
+      creator: "Rodrigo Siqueira",
       imageUrl: "/curso.png",
       category: "Desenvolvimento",
+      price: "R$ 200,00",
+      date: "28/11/24",
+      subscribers: 100,
     },
     {
       _id: "sdasojdoas",
       title: "Front-End",
       description:
         "O curso abrange a linguagem Javascript juntamente da Framework React",
-      instructor: "Rafael Bietti",
-      deadline: "28/11/24",
+      creator: "Rafael Bietti",
       imageUrl: "/curso.png",
       category: "Desenvolvimento",
+      price: "R$ 200,00",
+      date: "28/11/24",
+      subscribers: 100,
     },
   ];
 
@@ -54,25 +58,34 @@ const HomeScreen: React.FC = () => {
       _id: "j3k4j3k4j3k4j3k4j3k4",
       title: "Desenvolvimento back-end",
       description: "Aprenda as principais tecnologias de backend",
-      instructor: "Rafael Bietti",
+      creator: "Rafael Bietti",
       imageUrl: "/curso.png",
       category: "Desenvolvimento",
+      price: "R$ 200,00",
+      date: "28/11/24",
+      subscribers: 100,
     },
     {
       _id: "kdsakdjsakdjsakdjsakd",
       title: "Front-End em 3 dias!",
       description: "Curso intensivo de desenvolvimento frontend",
-      instructor: "Rodrigo Siqueira",
+      creator: "Rodrigo Siqueira",
       imageUrl: "/curso.png",
       category: "Desenvolvimento",
+      price: "R$ 150,00",
+      date: "28/11/24",
+      subscribers: 100,
     },
     {
       _id: "ojsojdaojsdoajsd",
       title: "Experiência e Interface do Usuário",
       description: "Aprenda UX/UI com especialistas da IBM",
-      instructor: "IBM - Flávia Beo",
+      creator: "IBM - Flávia Beo",
       imageUrl: "/curso.png",
       category: "Design",
+      price: "R$ 250,00",
+      date: "28/11/24",
+      subscribers: 100,
     },
   ];
 
@@ -101,10 +114,14 @@ const HomeScreen: React.FC = () => {
             </DifferentialDescription>
           </DifferentialItem>
           <DifferentialItem>
-            <DifferentialTitle>Flexibilidade de Cursos</DifferentialTitle>
+            <DifferentialTitle>
+              Versatilidade na Criação de Cursos
+            </DifferentialTitle>
             <DifferentialDescription>
-              Ofereça cursos internos para colaboradores ou conteúdos públicos,
-              com opções de cursos gratuitos, pagos ou sustentados por anúncios.
+              Crie, personalize e distribua cursos de maneira eficaz, seja para
+              sua equipe ou para o público externo. Nossa plataforma permite
+              cursos gratuitos, pagos ou sustentados por anúncios, adaptando-se
+              às necessidades e estratégias de cada empresa.
             </DifferentialDescription>
           </DifferentialItem>
           <DifferentialItem>
