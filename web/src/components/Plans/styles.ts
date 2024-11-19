@@ -5,6 +5,7 @@ export const PlansContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.background};
   margin-top: 2rem;
   min-height: 100vh;
+  width: 100%;
 `;
 
 export const SectionTitle = styled.h2`
@@ -16,23 +17,13 @@ export const SectionTitle = styled.h2`
 `;
 
 export const PlanGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   gap: 1.5rem;
+  width: 100%;
+  justify-content: center;
 
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(1, 1fr);
-  }
-
-  @media (min-width: 1080px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (min-width: 1440px) {
-    grid-template-columns: repeat(3, 1fr);
+  & > * {
+    flex: 1;
   }
 `;

@@ -9,7 +9,7 @@ export const PriceTagContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.green_500};
   border-radius: 0.5rem;
   margin-bottom: 1.5rem;
-  color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.fontsSizes.colors.white};
 `;
 
 export const PriceText = styled.span`

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const CardContainer = styled.div`
   height: 400px;
+  max-width: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -46,7 +47,7 @@ export const PlanDescription = styled.ul`
 
 export const SubscribeButton = styled.button`
   background-color: ${({ theme }) => theme.colors.green_500};
-  color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.fontsSizes.colors.white};
   border: none;
   border-radius: 0.25rem;
   padding: 0.75rem 1.5rem;
