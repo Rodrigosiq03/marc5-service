@@ -36,7 +36,7 @@ interface UserInfo {
 const Sidebar: React.FC<Props> = ({ toggleTheme}) => {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1024);
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1280);
   const theme = useContext(ThemeContext);
   const navigate = useNavigate();
 
@@ -49,7 +49,7 @@ const Sidebar: React.FC<Props> = ({ toggleTheme}) => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsLargeScreen(window.innerWidth >= 1024);
+      setIsLargeScreen(window.innerWidth >= 1280);
     };
 
     window.addEventListener("resize", handleResize);
