@@ -16,11 +16,11 @@ import { useEffect, useState } from 'react';
 function App() {
   const [theme, setTheme] = usePersistedState<DefaultTheme>('theme', light);
   const location = useLocation();
-  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1024);
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1280);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsLargeScreen(window.innerWidth >= 1024);
+      setIsLargeScreen(window.innerWidth >= 1280);
     };
 
     window.addEventListener("resize", handleResize);

@@ -16,11 +16,13 @@ export const AppContainer = styled.div<ContainerProps>`
 export const MainContent = styled.div<ContainerProps>`
   display: flex;
   flex: 1;
-  align-items: center;
-  justify-content: center;
   width: 100%;
   margin: 0;
   padding: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  align-items: flex-start;
+  justify-content: flex-start;
   transition: margin-left 0.3s ease-in-out;
 `;
 

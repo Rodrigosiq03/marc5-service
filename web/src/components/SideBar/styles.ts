@@ -20,7 +20,7 @@ export const SidebarContainer = styled.aside<SidebarContainerProps>`
   overflow-y: auto;
   z-index: 1000;
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1280px) {
     transform: none;
   }
 
@@ -192,7 +192,7 @@ export const MenuToggleButton = styled.button`
     outline-offset: 2px;
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1280px) {
     display: none;
   }
 `;
