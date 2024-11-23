@@ -37,6 +37,7 @@ jobs:
 
       - name: Installing Dependencies
         run: |
+          cd server
           yarn
           cd iac
           npm install -g aws-cdk ts-node
