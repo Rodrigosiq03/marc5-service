@@ -207,6 +207,8 @@ export const CourseGrid = styled.div`
   gap: 1.5rem;
   width: 100%;
   padding-left: 1.5rem;
+  position: relative;
+  min-height: 200px;
 
   @media (min-width: 768px) {
     grid-template-columns: repeat(3, 1fr);
@@ -215,4 +217,15 @@ export const CourseGrid = styled.div`
   @media (min-width: 1280px) {
     grid-template-columns: repeat(4, 1fr);
   }
+`;
+
+export const CourseGridLoadingWrapper = styled.div`
+  position: absolute;
+  inset: 0;
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ theme }) => theme.colors.background};
+  min-height: 200px;
 `;
