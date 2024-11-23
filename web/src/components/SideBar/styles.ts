@@ -177,19 +177,18 @@ export const MenuItem = styled.a`
 
 export const MenuToggleButton = styled.button`
   position: fixed;
-  top: 20px;
-  left: 20px;
+  top: 10px;
+  left: 10px;
   background: ${({ theme }) => theme.colors.green_500};
   border: none;
   cursor: pointer;
   color: ${({ theme }) => theme.fontsSizes.colors.white};
-  padding: 8px;
+  padding: 1px;
   border-radius: 4px;
   z-index: 1001;
 
   &:focus-visible {
     outline: 2px solid ${({ theme }) => theme.fontsSizes.colors.white};
-    outline-offset: 2px;
   }
 
   @media (min-width: 1280px) {
