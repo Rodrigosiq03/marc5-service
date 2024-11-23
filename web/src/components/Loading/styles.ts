@@ -49,9 +49,9 @@ export const LoadingContainer = styled.div<LoadingProps>`
   justify-content: center;
   background-color: transparent;
   z-index: 9999;
-  padding: ${({ $isSidebar }) => $isSidebar ? '20px' : '0'};
-  height: ${({ $isSidebar }) => $isSidebar ? '100vh' : '100%'};
-  width: ${({ $isSidebar }) => $isSidebar ? '350px' : '100%'};
+  padding: 0
+  height: 100%;
+  width: 100%;
 
   @media (min-width: 1280px) {
     position: ${({ $isSidebar }) => $isSidebar ? 'relative' : 'absolute'};

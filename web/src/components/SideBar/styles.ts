@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 interface SidebarContainerProps {
   isOpen: boolean;
 }
@@ -19,6 +18,8 @@ export const SidebarContainer = styled.aside<SidebarContainerProps>`
   transition: transform 0.3s ease-in-out;
   overflow-y: auto;
   z-index: 1000;
+  display: flex;
+  flex-direction: column;
 
   @media (min-width: 1280px) {
     transform: none;
@@ -75,11 +76,20 @@ export const Logo = styled.div`
   }
 `;
 
+export const UserInfoContainer = styled.div`
+  position: relative;
+  min-height: 120px;
+  margin: 3rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+`;
+
 export const UserInfo = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 3rem;
-  margin-top: 3rem;
+  width: 100%;
 `;
 
 export const UserAvatar = styled.img`
