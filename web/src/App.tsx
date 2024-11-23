@@ -14,6 +14,7 @@ import PlansScreen from './components/Plans';
 import HomeScreen from './components/Home';
 import { useEffect, useState } from 'react';
 import { List, X } from "@phosphor-icons/react";
+import ProfileScreen from './components/Profile';
 
 function App() {
   const [theme, setTheme] = usePersistedState<DefaultTheme>('theme', light);
@@ -92,6 +93,7 @@ function App() {
             <Route path="/inicio" element={<HomeScreen />} />
             <Route path="/cursos" element={<CoursesScreen />} />
             <Route path="/planos" element={<PlansScreen />} />
+            <Route path="/perfil" element={<ProfileScreen/>} />
             <Route path="/login" element={<LoginPage toggleTheme={toggleTheme} onClick={toggleSidebar} />} />
           </Routes>
         </MainContent>

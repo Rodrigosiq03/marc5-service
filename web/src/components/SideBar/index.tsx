@@ -113,7 +113,13 @@ const Sidebar: React.FC<Props> = ({ toggleTheme, isOpen, setIsOpen }) => {
         {isUserLoading ? (
           <Loading isLoading={true} isSidebar={true} message="Carregando suas informações" />
         ) : (
-          <UserInfo role="complementary" aria-label="Informações do usuário">
+          <UserInfo 
+            role="button"
+            onClick={() => handleNavigation('/perfil')}
+            onKeyDown={(e) => e.key === 'Enter' && handleNavigation('/perfil')}
+            tabIndex={0}
+            aria-label={`Perfil de ${userInfo.name}. Clique para ver detalhes`}
+          >
             <UserAvatar 
               src={userInfo.avatarUrl} 
               alt={`Foto de perfil de ${userInfo.name}`} 

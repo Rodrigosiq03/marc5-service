@@ -90,6 +90,23 @@ export const UserInfo = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  &:focus {
+    outline: 2px solid ${({ theme }) => theme.fontsSizes.colors.white};
+    outline-offset: 2px;
+  }
+
+  &:active {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
 `;
 
 export const UserAvatar = styled.img`
