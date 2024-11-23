@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CourseCard from "../CourseCard";
 import {
   HomeContainer,
@@ -16,9 +16,17 @@ import {
   DifferentialItem,
   DifferentialsList,
   DifferentialTitle,
+  CourseGridLoadingWrapper,
 } from "./styles";
+import { Loading } from "../Loading";
+import { Course } from "../../hooks/useCoursesFilter";
 
 const HomeScreen: React.FC = () => {
+  const [isLoadingRecent, setIsLoadingRecent] = useState(true);
+  const [isLoadingNew, setIsLoadingNew] = useState(true);
+  const [recentCourses, setRecentCourses] = useState<Course[]>([]);
+  const [newContent, setNewContent] = useState<Course[]>([]);
+
   const partners = [
     { name: "MetLife", logo: "/empresa.png" },
     { name: "Tekno", logo: "/empresa.png" },
@@ -26,68 +34,50 @@ const HomeScreen: React.FC = () => {
     { name: "Partner 4", logo: "/empresa.png" },
   ];
 
-  const recentCourses = [
-    {
-      _id: "asdasdasd",
-      title: "Deep Learning",
-      description:
-        "O curso abrange todas as técnicas mais atualizadas de DeepLearning do mercado",
-      creator: "Rodrigo Siqueira",
-      imageUrl: "/curso.png",
-      category: "Desenvolvimento",
-      price: "R$ 200,00",
-      date: "28/11/24",
-      subscribers: 100,
-    },
-    {
-      _id: "sdasojdoas",
-      title: "Front-End",
-      description:
-        "O curso abrange a linguagem Javascript juntamente da Framework React",
-      creator: "Rafael Bietti",
-      imageUrl: "/curso.png",
-      category: "Desenvolvimento",
-      price: "R$ 200,00",
-      date: "28/11/24",
-      subscribers: 100,
-    },
-  ];
+  // Simulando carregamento dos dados
+  useEffect(() => {
+    const loadData = async () => {
+      try {
 
-  const newContent = [
-    {
-      _id: "j3k4j3k4j3k4j3k4j3k4",
-      title: "Desenvolvimento back-end",
-      description: "Aprenda as principais tecnologias de backend",
-      creator: "Rafael Bietti",
-      imageUrl: "/curso.png",
-      category: "Desenvolvimento",
-      price: "R$ 200,00",
-      date: "28/11/24",
-      subscribers: 100,
-    },
-    {
-      _id: "kdsakdjsakdjsakdjsakd",
-      title: "Front-End em 3 dias!",
-      description: "Curso intensivo de desenvolvimento frontend",
-      creator: "Rodrigo Siqueira",
-      imageUrl: "/curso.png",
-      category: "Desenvolvimento",
-      price: "R$ 150,00",
-      date: "28/11/24",
-      subscribers: 100,
-    },
-    {
-      _id: "ojsojdaojsdoajsd",
-      title: "Experiência e Interface do Usuário",
-      description: "Aprenda UX/UI com especialistas da IBM",
-      creator: "IBM - Flávia Beo",
-      imageUrl: "/curso.png",
-      category: "Design",
-      price: "R$ 250,00",
-      date: "28/11/24",
-      subscribers: 100,
-    },
-  ];
+        setRecentCourses([
+          {
+            _id: "asdasdasd",
+            title: "Deep Learning",
+            description: "O curso abrange todas as técnicas mais atualizadas de DeepLearning do mercado",
+            creator: "Rodrigo Siqueira",
+            imageUrl: "/curso.png",
+            category: "Desenvolvimento",
+            price: "R$ 200,00",
+            date: "28/11/24",
+            subscribers: 100,
+          },
+        ]);
+        setIsLoadingRecent(false);
+
+        setNewContent([
+          {
+            _id: "j3k4j3k4j3k4j3k4j3k4",
+            title: "Desenvolvimento back-end",
+            description: "Aprenda as principais tecnologias de backend",
+            creator: "Rafael Bietti",
+            imageUrl: "/curso.png",
+            category: "Desenvolvimento",
+            price: "R$ 200,00",
+            date: "28/11/24",
+            subscribers: 100,
+          },
+        ]);
+
+        setIsLoadingNew(true);
+      } catch (error) {
+        console.error("Erro ao carregar dados:", error);
+        setIsLoadingNew(false);
+        setIsLoadingRecent(false);
+      }
+    };
+
+    loadData();
+  }, []);
 
   return (
     <HomeContainer role="main">
@@ -146,24 +136,36 @@ const HomeScreen: React.FC = () => {
           Continue seu aprendizado
         </SectionTitle>
         <CourseGrid role="list">
-          {recentCourses.map((course, index) => (
-            <div key={`recent-${index}`} role="listitem">
-              <CourseCard {...course} />
-            </div>
-          ))}
+          {isLoadingRecent ? (
+            <CourseGridLoadingWrapper>
+              <Loading isLoading={true} message="Carregando os seus cursos" />
+            </CourseGridLoadingWrapper>
+          ) : (
+            recentCourses.map((course) => (
+              <div key={course._id} role="listitem">
+                <CourseCard {...course} />
+              </div>
+            ))
+          )}
         </CourseGrid>
       </Section>
 
       <Section role="region" aria-label="Cursos em destaque">
-        <SectionTitle className="text-2xl font-bold text-gray-900" tabIndex={0}>
+        <SectionTitle tabIndex={0}>
           Destaque
         </SectionTitle>
         <CourseGrid role="list">
-          {newContent.map((course, index) => (
-            <div key={`new-${index}`} role="listitem">
-              <CourseCard {...course} />
-            </div>
-          ))}
+          {isLoadingNew ? (
+            <CourseGridLoadingWrapper>
+              <Loading isLoading={true} message="Carregando cursos em destaque" />
+            </CourseGridLoadingWrapper>
+          ) : (
+            newContent.map((course) => (
+              <div key={course._id} role="listitem">
+                <CourseCard {...course} />
+              </div>
+            ))
+          )}
         </CourseGrid>
       </Section>
 

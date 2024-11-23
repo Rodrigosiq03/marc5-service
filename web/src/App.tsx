@@ -19,23 +19,28 @@ function App() {
   const [theme, setTheme] = usePersistedState<DefaultTheme>('theme', light);
   const location = useLocation();
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1280);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(isLargeScreen);
 
   useEffect(() => {
     const handleResize = () => {
       const newIsLargeScreen = window.innerWidth >= 1280;
       setIsLargeScreen(newIsLargeScreen);
-      if (newIsLargeScreen) {
-        setIsSidebarOpen(true);
-      }
+      setIsSidebarOpen(newIsLargeScreen);
     };
 
     window.addEventListener("resize", handleResize);
     handleResize();
+
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    if (!isLargeScreen) {
+      setIsSidebarOpen(false);
+    }
+  }, [location.pathname, isLargeScreen]);
 
   const toggleTheme = () => {
     setTheme(theme.title === 'light' ? dark : light);

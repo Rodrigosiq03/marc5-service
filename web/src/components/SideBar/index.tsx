@@ -17,7 +17,9 @@ import {
   ProgressText,
   Menu,
   MenuItem,
+  UserInfoContainer,
 } from "./styles";
+import { Loading } from "../Loading";
 
 interface Props {
   toggleTheme: () => void;
@@ -36,6 +38,7 @@ interface UserInfo {
 const Sidebar: React.FC<Props> = ({ toggleTheme, isOpen, setIsOpen }) => {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1280);
+  const [isUserLoading, setIsUserLoading] = useState(true);
   const theme = useContext(ThemeContext);
   const navigate = useNavigate();
 
@@ -55,6 +58,7 @@ const Sidebar: React.FC<Props> = ({ toggleTheme, isOpen, setIsOpen }) => {
     const userData = localStorage.getItem("user");
     if (userData) {
       setUserInfo(JSON.parse(userData));
+      setIsUserLoading(false);
     } else {
       setUserInfo({
         name: "Luigi Trevisan",
@@ -63,11 +67,20 @@ const Sidebar: React.FC<Props> = ({ toggleTheme, isOpen, setIsOpen }) => {
         progress: 65,
         maxProgress: 100,
       });
+      setIsUserLoading(false);
     }
   }, []);
 
   if (!userInfo) {
-    return <div>Loading...</div>;
+    return (
+      <SidebarContainer 
+        isOpen={isOpen || isLargeScreen}
+        role="navigation"
+        aria-label="Menu principal"
+      >
+        <Loading isLoading={true} isSidebar={true} message="Carregando suas informações" />
+      </SidebarContainer>
+    );
   }
 
   const progressPercent = (userInfo.progress / userInfo.maxProgress) * 100;
@@ -96,32 +109,38 @@ const Sidebar: React.FC<Props> = ({ toggleTheme, isOpen, setIsOpen }) => {
       <Logo>
         <img src="/marc5-white.png" alt="Logo MARC5" />
       </Logo>
-      <UserInfo role="complementary" aria-label="Informações do usuário">
-        <UserAvatar 
-          src={userInfo.avatarUrl} 
-          alt={`Foto de perfil de ${userInfo.name}`} 
-        />
-        <UserDetailsContainer>
-          <UserNameContainer>
-            <UserName>{userInfo.name}</UserName>
-            <UserLevel aria-label={`Level ${userInfo.level}`}>
-              Lv. {userInfo.level}
-            </UserLevel>
-          </UserNameContainer>
-          <UserProgressBar 
-            role="progressbar" 
-            aria-valuenow={userInfo.progress}
-            aria-valuemin={0}
-            aria-valuemax={userInfo.maxProgress}
-            aria-label="Progresso do usuário"
-          >
-            <Progress width={progressPercent} />
-          </UserProgressBar>
-          <ProgressText aria-label={`${userInfo.progress} de ${userInfo.maxProgress} pontos`}>
-            {userInfo.progress} / {userInfo.maxProgress}
-          </ProgressText>
-        </UserDetailsContainer>
-      </UserInfo>
+      <UserInfoContainer>
+        {isUserLoading ? (
+          <Loading isLoading={true} isSidebar={true} message="Carregando suas informações" />
+        ) : (
+          <UserInfo role="complementary" aria-label="Informações do usuário">
+            <UserAvatar 
+              src={userInfo.avatarUrl} 
+              alt={`Foto de perfil de ${userInfo.name}`} 
+            />
+            <UserDetailsContainer>
+              <UserNameContainer>
+                <UserName>{userInfo.name}</UserName>
+                <UserLevel aria-label={`Level ${userInfo.level}`}>
+                  Lv. {userInfo.level}
+                </UserLevel>
+              </UserNameContainer>
+              <UserProgressBar 
+                role="progressbar" 
+                aria-valuenow={userInfo.progress}
+                aria-valuemin={0}
+                aria-valuemax={userInfo.maxProgress}
+                aria-label="Progresso do usuário"
+              >
+                <Progress width={progressPercent} />
+              </UserProgressBar>
+              <ProgressText aria-label={`${userInfo.progress} de ${userInfo.maxProgress} pontos`}>
+                {userInfo.progress} / {userInfo.maxProgress}
+              </ProgressText>
+            </UserDetailsContainer>
+          </UserInfo>
+        )}
+      </UserInfoContainer>
       <Menu role="menubar">
         {["Inicio", "Cursos", "Planos", "Sair"].map((item, index) => {
           const itemPath = item === "Sair" ? "/login" : `/${item.toLowerCase()}`;
