@@ -113,6 +113,18 @@ export const CourseGrid = styled.div`
   }
 `;
 
+export const LoadingWrapper = styled.div`
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ theme }) => theme.colors.background};
+  border-radius: 0.5rem;
+  grid-column: 1 / -1;
+  min-height: 400px;
+`;
+
 export const EmptyState = styled.div`
   position: absolute;
   top: 0;
