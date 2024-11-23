@@ -1,4 +1,4 @@
-import User from "./user";
+import User from "./User";
 
 export default class Creator extends User {
     maintainedCourses: string[]; // [courseId]
