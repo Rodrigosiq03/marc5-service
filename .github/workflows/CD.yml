@@ -51,12 +51,14 @@ jobs:
       - name: CDK Bootstrap
         run: |
           echo "CDK Bootstrap"
+          cd server
           cd iac
           aws cloudformation describe-stacks --stack-name CDKToolkit 2>&1 > /dev/null || \
             cdk bootstrap aws://${{ secrets.AWS_ACCOUNT_ID }}/sa-east-1
       - name: Deploy with CDK
         run: |
           source $GITHUB_ENV
+          cd server
           yarn build
           cd iac
           ts-node node_modules_adjust.ts
