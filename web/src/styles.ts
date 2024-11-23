@@ -12,33 +12,35 @@ export const AppContainer = styled.div<ContainerProps>`
   margin: 0;
   padding: 0;
   position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
 `;
 
 export const MainContent = styled.div<ContainerProps>`
-  display: flex;
   flex: 1;
-  width: 100%;
-  margin: 0;
-  padding-top: ${({ $isLargeScreen }) => $isLargeScreen ? '0' : '1rem'};
+  width: ${({ $isLargeScreen }) => ($isLargeScreen ? 'calc(100% - 350px)' : '100%')};
+  margin-left: ${({ $isLargeScreen }) => ($isLargeScreen ? '350px' : '0')};
+  padding-top: ${({ $isLargeScreen }) => ($isLargeScreen ? '0' : '1rem')};
   min-height: 100vh;
-  overflow-x: hidden;
-  align-items: flex-start;
-  justify-content: flex-start;
   transition: all 0.3s ease-in-out;
   position: relative;
   z-index: 1;
+  overflow-x: hidden;
 `;
 
 export const SidebarContainer = styled.aside<ContainerProps>`
-  position: ${({ $isLargeScreen }) => $isLargeScreen ? 'relative' : 'fixed'};
-  max-width: 350px;
-  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  z-index: ${({ $isLargeScreen }) => $isLargeScreen ? 1 : 1000};
-  transform: translateX(${({ $isOpen }) => $isOpen ? '0' : '-100%'});
+  height: 100vh;
+  z-index: ${({ $isLargeScreen }) => ($isLargeScreen ? 1 : 1000)};
+  transform: translateX(${({ $isOpen }) => ($isOpen ? '0' : '-100%')});
   transition: transform 0.3s ease-in-out;
-
-  ${({ $isLargeScreen }) => !$isLargeScreen && `
+  
+  ${({ $isLargeScreen }) =>
+    !$isLargeScreen &&
+    `
     pointer-events: none;
     & > * {
       pointer-events: auto;
@@ -65,7 +67,6 @@ export const MenuToggleButton = styled.button`
   border-radius: 4px;
   cursor: pointer;
   color: ${({ theme }) => theme.fontsSizes.colors.white};
-  padding: 8px;
   z-index: 1001;
   transition: all 0.2s ease-in-out;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
