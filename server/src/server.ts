@@ -12,7 +12,7 @@ app.use(healthRouter)
 
 
 
-if (envs.STAGE !== 'test' && envs.STAGE !== 'dev') {
+if (envs.STAGE !== 'test') {
   module.exports.handler = ServerlessHttp(app)
 } else {
   app.listen(3000, async () => {
