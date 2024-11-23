@@ -95,10 +95,14 @@ export const CourseGrid = styled.div`
   gap: 1.5rem;
   width: 100%;
   padding: 1.5rem;
-  min-height: 400px;
+  max-height: 400px;
   background-color: ${({ theme }) => theme.colors.background};
   border-radius: 0.5rem;
-  position: relative; // Adicionado
+  position: relative;
+
+  @media (min-width: 520px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
   @media (min-width: 768px) {
     grid-template-columns: repeat(3, 1fr);

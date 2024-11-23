@@ -1,10 +1,9 @@
-// styles.ts
 import styled from "styled-components";
 
 export const HeaderContainer = styled.header`
   color: ${({ theme }) => theme.colors.primary};
   width: 100%;
-  padding: 2rem;
+  padding: 1rem;
 
   @media (max-width: 768px) {
     padding: 1.5rem;
