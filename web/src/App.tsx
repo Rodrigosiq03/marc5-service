@@ -13,6 +13,7 @@ import CoursesScreen from './components/Courses';
 import PlansScreen from './components/Plans';
 import HomeScreen from './components/Home';
 import LessonScreen from './components/Lesson';
+import CourseHomeScreen from './components/CourseHome';
 import { useEffect, useState } from 'react';
 import { List, X } from "@phosphor-icons/react";
 import ProfileScreen from './components/Profile';
@@ -93,6 +94,7 @@ function App() {
             <Route path="/" element={<Navigate to="/inicio" />} />
             <Route path="/inicio" element={<HomeScreen />} />
             <Route path="/cursos" element={<CoursesScreen />} />
+            <Route path="/cursos/:course_id" element={<CourseHomeScreen />} />
             <Route path="/cursos/:course_id/aulas/:lesson_id" element={<LessonScreen />} />
             <Route path="/planos" element={<PlansScreen />} />
             <Route path="/perfil" element={<ProfileScreen/>} />
