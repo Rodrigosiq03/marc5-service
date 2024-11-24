@@ -33,7 +33,9 @@ export class IacStack extends Stack {
     }
 
     const envs = {
-      'STAGE': stage
+      'STAGE': stage,
+      'MONGO_URI': environments.MONGO_URI,
+      
     };
 
     new LambdaStack(this, envs);
