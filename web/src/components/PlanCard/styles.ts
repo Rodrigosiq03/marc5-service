@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 export const CardContainer = styled.div`
-  height: 400px;
+  height: auto;
+  min-height: 400px;
   max-width: 400px;
   display: flex;
   flex-direction: column;
@@ -31,7 +32,7 @@ export const PlanDescription = styled.ul`
   font-size: ${({ theme }) => theme.fontsSizes.desktop.p};
   text-align: left;
   color: ${({ theme }) => theme.colors.primary};
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   list-style-type: none;
   padding: 0;
 
@@ -42,6 +43,40 @@ export const PlanDescription = styled.ul`
   svg {
     vertical-align: bottom;
     margin-right: 0.5rem;
+  }
+`;
+
+export const UpdatesSection = styled.div`
+  width: 100%;
+  padding: 1rem 0;
+  border-top: 1px dashed ${({ theme }) => theme.colors.primary}; // Linha divisória
+`;
+
+export const UpdatesTitle = styled.h4`
+  font-size: ${({ theme }) => theme.fontsSizes.desktop.h5};
+  color: ${({ theme }) => theme.colors.primary};
+  margin-bottom: 0.75rem;
+  text-align: left;
+  width: 100%;
+`;
+
+export const FutureFeaturesList = styled.ul`
+  font-size: ${({ theme }) => theme.fontsSizes.desktop.p};
+  text-align: left;
+  color: ${({ theme }) => theme.colors.primary};
+  list-style-type: none;
+  padding: 0;
+  opacity: 0.7; // Deixa um pouco mais transparente para indicar que são recursos futuros
+
+  li {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  svg {
+    vertical-align: bottom;
   }
 `;
 

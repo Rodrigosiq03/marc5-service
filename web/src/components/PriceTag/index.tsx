@@ -10,20 +10,30 @@ import {
 import formatPrice from '../../utils/formatPrice';
 
 interface PriceTagProps {
-    price: number;
+    price: number | 'Sob consulta';
 }
 
 const PriceTag: React.FC<PriceTagProps> = ({ price }) => {
+    const isConsultation = price === 'Sob consulta';
+    
     return (
         <PriceTagContainer>
             <PriceText>
-                <Currency>R$</Currency>
-                <Price>{formatPrice(price)}</Price>
-                <PriceUnit>
-                    usuário / mês
-                </PriceUnit>
+                {isConsultation ? (
+                    <Price isConsultation>{price}</Price>
+                ) : (
+                    <>
+                        <Currency>R$</Currency>
+                        <Price>{formatPrice(price)}</Price>
+                        <PriceUnit>
+                            usuário / mês
+                        </PriceUnit>
+                    </>
+                )}
             </PriceText>
-            <SubscriptionText>1 ano de assinatura</SubscriptionText>
+            {!isConsultation && (
+                <SubscriptionText>1 ano de assinatura</SubscriptionText>
+            )}
         </PriceTagContainer>
     );
 };

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const PriceTagContainer = styled.div`
   width: 275px;
@@ -10,6 +10,7 @@ export const PriceTagContainer = styled.div`
   border-radius: 0.5rem;
   margin-bottom: 1.5rem;
   color: ${({ theme }) => theme.fontsSizes.colors.white};
+  padding: 0.5rem;
 `;
 
 export const PriceText = styled.span`
@@ -25,9 +26,16 @@ export const Currency = styled.span`
   margin-right: 0.5rem;
 `;
 
-export const Price = styled.span`
+export const Price = styled.span<{ isConsultation?: boolean }>`
   font-size: ${({ theme }) => theme.fontsSizes.desktop.h2};
   font-weight: bold;
+  
+  ${props => props.isConsultation && css`
+    font-size: ${({ theme }) => theme.fontsSizes.desktop.h3};
+    text-align: center;
+    line-height: 1.2;
+    margin: 0.5rem 0;
+  `}
 `;
 
 export const PriceUnit = styled.span`
