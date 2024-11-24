@@ -1,24 +1,27 @@
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { Sidebar } from './components/SideBar';
-import { DefaultTheme } from 'styled-components';
-import GlobalStyles from './styles/global';
-import { ThemeProvider } from 'styled-components';
-import light from './styles/themes/light';
-import dark from './styles/themes/dark';
-import usePersistedState from './utils/usePersistedState';
-import { AppContainer, MainContent, SidebarContainer, Overlay } from './styles';
-import { MenuToggleButton } from './components/SideBar/styles';
-import { LoginPage } from './components/Login';
-import CoursesScreen from './components/Courses';
-import PlansScreen from './components/Plans';
-import HomeScreen from './components/Home';
-import LessonScreen from './components/Lesson';
-import { useEffect, useState } from 'react';
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Sidebar } from "./components/SideBar";
+import { DefaultTheme } from "styled-components";
+import GlobalStyles from "./styles/global";
+import { ThemeProvider } from "styled-components";
+import light from "./styles/themes/light";
+import dark from "./styles/themes/dark";
+import usePersistedState from "./utils/usePersistedState";
+import { AppContainer, MainContent, SidebarContainer, Overlay } from "./styles";
+import { MenuToggleButton } from "./components/SideBar/styles";
+import { LoginPage } from "./components/Login";
+import CoursesScreen from "./components/Courses";
+import PlansScreen from "./components/Plans";
+import HomeScreen from "./components/Home";
+import LessonScreen from "./components/Lesson";
+import { useEffect, useState } from "react";
 import { List, X } from "@phosphor-icons/react";
-import ProfileScreen from './components/Profile';
+import ProfileScreen from "./components/Profile";
+import { useRouteRestriction } from "./hooks/useRouteRestriction";
+import { RESTRICTED_ROUTES } from "./types/routes";
 
 function App() {
-  const [theme, setTheme] = usePersistedState<DefaultTheme>('theme', light);
+  const { isRestricted } = useRouteRestriction();
+  const [theme, setTheme] = usePersistedState<DefaultTheme>("theme", light);
   const location = useLocation();
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1280);
   const [isSidebarOpen, setIsSidebarOpen] = useState(isLargeScreen);
@@ -45,7 +48,7 @@ function App() {
   }, [location.pathname, isLargeScreen]);
 
   const toggleTheme = () => {
-    setTheme(theme.title === 'light' ? dark : light);
+    setTheme(theme.title === "light" ? dark : light);
   };
 
   const toggleSidebar = () => {
@@ -62,10 +65,10 @@ function App() {
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <AppContainer $isLargeScreen={isLargeScreen}>
-        {location.pathname !== "/login" && (
+        {!isRestricted && (
           <>
             {!isLargeScreen && (
-              <MenuToggleButton 
+              <MenuToggleButton
                 onClick={toggleSidebar}
                 aria-label={isSidebarOpen ? "Fechar menu" : "Abrir menu"}
                 aria-expanded={isSidebarOpen}
@@ -73,11 +76,11 @@ function App() {
                 {isSidebarOpen ? <X size={32} /> : <List size={32} />}
               </MenuToggleButton>
             )}
-            <SidebarContainer 
-              $isLargeScreen={isLargeScreen} 
+            <SidebarContainer
+              $isLargeScreen={isLargeScreen}
               $isOpen={isSidebarOpen}
             >
-              <Sidebar 
+              <Sidebar
                 toggleTheme={toggleTheme}
                 isOpen={isSidebarOpen}
                 setIsOpen={setIsSidebarOpen}
@@ -88,15 +91,26 @@ function App() {
             )}
           </>
         )}
-        <MainContent $isLargeScreen={isLargeScreen}>
+        <MainContent
+          $isLargeScreen={isLargeScreen}
+          $isRestricted={isRestricted}
+        >
           <Routes>
             <Route path="/" element={<Navigate to="/inicio" />} />
             <Route path="/inicio" element={<HomeScreen />} />
             <Route path="/cursos" element={<CoursesScreen />} />
-            <Route path="/cursos/:course_id/aulas/:lesson_id" element={<LessonScreen />} />
+            <Route
+              path={RESTRICTED_ROUTES.LESSON.path}
+              element={<LessonScreen toggleTheme={toggleTheme} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />}
+            />
             <Route path="/planos" element={<PlansScreen />} />
-            <Route path="/perfil" element={<ProfileScreen/>} />
-            <Route path="/login" element={<LoginPage toggleTheme={toggleTheme} onClick={toggleSidebar} />} />
+            <Route path="/perfil" element={<ProfileScreen />} />
+            <Route
+              path={RESTRICTED_ROUTES.LOGIN.path}
+              element={
+                <LoginPage toggleTheme={toggleTheme} onClick={toggleSidebar} />
+              }
+            />
           </Routes>
         </MainContent>
       </AppContainer>
