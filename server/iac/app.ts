@@ -14,7 +14,7 @@ const awsRegion = envs.AWS_REGION
 const tags = {
   'project': 'Marc5Service',
   'stack': 'BACK',
-  'owner': 'Rodrigo, Rafael, Vitor, Luigi e Leonardo'
+  'owner': 'Marc5Group'
 }
 
 const githubRef = process.env.GITHUB_REF || ''
