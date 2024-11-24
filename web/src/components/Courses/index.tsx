@@ -1,9 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Funnel, MagnifyingGlass } from "@phosphor-icons/react";
 import CourseCard from "../CourseCard";
 import { useCoursesFilter, Course, FilterState } from "../../hooks/useCoursesFilter";
 import * as S from "./styles";
 import FilterPanel from "../Filter";
+import { Loading } from "../Loading";
 
 const courses: Course[] = [
   {
@@ -141,6 +142,7 @@ const courses: Course[] = [
 ];
 
 const CoursesScreen: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const filterButtonRef = useRef<HTMLButtonElement>(null);
   
@@ -155,6 +157,15 @@ const CoursesScreen: React.FC = () => {
     updatePriceRange,
     resetFilters,
   } = useCoursesFilter(courses);
+
+  useEffect(() => {
+    // Simulando carregamento dos cursos
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleOpenFilters = () => {
     setIsFilterOpen(true);
@@ -241,7 +252,11 @@ const CoursesScreen: React.FC = () => {
         aria-label="Lista de cursos"
         aria-rowcount={filteredCourses.length}
       >
-        {filteredCourses.length > 0 ? (
+        {isLoading ? (
+          <S.LoadingWrapper>
+            <Loading isLoading={true} message="Carregando cursos" />
+          </S.LoadingWrapper>
+        ) : filteredCourses.length > 0 ? (
           filteredCourses.map((course, index) => (
             <S.CardWrapper
               key={course._id}
