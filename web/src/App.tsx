@@ -13,6 +13,7 @@ import CoursesScreen from "./components/Courses";
 import PlansScreen from "./components/Plans";
 import HomeScreen from "./components/Home";
 import LessonScreen from "./components/Lesson";
+import CourseHomeScreen from "./components/CourseHome";
 import { useEffect, useState } from "react";
 import { List, X } from "@phosphor-icons/react";
 import ProfileScreen from "./components/Profile";
@@ -104,6 +105,7 @@ function App() {
               path={RESTRICTED_ROUTES.LESSON.path}
               element={<LessonScreen toggleTheme={toggleTheme} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />}
             />
+            <Route path="/cursos/:course_id" element={<CourseHomeScreen />} />
             <Route path="/planos" element={<PlansScreen />} />
             <Route path="/perfil" element={<ProfileScreen />} />
             <Route
