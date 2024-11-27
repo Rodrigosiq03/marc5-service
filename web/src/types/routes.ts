@@ -3,7 +3,7 @@ export type RestrictedRoute = {
   exact: boolean;
 };
 
-export type RestrictedRouteKey = "LOGIN" | "LESSON";
+export type RestrictedRouteKey = "LOGIN" | "LESSON" | "ADMIN";
 
 export type RestrictedRoutesConfig = {
   [K in RestrictedRouteKey]: RestrictedRoute;
@@ -16,6 +16,10 @@ export const RESTRICTED_ROUTES: RestrictedRoutesConfig = {
     },
     LESSON: {
       path: '/cursos/:courseId/aulas/:lessonId',
+      exact: false
+    },
+    ADMIN: {
+      path: '/admin',
       exact: false
     }
   } as const;

@@ -9,6 +9,7 @@ declare module 'styled-components' {
       primary: string,
       green_500: string,
       green_300: string,
+      red_500: string,
 
       input: {
         background: string,
