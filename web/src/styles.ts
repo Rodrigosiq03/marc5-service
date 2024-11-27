@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 interface ContainerProps {
   $isLargeScreen: boolean;
+  $isRestricted?: boolean;
   $isOpen?: boolean;
 }
 
@@ -18,9 +19,11 @@ export const AppContainer = styled.div<ContainerProps>`
 
 export const MainContent = styled.div<ContainerProps>`
   flex: 1;
-  width: ${({ $isLargeScreen }) => ($isLargeScreen ? 'calc(100% - 350px)' : '100%')};
-  margin-left: ${({ $isLargeScreen }) => ($isLargeScreen ? '350px' : '0')};
-  padding-top: ${({ $isLargeScreen }) => ($isLargeScreen ? '0' : '1rem')};
+  width: ${({ $isLargeScreen }) =>
+    $isLargeScreen ? "calc(100% - 350px)" : "100%"};
+  margin-left: ${({ $isLargeScreen, $isRestricted }) =>
+    $isLargeScreen && !$isRestricted ? "350px" : "0"};
+  padding-top: ${({ $isLargeScreen }) => ($isLargeScreen ? "0" : "1rem")};
   min-height: 100vh;
   transition: all 0.3s ease-in-out;
   position: relative;
@@ -35,9 +38,9 @@ export const SidebarContainer = styled.aside<ContainerProps>`
   width: 100%;
   height: 100vh;
   z-index: ${({ $isLargeScreen }) => ($isLargeScreen ? 1 : 1000)};
-  transform: translateX(${({ $isOpen }) => ($isOpen ? '0' : '-100%')});
+  transform: translateX(${({ $isOpen }) => ($isOpen ? "0" : "-100%")});
   transition: transform 0.3s ease-in-out;
-  
+
   ${({ $isLargeScreen }) =>
     !$isLargeScreen &&
     `

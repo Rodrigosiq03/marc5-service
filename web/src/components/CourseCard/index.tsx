@@ -35,7 +35,7 @@ const CourseCard: React.FC<Course> = ({
   const formattedPrice = formatPrice(price);
 
   const handleClick = () => {
-    navigate(`/courses/${_id}`);
+    navigate(`/cursos/${_id}/aulas/0`);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {

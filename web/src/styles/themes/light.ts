@@ -6,6 +6,7 @@ export default {
     primary: "#000000",
     green_500: "#049865",
     green_300: "#13BB81",
+    red_500: "#E63946",
 
     input: {
       background: "rgba(0, 0, 0, 0.1)",
