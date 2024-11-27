@@ -73,6 +73,36 @@ export const BackButton = styled.button`
   }
 `;
 
+export const MenuToggleButton = styled.button`
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  background: ${({ theme }) => theme.colors.green_500};
+  border: none;
+  cursor: pointer;
+  color: ${({ theme }) => theme.fontsSizes.colors.white};
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+
+  &:hover, &:focus {
+    background-color: ${({ theme }) => theme.colors.green_600};
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.fontsSizes.colors.white};
+    outline-offset: 2px;
+  }
+
+  @media (min-width: 1280px) {
+    display: none;
+  }
+`;
+
 export const ThemeSwitcher = styled.div`
   display: flex;
   justify-content: center;
@@ -277,12 +307,22 @@ export const LessonDuration = styled.span`
 export const MainContent = styled.main`
   flex: 1;
   overflow-y: auto;
+  margin-left: 0;
+  transition: margin-left 0.3s ease-in-out;
+
+  @media (min-width: 1280px) {
+    margin-left: 350px;
+  }
 `;
 
 export const ContentWrapper = styled.div`
   max-width: 72rem;
   margin: 0 auto;
   padding: 1.5rem;
+  
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
 `;
 
 export const VideoContainer = styled.div`
@@ -291,6 +331,12 @@ export const VideoContainer = styled.div`
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   margin-bottom: 2rem;
   aspect-ratio: 16 / 9;
+  width: 100%;
+  max-width: 100%;
+  
+  @media (max-width: 768px) {
+    margin-top: 3rem; /* Space for the menu toggle button */
+  }
 `;
 
 export const VideoPlaceholder = styled.div`

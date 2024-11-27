@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { ThemeContext } from "styled-components";
-import { Moon, Sun, ArrowLeft } from "@phosphor-icons/react";
+import { Moon, Sun, ArrowLeft, List } from "@phosphor-icons/react";
 import {
   LayoutContainer,
   SidebarContainer,
@@ -38,6 +38,7 @@ import {
   LessonCheckbox,
   LessonsContainer,
   SectionHeader,
+  MenuToggleButton,
 } from "./styles";
 import { Loading } from "../Loading";
 import { useNavigate } from "react-router-dom";
@@ -240,15 +241,37 @@ const LessonLayout: React.FC<Props> = ({ toggleTheme, isOpen, setIsOpen }) => {
     );
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent, callback: () => void) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      callback();
+    }
+  };
+
   const progressPercent = userInfo
     ? (userInfo.progress / userInfo.maxProgress) * 100
     : 0;
 
   return (
     <LayoutContainer>
-      <SidebarContainer isOpen={isOpen || isLargeScreen}>
+      <MenuToggleButton
+        onClick={() => setIsOpen(!isOpen)}
+        aria-label={isOpen ? "Fechar menu" : "Abrir menu"}
+        aria-expanded={isOpen}
+      >
+        <List size={24} weight="bold" />
+      </MenuToggleButton>
+
+      <SidebarContainer 
+        isOpen={isOpen || isLargeScreen}
+        role="complementary"
+        aria-label="Menu lateral do curso"
+      >
         <NavigationHeader>
-          <BackButton onClick={() => navigate(-1)}>
+          <BackButton 
+            onClick={() => navigate(-1)}
+            aria-label="Voltar para página anterior"
+          >
             <ArrowLeft size={24} weight="bold" />
           </BackButton>
           <ThemeSwitcher>
@@ -318,25 +341,46 @@ const LessonLayout: React.FC<Props> = ({ toggleTheme, isOpen, setIsOpen }) => {
           )}
         </UserInfoContainer>
 
-        <CourseSections>
+        <CourseSections role="navigation" aria-label="Seções do curso">
           {courseData?.sections.map((section) => (
             <SectionContainer key={section.id}>
-              <SectionHeader onClick={() => toggleSection(section.id)}>
+              <SectionHeader 
+                onClick={() => toggleSection(section.id)}
+                onKeyPress={(e) => handleKeyPress(e, () => toggleSection(section.id))}
+                role="button"
+                aria-expanded={openSections.includes(section.id)}
+                tabIndex={0}
+              >
                 <SectionTitle>{section.title}</SectionTitle>
                 <CaretIcon 
                   size={20} 
                   weight="bold"
                   isOpen={openSections.includes(section.id)}
+                  aria-hidden="true"
                 />
               </SectionHeader>
               {openSections.includes(section.id) && (
-                <LessonsContainer>
+                <LessonsContainer role="list">
                   {section.lessons.map((lesson) => (
-                    <LessonItem key={lesson.id}>
-                      <LessonCheckbox completed={lesson.completed} />
+                    <LessonItem 
+                      key={lesson.id}
+                      role="listitem"
+                      tabIndex={0}
+                      onClick={() => {/* handle lesson selection */}}
+                      onKeyPress={(e) => handleKeyPress(e, () => {/* handle lesson selection */})}
+                      aria-current={courseData.currentLesson?.id === lesson.id ? 'true' : undefined}
+                    >
+                      <LessonCheckbox 
+                        completed={lesson.completed}
+                        role="checkbox"
+                        aria-checked={lesson.completed}
+                        aria-label={`Aula ${lesson.title} ${lesson.completed ? 'completada' : 'não completada'}`}
+                      />
                       <LessonInfo>
                         <LessonTitle>{lesson.title}</LessonTitle>
-                        <LessonDuration>{lesson.duration}</LessonDuration>
+                        <LessonDuration aria-label={`Duração: ${lesson.duration}`}>
+                          {lesson.duration}
+                        </LessonDuration>
                       </LessonInfo>
                     </LessonItem>
                   ))}
@@ -347,11 +391,19 @@ const LessonLayout: React.FC<Props> = ({ toggleTheme, isOpen, setIsOpen }) => {
         </CourseSections>
       </SidebarContainer>
 
-      <MainContent>
+      <MainContent role="main">
         <ContentWrapper>
           <VideoContainer>
             <VideoPlaceholder>
-              <PlayButton>▶</PlayButton>
+              <PlayButton 
+                role="button"
+                tabIndex={0}
+                aria-label="Reproduzir vídeo"
+                onClick={() => {/* handle video play */}}
+                onKeyDown={(e) => handleKeyPress(e, () => {/* handle video play */})}
+              >
+                ▶
+              </PlayButton>
             </VideoPlaceholder>
           </VideoContainer>
 
@@ -361,6 +413,7 @@ const LessonLayout: React.FC<Props> = ({ toggleTheme, isOpen, setIsOpen }) => {
 
           <EvaluationSection>
             <EvaluationTitle>Avalie esta aula</EvaluationTitle>
+            {/* Adicionar no futuro o componente responsável pela avaliação */}
           </EvaluationSection>
         </ContentWrapper>
       </MainContent>
