@@ -19,7 +19,7 @@ import { List, X } from "@phosphor-icons/react";
 import ProfileScreen from "./components/Profile";
 import { useRouteRestriction } from "./hooks/useRouteRestriction";
 import { RESTRICTED_ROUTES } from "./types/routes";
-import AdminDashboard from "./components/Admin";
+import AdminDashboard from "./components/AdminDashboard";
 
 function App() {
   const { isRestricted } = useRouteRestriction();

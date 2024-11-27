@@ -117,16 +117,22 @@ export const DifferentialDescription = styled.p`
 
 export const PartnersSection = styled.div`
   margin-top: 3rem;
+  padding: 4rem 2rem;
+  background-color: ${({ theme }) => theme.colors.background};
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 `;
 
 export const PartnersTitle = styled.h4`
   font-size: ${({ theme }) => theme.fontsSizes.desktop.h4};
   color: ${({ theme }) => theme.colors.primary};
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   line-height: 1.2;
+  text-align: center;
+  font-weight: bold;
 
   &:focus {
-    outline: 2px solid white;
+    outline: 2px solid ${({ theme }) => theme.colors.primary};
     outline-offset: 2px;
   }
 
@@ -135,33 +141,86 @@ export const PartnersTitle = styled.h4`
   }
 `;
 
-export const PartnersGrid = styled.div`
-  display: flex;
-  gap: 2.5rem;
-  align-items: center;
-  flex-wrap: wrap;
-  margin: 0 -1rem;
-  padding-left: 1.5rem;
+export const PartnersDescription = styled.p`
+  font-size: ${({ theme }) => theme.fontsSizes.desktop.p};
+  color: ${({ theme }) => theme.colors.primary};
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 3rem auto;
+  line-height: 1.6;
 
   @media (max-width: 768px) {
+    font-size: ${({ theme }) => theme.fontsSizes.mobile.p};
+    margin-bottom: 2rem;
+  }
+`;
+
+export const PartnersGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  align-items: center;
+  justify-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
-    justify-content: center;
+  }
+`;
+
+export const PartnerCard = styled.div`
+  background-color: ${({ theme }) => theme.colors.input.background};
+  padding: 1.5rem;
+  border-radius: 8px;
+  width: 100%;
+  aspect-ratio: 3/2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: ${({ theme }) => theme.colors.input.background_hover};
   }
 `;
 
 export const PartnerImage = styled.img`
-  max-height: 40px;
+  max-height: 48px;
   width: auto;
   object-fit: contain;
-  transition: opacity 0.2s ease;
+  transition: transform 0.3s ease;
+  margin-bottom: 1rem;
 
-  &:hover {
-    opacity: 0.8;
+  ${PartnerCard}:hover & {
+    transform: scale(1.1);
   }
 
   &:focus {
-    outline: 2px solid white;
+    outline: 2px solid ${({ theme }) => theme.colors.primary};
     outline-offset: 4px;
+  }
+`;
+
+export const PartnerName = styled.p`
+  font-size: ${({ theme }) => theme.fontsSizes.desktop.p_small};
+  color: ${({ theme }) => theme.colors.primary};
+  text-align: center;
+  font-weight: 500;
+  margin-top: 0.5rem;
+
+  @media (max-width: 768px) {
+    font-size: ${({ theme }) => theme.fontsSizes.mobile.p_small};
   }
 `;
 
