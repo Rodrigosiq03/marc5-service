@@ -102,10 +102,13 @@ function App() {
             <Route path="/inicio" element={<HomeScreen />} />
             <Route path="/cursos" element={<CoursesScreen />} />
             <Route
+              path={RESTRICTED_ROUTES.COURSE.path}
+              element={<CourseHomeScreen/>}
+            />
+            <Route
               path={RESTRICTED_ROUTES.LESSON.path}
               element={<LessonScreen toggleTheme={toggleTheme} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />}
             />
-            <Route path="/cursos/:course_id" element={<CourseHomeScreen />} />
             <Route path="/planos" element={<PlansScreen />} />
             <Route path="/perfil" element={<ProfileScreen />} />
             <Route

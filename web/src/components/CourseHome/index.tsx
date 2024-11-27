@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { CourseHomeContainer, CourseTitleContainer, CourseTitle, CourseContentContainer, 
-    SectionTitle, ContinueCard, ContinueImage, ModulesCard, Module, ModuleTitle, 
+import { CourseHomeContainer, CourseTitleContainer, CourseTitle, CourseDescription, CourseContentContainer, 
+    SectionTitle, ProgressCard, ProgressTitle, ProgressBar, ProgressBarFill ,ContinueCard, ContinueImage, ModulesCard, Module, ModuleTitle, 
     ModuleLessons, ModuleLesson, ContinueCardWrapper, ContinueButton, 
-    ContinueContent, ModuleHeader, ModuleArrow, LessonTitle } from './styles';
+    ContinueContent, ModuleHeader, ModuleArrow, LessonTitle, 
+    ProgressPercentage} from './styles';
+import { Progress } from '../SideBar/styles';
 
 interface CourseModule {
     _id: string,
     title: string,
-    lessons: string[],
+    lessons: Lesson[], 
+}
+
+interface Lesson {
+    _id: string,
+    title: string,
+    description: string
 }
 
 interface Course {
@@ -16,56 +24,66 @@ interface Course {
     description: string,
     image_url: string,
     progress: number,
-    modules: CourseModule[],
+    lessons_completed: number,
+    lessons_total: number,
+    modules: CourseModule[], 
 }
 
 const CourseHomeScreen: React.FC = () => {
-    const { course_id } = useParams<{ course_id: string }>();
+    const { courseId } = useParams<{ courseId: string }>();
     const navigate = useNavigate();
     const [openModules, setOpenModules] = useState<Record<string, boolean>>({});
 
     const course: Course = {
-        title: 'Título do curso',
-        description: 'Descrição do curso.',
+        title: 'Curso de Desenvolvimento Web',
+        description: 'Aprenda as principais tecnologias e ferramentas para se tornar um desenvolvedor web completo',
         image_url: '/curso.png',
-        progress: 0.40,
+        progress: 0.5833,
+        lessons_completed: 7,
+        lessons_total: 12,
+
         modules: [
             {
-                _id: '1',
-                title: 'Módulo 1',
+                _id: '0',
+                title: 'Introdução ao Desenvolvimento Web',
                 lessons: [
-                    'Aula 1',
-                    'Aula 2',
-                    'Aula 3',
-                    'Aula 4',
+                    { _id: '0', title: 'O que é Desenvolvimento Web?', description: 'Entenda os conceitos básicos do desenvolvimento web.' },
+                    { _id: '1', title: 'Como a Web Funciona', description: 'Aprenda como os navegadores e servidores se comunicam.' },
+                    { _id: '2', title: 'Ferramentas Necessárias', description: 'Veja quais ferramentas você precisa para começar.' }
+                ]
+            },
+            {
+                _id: '1',
+                title: 'HTML e CSS',
+                lessons: [
+                    { _id: '0', title: 'Estrutura HTML', description: 'Aprenda a criar a estrutura básica de uma página web.' },
+                    { _id: '1', title: 'Estilização com CSS', description: 'Descubra como estilizar suas páginas com CSS.' },
+                    { _id: '2', title: 'Layouts Responsivos', description: 'Implemente designs que se adaptam a diferentes dispositivos.' }
                 ]
             },
             {
                 _id: '2',
-                title: 'Módulo 2',
+                title: 'JavaScript e DOM',
                 lessons: [
-                    'Aula 1',
-                    'Aula 2',
-                    'Aula 3',
-                    'Aula 4',
+                    { _id: '0', title: 'Introdução ao JavaScript', description: 'Aprenda os fundamentos do JavaScript.' },
+                    { _id: '1', title: 'Manipulação do DOM', description: 'Veja como interagir com os elementos da sua página.' },
+                    { _id: '2', title: 'Eventos no JavaScript', description: 'Descubra como capturar e reagir a eventos do usuário.' }
                 ]
             },
             {
                 _id: '3',
-                title: 'Módulo 3',
+                title: 'Frameworks e Bibliotecas',
                 lessons: [
-                    'Aula 1',
-                    'Aula 2',
-                    'Aula 3',
-                    'Aula 4',
+                    { _id: '0', title: 'Introdução ao React', description: 'Comece a construir interfaces modernas com React.' },
+                    { _id: '1', title: 'Gerenciamento de Estado', description: 'Aprenda a gerenciar o estado de suas aplicações.' },
+                    { _id: '2', title: 'Estilização com CSS-in-JS', description: 'Explore técnicas de estilização modernas no React.' }
                 ]
             }
         ]
     }
 
     const handleContinueClick = () => {
-        // Aqui você pode navegar para a última aula assistida
-        navigate(`/cursos/${course_id}/aulas/lastWatched`);
+        navigate(`/cursos/${courseId}/aulas/0`);
     };
 
     const handleContinueKeyDown = (event: React.KeyboardEvent) => {
@@ -83,16 +101,28 @@ const CourseHomeScreen: React.FC = () => {
     };
 
     const handleLessonClick = (moduleId: string, lessonIndex: number) => {
-        navigate(`/cursos/${course_id}/aulas/${lessonIndex}`);
+        navigate(`/courses/${courseId}/modules/${moduleId}/lessons/${lessonIndex}`);
     };
 
     return (
         <CourseHomeContainer>
             <CourseTitleContainer image_url={course.image_url}>
-                <CourseTitle>{course.title}</CourseTitle>
+                <div>
+                    <CourseTitle>{course.title}</CourseTitle>
+                    <CourseDescription>{course.description}</CourseDescription>
+                </div>
             </CourseTitleContainer>
 
             <CourseContentContainer>
+                <SectionTitle>Seu progresso</SectionTitle>
+                <ProgressCard>
+                    <ProgressTitle>{course.lessons_completed} de {course.lessons_total} aulas assistidas</ProgressTitle>
+                    <ProgressPercentage>{(course.progress * 100).toFixed(0)}%</ProgressPercentage>
+                    <ProgressBar>
+                        <ProgressBarFill $progress={course.progress * 100} />
+                    </ProgressBar>
+                </ProgressCard>
+
                 <SectionTitle>Continuar de onde parou</SectionTitle>
                 <ContinueCardWrapper $isClickable={true}>
                     <ContinueCard>
@@ -120,26 +150,25 @@ const CourseHomeScreen: React.FC = () => {
                                 <ModuleTitle>{module.title}</ModuleTitle>
                                 <ModuleArrow $isOpen={openModules[module._id]} />
                             </ModuleHeader>
-                            {openModules[module._id] && (
-                                <ModuleLessons>
-                                    {module.lessons.map((lesson, index) => (
-                                        <ModuleLesson 
-                                            key={index}
-                                            onClick={() => handleLessonClick(module._id, index)}
-                                            role="button"
-                                            tabIndex={0}
-                                            onKeyDown={(e) => {
-                                                if (e.key === 'Enter' || e.key === ' ') {
-                                                    e.preventDefault();
-                                                    handleLessonClick(module._id, index);
-                                                }
-                                            }}
-                                        >
-                                            <LessonTitle>{lesson}</LessonTitle>
-                                        </ModuleLesson>
-                                    ))}
-                                </ModuleLessons>
-                            )}
+                            
+                            <ModuleLessons isOpen={openModules[module._id]}>
+                                {module.lessons.map((lesson, index) => (
+                                    <ModuleLesson 
+                                        key={lesson._id}
+                                        onClick={() => handleLessonClick(module._id, index)}
+                                        role="button"
+                                        tabIndex={0}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter' || e.key === ' ') {
+                                                e.preventDefault();
+                                                handleLessonClick(module._id, index);
+                                            }
+                                        }}
+                                    >
+                                        <LessonTitle>{lesson.title}</LessonTitle>
+                                    </ModuleLesson>
+                                ))}
+                            </ModuleLessons>
                         </Module>
                     ))}
                 </ModulesCard>
