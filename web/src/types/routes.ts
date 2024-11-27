@@ -19,7 +19,7 @@ export const RESTRICTED_ROUTES: RestrictedRoutesConfig = {
       exact: false
     },
     ADMIN: {
-      path: '/admin',
+      path: '/admin/*',
       exact: false
     }
   } as const;

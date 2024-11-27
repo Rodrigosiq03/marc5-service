@@ -65,7 +65,7 @@ const CourseHomeScreen: React.FC = () => {
 
     const handleContinueClick = () => {
         // Aqui você pode navegar para a última aula assistida
-        navigate(`/courses/${course_id}/lesson/last-watched`);
+        navigate(`/cursos/${course_id}/aulas/lastWatched`);
     };
 
     const handleContinueKeyDown = (event: React.KeyboardEvent) => {
@@ -83,7 +83,7 @@ const CourseHomeScreen: React.FC = () => {
     };
 
     const handleLessonClick = (moduleId: string, lessonIndex: number) => {
-        navigate(`/courses/${course_id}/modules/${moduleId}/lessons/${lessonIndex}`);
+        navigate(`/cursos/${course_id}/aulas/${lessonIndex}`);
     };
 
     return (
