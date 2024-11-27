@@ -99,7 +99,7 @@ const AdminSidebar: React.FC<Props> = ({ isOpen, setIsOpen, toggleTheme }) => {
             <Gear size={24} weight="bold" />
           </AdminAvatar>
           <AdminDetails>
-            <AdminTitle>Admin Portal</AdminTitle>
+            <AdminTitle>Portal Admin</AdminTitle>
             <AdminSubtitle>Sistema de Gestão</AdminSubtitle>
           </AdminDetails>
         </AdminInfo>
