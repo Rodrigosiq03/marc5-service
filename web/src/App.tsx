@@ -8,18 +8,18 @@ import dark from "./styles/themes/dark";
 import usePersistedState from "./utils/usePersistedState";
 import { AppContainer, MainContent, SidebarContainer, Overlay } from "./styles";
 import { MenuToggleButton } from "./components/SideBar/styles";
-import { LoginPage } from "./components/Login";
-import CoursesScreen from "./components/Courses";
-import PlansScreen from "./components/Plans";
-import HomeScreen from "./components/Home";
-import LessonScreen from "./components/Lesson";
-import CourseHomeScreen from "./components/CourseHome";
+import { LoginPage } from "./pages/Login";
+import CoursesScreen from "./pages/Courses";
+import PlansScreen from "./pages/Plans";
+import HomeScreen from "./pages/Home";
+import LessonScreen from "./pages/Lesson";
+import CourseHomeScreen from "./pages/CourseHome";
 import { useEffect, useState } from "react";
 import { List, X } from "@phosphor-icons/react";
-import ProfileScreen from "./components/Profile";
+import ProfileScreen from "./pages/Profile";
 import { useRouteRestriction } from "./hooks/useRouteRestriction";
 import { RESTRICTED_ROUTES } from "./types/routes";
-import AdminDashboard from "./components/AdminDashboard";
+import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
   const { isRestricted } = useRouteRestriction();

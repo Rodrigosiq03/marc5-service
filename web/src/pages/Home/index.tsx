@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import CourseCard from "../CourseCard";
+import CourseCard from "../../components/CourseCard";
 import {
   HomeContainer,
   Section,
@@ -21,7 +21,7 @@ import {
   PartnersDescription,
   PartnerCard,
 } from "./styles";
-import { Loading } from "../Loading";
+import { Loading } from "../../components/Loading";
 import { Course } from "../../hooks/useCoursesFilter";
 
 const HomeScreen: React.FC = () => {

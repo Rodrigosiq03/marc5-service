@@ -29,7 +29,7 @@ import {
   SectionTitle
 } from './styles';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import AdminSidebar from './AdminSidebar';
+import AdminSidebar from '../../components/AdminSidebar';
 
 interface DashboardMetric {
   title: string;

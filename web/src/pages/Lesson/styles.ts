@@ -90,7 +90,7 @@ export const MenuToggleButton = styled.button`
   transition: background-color 0.2s;
 
   &:hover, &:focus {
-    background-color: ${({ theme }) => theme.colors.green_600};
+    background-color: ${({ theme }) => theme.colors.green_300};
   }
 
   &:focus-visible {

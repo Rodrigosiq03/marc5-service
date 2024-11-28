@@ -5,7 +5,6 @@ import { CourseHomeContainer, CourseTitleContainer, CourseTitle, CourseDescripti
     ModuleLessons, ModuleLesson, ContinueCardWrapper, ContinueButton, 
     ContinueContent, ModuleHeader, ModuleArrow, LessonTitle, 
     ProgressPercentage} from './styles';
-import { Progress } from '../SideBar/styles';
 
 interface CourseModule {
     _id: string,

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
-import PlanCard, { PlanCardProps } from '../PlanCard';
+import PlanCard, { PlanCardProps } from '../../components/PlanCard';
 import { PlansContainer, SectionTitle, PlanGrid } from './styles';
 
 const PlansScreen: React.FC = () => {
