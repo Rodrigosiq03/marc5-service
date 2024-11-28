@@ -29,7 +29,7 @@ import {
   SectionTitle
 } from './styles';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import AdminSidebar from '../../components/AdminSidebar';
+import AdminVideos from '../AdminVideos';
 
 interface DashboardMetric {
   title: string;
@@ -44,13 +44,7 @@ interface Activity {
   icon: React.ReactNode;
 }
 
-interface Props {
-  toggleTheme: () => void;
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-}
-
-const AdminDashboard: React.FC<Props> = ({ toggleTheme, isOpen, setIsOpen }) => {
+const AdminDashboard: React.FC = () => {
   const [metrics, setMetrics] = useState<DashboardMetric[]>([
     {
       title: 'Total de Colaboradores',
@@ -106,8 +100,6 @@ const AdminDashboard: React.FC<Props> = ({ toggleTheme, isOpen, setIsOpen }) => 
 
   return (
     <DashboardContainer>
-      <AdminSidebar isOpen={isOpen} setIsOpen={setIsOpen} toggleTheme={toggleTheme} />
-      
       <MainContent>
         <DashboardHeader>
           <WelcomeText>Bem-vindo ao Portal Admin</WelcomeText>

@@ -9,7 +9,6 @@ export const DashboardContainer = styled.div`
 
 export const MainContent = styled.main`
   flex: 1;
-  margin-left: 350px;
   padding: 2rem;
   min-height: 100vh;
   
