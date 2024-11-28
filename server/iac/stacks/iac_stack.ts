@@ -1,20 +1,12 @@
 import {
   Stack,
   StackProps,
-  aws_iam as iam,
-  aws_cloudwatch as cloudwatch,
-  aws_sns as sns,
-  aws_cloudwatch_actions as actions,
-  Duration,
-  CfnOutput,
-  SecretValue,
 } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { LambdaStack } from './lambda_stack';
 import { envs as environments } from '../../src/helpers/envs';
-import { ComparisonOperator } from 'aws-cdk-lib/aws-cloudwatch';
-import { Topic } from 'aws-cdk-lib/aws-sns';
-import { SnsAction } from 'aws-cdk-lib/aws-cloudwatch-actions';
+import { S3Stack } from './s3_stack';
+import { CloudFrontStack } from './cloudfront_stack';
 
 export class IacStack extends Stack {
   constructor(scope: Construct, constructId: string, props?: StackProps) {
@@ -35,10 +27,14 @@ export class IacStack extends Stack {
     const envs = {
       'STAGE': stage,
       'MONGO_URI': environments.MONGO_URI,
-      
+
     };
 
     new LambdaStack(this, envs);
+
+    const bucket = new S3Stack(this, `${environments.STACK_NAME}-Bucket-${stage}`);
+
+    new CloudFrontStack(this, `${environments.STACK_NAME}-CloudFront-${stage}`, bucket.bucket);
     
   }
 }
