@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Funnel, MagnifyingGlass } from "@phosphor-icons/react";
-import CourseCard from "../CourseCard";
+import CourseCard from "../../components/CourseCard";
 import { useCoursesFilter, Course, FilterState } from "../../hooks/useCoursesFilter";
 import * as S from "./styles";
-import FilterPanel from "../Filter";
-import { Loading } from "../Loading";
+import FilterPanel from "../../components/Filter";
+import { Loading } from "../../components/Loading";
 
 const courses: Course[] = [
   {
