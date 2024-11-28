@@ -11,14 +11,17 @@ app.use(express.json())
 app.use(cors())
 app.use('/user', userRouter)
 
-app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'ok' })
-})
-
-
 app.listen(3000, () => {
   console.log('Server is running on port 3000')
 })
+app.use(healthRouter)
 
-// module.exports.handler = ServerlessHttp(app)
 
+
+if (envs.STAGE !== 'test') {
+  module.exports.handler = ServerlessHttp(app)
+} else {
+  app.listen(3000, async () => {
+    console.log('Server is running on port 3000')
+  })
+}

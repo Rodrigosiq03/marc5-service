@@ -1,10 +1,10 @@
-import React, { useRef, useState } from "react";
-import { Funnel, MagnifyingGlass, X } from "@phosphor-icons/react";
+import React, { useEffect, useRef, useState } from "react";
+import { Funnel, MagnifyingGlass } from "@phosphor-icons/react";
 import CourseCard from "../CourseCard";
-import { useCoursesFilter, Course } from "../../hooks/useCoursesFilter";
-import { useClickOutside } from "../../hooks/useClickOutside";
-import { useKeyboard } from "../../hooks/useKeyboard";
+import { useCoursesFilter, Course, FilterState } from "../../hooks/useCoursesFilter";
 import * as S from "./styles";
+import FilterPanel from "../Filter";
+import { Loading } from "../Loading";
 
 const courses: Course[] = [
   {
@@ -142,15 +142,15 @@ const courses: Course[] = [
 ];
 
 const CoursesScreen: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const filterPanelRef = useRef<HTMLDivElement>(null);
   const filterButtonRef = useRef<HTMLButtonElement>(null);
-  const initialFocusRef = useRef<HTMLSelectElement>(null);
-
+  
   const {
     filters,
     filteredCourses,
     categories,
+    maxPrice,
     updateSearch,
     updateCategory,
     updateOrder,
@@ -158,20 +158,29 @@ const CoursesScreen: React.FC = () => {
     resetFilters,
   } = useCoursesFilter(courses);
 
+  useEffect(() => {
+    // Simulando carregamento dos cursos
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const handleOpenFilters = () => {
     setIsFilterOpen(true);
-    setTimeout(() => initialFocusRef.current?.focus(), 100);
   };
 
   const handleCloseFilters = () => {
     setIsFilterOpen(false);
     filterButtonRef.current?.focus();
   };
-  useClickOutside(filterPanelRef, handleCloseFilters, [filterButtonRef]);
-  useKeyboard({
-    onEscape: handleCloseFilters,
-    disabled: !isFilterOpen,
-  });
+
+  const handleApplyFilters = (newFilters: FilterState) => {
+    updateCategory(newFilters.selectedCategory);
+    updateOrder(newFilters.selectedOrder);
+    updatePriceRange(newFilters.priceRange);
+  };
 
   const renderFilterButton = () => (
     <S.FilterButton
@@ -187,105 +196,20 @@ const CoursesScreen: React.FC = () => {
   );
 
   const renderFilterPanel = () => (
-    <S.FilterContainer>
-      {isFilterOpen && <S.FilterOverlay aria-hidden="true" />}
-      <S.FilterPanel
-        ref={filterPanelRef}
-        isOpen={isFilterOpen}
-        id="filter-panel"
-        role="dialog"
-        aria-label="Filtros de cursos"
-        aria-modal="true"
-      >
-        <S.FilterPanelHeader>
-          <S.FilterTitle>Filtros</S.FilterTitle>
-          <S.CloseButton
-            onClick={handleCloseFilters}
-            aria-label="Fechar painel de filtros"
-          >
-            <X size={14} aria-hidden="true" />
-          </S.CloseButton>
-        </S.FilterPanelHeader>
-        <S.FilterSection>
-          <S.FilterLabel htmlFor="category-select">Categoria</S.FilterLabel>
-          <S.CategorySelect
-            id="category-select"
-            ref={initialFocusRef}
-            value={filters.selectedCategory}
-            onChange={(e) => updateCategory(e.target.value)}
-          >
-            <option value="">Todas as categorias</option>
-            {categories.map((category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </S.CategorySelect>
-        </S.FilterSection>
-
-        <S.FilterSection>
-          <S.FilterLabel>Ordenação</S.FilterLabel>
-          <S.RadioGroup role="radiogroup" aria-label="Ordenação dos cursos">
-            {[
-              { value: "todos", label: "Todos" },
-              { value: "popular", label: "Mais populares" },
-              { value: "novos", label: "Mais recentes" },
-            ].map(({ value, label }) => (
-              <S.RadioLabel key={value}>
-                <input
-                  type="radio"
-                  name="order"
-                  id={`order-${value}`}
-                  value={value}
-                  checked={filters.selectedOrder === value}
-                  onChange={(e) => updateOrder(e.target.value as 'todos' | 'popular' | 'novos')}
-                />
-                <span>{label}</span>
-              </S.RadioLabel>
-            ))}
-          </S.RadioGroup>
-        </S.FilterSection>
-
-        <S.FilterSection>
-          <S.FilterLabel htmlFor="price-range">
-            Preço máximo: R$ {filters.priceRange.toFixed(2)}
-          </S.FilterLabel>
-          <S.PriceRange>
-            <S.PriceLabel>
-              <span>R$ 0,00</span>
-              <span>R$ 300,00</span>
-            </S.PriceLabel>
-            <S.PriceSlider
-              type="range"
-              id="price-range"
-              min={0}
-              max={300}
-              step={0.5}
-              value={filters.priceRange}
-              onChange={(e) => updatePriceRange(parseFloat(e.target.value))}
-            />
-          </S.PriceRange>
-        </S.FilterSection>
-
-        <S.FilterActions>
-          <S.ClearButton
-            type="button"
-            onClick={resetFilters}
-            aria-label="Limpar todos os filtros"
-          >
-            <span>Limpar Filtros</span>
-            <X size={16} aria-hidden="true" />
-          </S.ClearButton>
-          <S.ApplyButton
-            type="button"
-            onClick={handleCloseFilters}
-            aria-label="Aplicar filtros"
-          >
-            Aplicar
-          </S.ApplyButton>
-        </S.FilterActions>
-      </S.FilterPanel>
-    </S.FilterContainer>
+    <FilterPanel
+      isOpen={isFilterOpen}
+      onClose={handleCloseFilters}
+      initialFilters={{
+        searchQuery: filters.searchQuery,
+        selectedCategory: filters.selectedCategory,
+        selectedOrder: filters.selectedOrder,
+        priceRange: filters.priceRange,
+      }}
+      categories={categories}
+      maxPrice={maxPrice} // Adicionando a prop maxPrice
+      onApplyFilters={handleApplyFilters}
+      onResetFilters={resetFilters}
+    />
   );
 
   const renderSearchInput = () => (
@@ -328,17 +252,27 @@ const CoursesScreen: React.FC = () => {
         aria-label="Lista de cursos"
         aria-rowcount={filteredCourses.length}
       >
-        {filteredCourses.map((course, index) => (
-          <S.CardWrapper
-            key={course._id}
-            role="gridcell"
-            aria-rowindex={index + 1}
-          >
-            <S.CardContent>
-              <CourseCard {...course} />
-            </S.CardContent>
-          </S.CardWrapper>
-        ))}
+        {isLoading ? (
+          <S.LoadingWrapper>
+            <Loading isLoading={true} message="Carregando cursos" />
+          </S.LoadingWrapper>
+        ) : filteredCourses.length > 0 ? (
+          filteredCourses.map((course, index) => (
+            <S.CardWrapper
+              key={course._id}
+              role="gridcell"
+              aria-rowindex={index + 1}
+            >
+              <S.CardContent>
+                <CourseCard {...course} />
+              </S.CardContent>
+            </S.CardWrapper>
+          ))
+        ) : (
+          <S.EmptyState>
+            <p>Nenhum curso encontrado com os filtros selecionados.</p>
+          </S.EmptyState>
+        )}
       </S.CourseGrid>
     </S.CoursesContainer>
   );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { ThemeContext } from "styled-components";
-import { List, Moon, Sun, X } from "@phosphor-icons/react";
+import { Moon, Sun } from "@phosphor-icons/react";
 import { useNavigate } from 'react-router-dom';
 import {
   SidebarContainer,
@@ -17,12 +17,14 @@ import {
   ProgressText,
   Menu,
   MenuItem,
-  MenuToggleButton
+  UserInfoContainer,
 } from "./styles";
-
+import { Loading } from "../Loading";
 
 interface Props {
   toggleTheme: () => void;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
 }
 
 interface UserInfo {
@@ -33,23 +35,16 @@ interface UserInfo {
   maxProgress: number;
 }
 
-const Sidebar: React.FC<Props> = ({ toggleTheme}) => {
+const Sidebar: React.FC<Props> = ({ toggleTheme, isOpen, setIsOpen }) => {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1024);
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1280);
+  const [isUserLoading, setIsUserLoading] = useState(true);
   const theme = useContext(ThemeContext);
   const navigate = useNavigate();
 
-
-  const toggleMenu = () => {
-    if (!isLargeScreen) {
-      setIsOpen((prevState) => !prevState);
-    }
-  };
-
   useEffect(() => {
     const handleResize = () => {
-      setIsLargeScreen(window.innerWidth >= 1024);
+      setIsLargeScreen(window.innerWidth >= 1280);
     };
 
     window.addEventListener("resize", handleResize);
@@ -63,6 +58,7 @@ const Sidebar: React.FC<Props> = ({ toggleTheme}) => {
     const userData = localStorage.getItem("user");
     if (userData) {
       setUserInfo(JSON.parse(userData));
+      setIsUserLoading(false);
     } else {
       setUserInfo({
         name: "Luigi Trevisan",
@@ -71,88 +67,105 @@ const Sidebar: React.FC<Props> = ({ toggleTheme}) => {
         progress: 65,
         maxProgress: 100,
       });
+      setIsUserLoading(false);
     }
   }, []);
 
   if (!userInfo) {
-    return <div>Loading...</div>;
-  }
-
-  const progressPercent = (userInfo.progress / userInfo.maxProgress) * 100;
-
-  return (
-    <>
-      {!isLargeScreen && (
-        <MenuToggleButton 
-          onClick={toggleMenu}
-          aria-label={isOpen ? "Fechar menu" : "Abrir menu"}
-          aria-expanded={isOpen}
-        >
-          {isOpen ? <X size={32} /> : <List size={32} />}
-        </MenuToggleButton>
-      )}
+    return (
       <SidebarContainer 
         isOpen={isOpen || isLargeScreen}
         role="navigation"
         aria-label="Menu principal"
       >
-        <ThemeSwitcher>
-          <button 
-            onClick={toggleTheme} 
-            aria-label={`Alternar tema - Tema atual: ${theme?.title}`}
-          >
-            <span>{theme?.title === "light" ? <Moon size={32} /> : <Sun size={32} />}</span>
-          </button>
-        </ThemeSwitcher>
-        <Logo>
-          <img src="/marc5-white.png" alt="Logo MARC5" />
-        </Logo>
-        <UserInfo role="complementary" aria-label="Informações do usuário">
-          <UserAvatar 
-            src={userInfo.avatarUrl} 
-            alt={`Foto de perfil de ${userInfo.name}`} 
-          />
-          <UserDetailsContainer>
-            <UserNameContainer>
-              <UserName>{userInfo.name}</UserName>
-              <UserLevel aria-label={`Level ${userInfo.level}`}>
-                Lv. {userInfo.level}
-              </UserLevel>
-            </UserNameContainer>
-            <UserProgressBar 
-              role="progressbar" 
-              aria-valuenow={userInfo.progress}
-              aria-valuemin={0}
-              aria-valuemax={userInfo.maxProgress}
-              aria-label="Progresso do usuário"
-            >
-              <Progress width={progressPercent} />
-            </UserProgressBar>
-            <ProgressText aria-label={`${userInfo.progress} de ${userInfo.maxProgress} pontos`}>
-              {userInfo.progress} / {userInfo.maxProgress}
-            </ProgressText>
-          </UserDetailsContainer>
-        </UserInfo>
-        <Menu role="menubar">
-          {["Inicio", "Cursos", "Planos", "Sair"].map((item, index) => {
-            const itemPath = item === "Sair" ? "/login" : `/${item.toLowerCase()}`;
-            const isSelected = location.pathname === itemPath;
-            
-            return (
-              <MenuItem
-                key={item}
-                role="menuitem"
-                tabIndex={index}
-                aria-selected={isSelected}
-                onClick={() => navigate(itemPath)}
-              >
-                {item}
-              </MenuItem>
-            );
-          })}
-        </Menu>
+        <Loading isLoading={true} isSidebar={true} message="Carregando suas informações" />
       </SidebarContainer>
-    </>
+    );
+  }
+
+  const progressPercent = (userInfo.progress / userInfo.maxProgress) * 100;
+
+  const handleNavigation = (path: string) => {
+    navigate(path);
+    if (!isLargeScreen) {
+      setIsOpen(false);
+    }
+  };
+
+  return (
+    <SidebarContainer 
+      isOpen={isOpen || isLargeScreen}
+      role="navigation"
+      aria-label="Menu principal"
+    >
+      <ThemeSwitcher>
+        <button 
+          onClick={toggleTheme} 
+          aria-label={`Alternar tema - Tema atual: ${theme?.title}`}
+        >
+          <span>{theme?.title === "light" ? <Moon size={32} /> : <Sun size={32} />}</span>
+        </button>
+      </ThemeSwitcher>
+      <Logo>
+        <img src="/marc5-white.png" alt="Logo MARC5" />
+      </Logo>
+      <UserInfoContainer>
+        {isUserLoading ? (
+          <Loading isLoading={true} isSidebar={true} message="Carregando suas informações" />
+        ) : (
+          <UserInfo 
+            role="button"
+            onClick={() => handleNavigation('/perfil')}
+            onKeyDown={(e) => e.key === 'Enter' && handleNavigation('/perfil')}
+            tabIndex={0}
+            aria-label={`Perfil de ${userInfo.name}. Clique para ver detalhes`}
+          >
+            <UserAvatar 
+              src={userInfo.avatarUrl} 
+              alt={`Foto de perfil de ${userInfo.name}`} 
+            />
+            <UserDetailsContainer>
+              <UserNameContainer>
+                <UserName>{userInfo.name}</UserName>
+                <UserLevel aria-label={`Level ${userInfo.level}`}>
+                  Lv. {userInfo.level}
+                </UserLevel>
+              </UserNameContainer>
+              <UserProgressBar 
+                role="progressbar" 
+                aria-valuenow={userInfo.progress}
+                aria-valuemin={0}
+                aria-valuemax={userInfo.maxProgress}
+                aria-label="Progresso do usuário"
+              >
+                <Progress width={progressPercent} />
+              </UserProgressBar>
+              <ProgressText aria-label={`${userInfo.progress} de ${userInfo.maxProgress} pontos`}>
+                {userInfo.progress} / {userInfo.maxProgress}
+              </ProgressText>
+            </UserDetailsContainer>
+          </UserInfo>
+        )}
+      </UserInfoContainer>
+      <Menu role="menubar">
+        {["Inicio", "Cursos", "Planos", "Sair"].map((item, index) => {
+          const itemPath = item === "Sair" ? "/login" : `/${item.toLowerCase()}`;
+          const isSelected = location.pathname === itemPath;
+          
+          return (
+            <MenuItem
+              key={item}
+              role="menuitem"
+              tabIndex={index}
+              aria-selected={isSelected}
+              onClick={() => handleNavigation(itemPath)}
+            >
+              {item}
+            </MenuItem>
+          );
+        })}
+      </Menu>
+    </SidebarContainer>
   );
 };
 

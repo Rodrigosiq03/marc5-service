@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 interface SidebarContainerProps {
   isOpen: boolean;
 }
@@ -19,8 +18,10 @@ export const SidebarContainer = styled.aside<SidebarContainerProps>`
   transition: transform 0.3s ease-in-out;
   overflow-y: auto;
   z-index: 1000;
+  display: flex;
+  flex-direction: column;
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1280px) {
     transform: none;
   }
 
@@ -75,11 +76,37 @@ export const Logo = styled.div`
   }
 `;
 
+export const UserInfoContainer = styled.div`
+  position: relative;
+  min-height: 120px;
+  margin: 3rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+`;
+
 export const UserInfo = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 3rem;
-  margin-top: 3rem;
+  width: 100%;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  &:focus {
+    outline: 2px solid ${({ theme }) => theme.fontsSizes.colors.white};
+    outline-offset: 2px;
+  }
+
+  &:active {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
 `;
 
 export const UserAvatar = styled.img`
@@ -177,22 +204,21 @@ export const MenuItem = styled.a`
 
 export const MenuToggleButton = styled.button`
   position: fixed;
-  top: 20px;
-  left: 20px;
+  top: 10px;
+  left: 10px;
   background: ${({ theme }) => theme.colors.green_500};
   border: none;
   cursor: pointer;
   color: ${({ theme }) => theme.fontsSizes.colors.white};
-  padding: 8px;
+  padding: 1px;
   border-radius: 4px;
   z-index: 1001;
 
   &:focus-visible {
     outline: 2px solid ${({ theme }) => theme.fontsSizes.colors.white};
-    outline-offset: 2px;
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1280px) {
     display: none;
   }
 `;

@@ -13,7 +13,7 @@ export interface Course {
   subscribers: number;
 }
 
-interface FilterState {
+export interface FilterState {
   searchQuery: string;
   selectedCategory: string;
   selectedOrder: 'todos' | 'popular' | 'novos';

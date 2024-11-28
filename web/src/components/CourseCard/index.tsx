@@ -12,9 +12,13 @@ import {
   CardFooter,
   InstructorName,
   Price,
-  CardWrapper
+  CardWrapper,
+  CardButton
 } from './styles';
 
+const formatPrice = (price: string) => {
+  return price.replace(/^R\$\s*/, '').trim();
+};
 
 const CourseCard: React.FC<Course> = ({ 
   _id,
@@ -28,23 +32,42 @@ const CourseCard: React.FC<Course> = ({
   subscribers,
 }) => {
   const navigate = useNavigate();
+  const formattedPrice = formatPrice(price);
 
   const handleClick = () => {
-    navigate(`/courses/${_id}`);
+    navigate(`/cursos/${_id}/`);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      handleClick();
+    }
   };
 
   return (
-    <CardWrapper onClick={handleClick}>
+    <CardWrapper $isClickable={true}>
       <CardContainer>
+        <CardButton
+          onClick={handleClick}
+          onKeyDown={handleKeyDown}
+          aria-label={`Ver detalhes do curso ${title}`}
+        />
+        
         {imageUrl && (
           <ImageContainer>
-            <CourseImage src={imageUrl} alt={`${title} thumbnail`} />
+            <CourseImage 
+              src={imageUrl} 
+              alt={`Imagem do curso ${title}`}
+              role="presentation"
+              loading="lazy"
+            />
           </ImageContainer>
         )}
         
         <CardContent>
           {category && (
-            <CategoryBadge>{category}</CategoryBadge>
+            <CategoryBadge role="status">{category}</CategoryBadge>
           )}
           
           <CourseTitle>{title}</CourseTitle>
@@ -55,7 +78,9 @@ const CourseCard: React.FC<Course> = ({
               <InstructorName>{creator}</InstructorName>
             )}
             {price && (
-              <Price>{price}</Price>
+              <Price aria-label={`Preço: ${formattedPrice} reais`}>
+                {price}
+              </Price>
             )}
           </CardFooter>
         </CardContent>
