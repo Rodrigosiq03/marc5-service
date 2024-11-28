@@ -19,7 +19,7 @@ import { List, X } from "@phosphor-icons/react";
 import ProfileScreen from "./pages/Profile";
 import { useRouteRestriction } from "./hooks/useRouteRestriction";
 import { RESTRICTED_ROUTES } from "./types/routes";
-import AdminDashboard from "./pages/AdminDashboard";
+import AdminLayout from "./pages/AdminLayout";
 
 function App() {
   const { isRestricted } = useRouteRestriction();
@@ -114,7 +114,16 @@ function App() {
                 <LoginPage toggleTheme={toggleTheme} onClick={toggleSidebar} />
               }
             />
-            <Route path="admin/*" element={<AdminDashboard toggleTheme={toggleTheme} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />} />
+            <Route
+              path={RESTRICTED_ROUTES.ADMIN.path}
+              element={
+                <AdminLayout
+                    toggleTheme={toggleTheme}
+                    isOpen={isSidebarOpen}
+                    setIsOpen={setIsSidebarOpen}
+                  />
+              }
+            />
             <Route path="*" element={<Navigate to="/inicio" />} />
           </Routes>
         </MainContent>
