@@ -6,5 +6,6 @@ declare namespace NodeJS {
     AWS_REGION: string;
     STAGE: string;
     MONGO_URI: string;
+    S3_BUCKET_NAME: string;
   }
 }
