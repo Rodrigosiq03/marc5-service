@@ -48,6 +48,7 @@ jobs:
           echo STACK_NAME=${{ env.STACK_NAME }} >> $GITHUB_ENV
           echo GITHUB_REF_NAME=${{ github.ref_name }} >> $GITHUB_ENV
           echo MONGO_URI=${{ secrets.MONGO_URI }} >> $GITHUB_ENV
+          echo S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }} >> $GITHUB_ENV
       - name: CDK Bootstrap
         run: |
           echo "CDK Bootstrap"
@@ -69,3 +70,6 @@ jobs:
           AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_ID }}
           MONGO_URI: ${{ secrets.MONGO_URI }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          STACK_NAME: ${{ secrets.STACK_NAME }}
+          S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
