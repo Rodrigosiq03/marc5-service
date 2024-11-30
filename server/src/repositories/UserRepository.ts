@@ -1,12 +1,17 @@
 import { connectDB } from "../database/connection";
 import User from "../domain/entities/User";
 import { IUserRepository } from "../domain/repositories/user_repository_interface";
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { EntityError } from "../helpers/errors/domain_errors";
 
 export class UserRepository implements IUserRepository {
 
     async create(user: User) {
         var con = await connectDB();
         console.log('Creating user:', user);
+        const password = await bcrypt.hash(user.password, 10);
+        user.password = password;
         const db = con.connection.db;
         const collection = db!.collection('users');
         await collection.insertOne(user);
@@ -55,21 +60,24 @@ export class UserRepository implements IUserRepository {
 
     async login(username: string, password: string) {
         var con = await connectDB();
+        const JWT_SECRET = process.env.JWT_SECRET!;
         console.log('Logging in user:', username);
         const db = con.connection.db;
         const collection = db!.collection('users');
-        const response = await collection.findOne({ name: username, password: password });
-        if (!response) {
+        const user = await collection.findOne({ name: username });
+        if (!user) {
             console.log(`User ${username} not found`);
             return null;
         }
+        const hashedPassword = bcrypt.hashSync(password, 10);
+        const isPasswordValid = await bcrypt.compare(hashedPassword, user.password);
+        if (!isPasswordValid) {
+            console.log('Invalid password');
+            throw new EntityError('password');
+        }
+        const token = jwt.sign({ id: user.id, username: user.name }, JWT_SECRET, { expiresIn: '1h' });
         console.log(`User ${username} logged in`);
-        return { token: 'token' }; // TODO: Implementar JWT
-    }
-
-    async logout(username: string) {
-        console.log('Logging out user:', username);
-        console.log(`User ${username} logged out`); // TODO: Implementar JWT
+        return { token };
     }
 
 
