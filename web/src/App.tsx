@@ -8,18 +8,18 @@ import dark from "./styles/themes/dark";
 import usePersistedState from "./utils/usePersistedState";
 import { AppContainer, MainContent, SidebarContainer, Overlay } from "./styles";
 import { MenuToggleButton } from "./components/SideBar/styles";
-import { LoginPage } from "./components/Login";
-import CoursesScreen from "./components/Courses";
-import PlansScreen from "./components/Plans";
-import HomeScreen from "./components/Home";
-import LessonScreen from "./components/Lesson";
-import CourseHomeScreen from "./components/CourseHome";
+import { LoginPage } from "./pages/Login";
+import CoursesScreen from "./pages/Courses";
+import PlansScreen from "./pages/Plans";
+import HomeScreen from "./pages/Home";
+import LessonScreen from "./pages/Lesson";
+import CourseHomeScreen from "./pages/CourseHome";
 import { useEffect, useState } from "react";
 import { List, X } from "@phosphor-icons/react";
-import ProfileScreen from "./components/Profile";
+import ProfileScreen from "./pages/Profile";
 import { useRouteRestriction } from "./hooks/useRouteRestriction";
 import { RESTRICTED_ROUTES } from "./types/routes";
-import AdminDashboard from "./components/AdminDashboard";
+import AdminLayout from "./pages/AdminLayout";
 
 function App() {
   const { isRestricted } = useRouteRestriction();
@@ -101,10 +101,7 @@ function App() {
             <Route path="/" element={<Navigate to="/inicio" />} />
             <Route path="/inicio" element={<HomeScreen />} />
             <Route path="/cursos" element={<CoursesScreen />} />
-            <Route
-              path={RESTRICTED_ROUTES.COURSE.path}
-              element={<CourseHomeScreen/>}
-            />
+            <Route path="/cursos/:courseId" element={<CourseHomeScreen />} />
             <Route
               path={RESTRICTED_ROUTES.LESSON.path}
               element={<LessonScreen toggleTheme={toggleTheme} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />}
@@ -117,7 +114,16 @@ function App() {
                 <LoginPage toggleTheme={toggleTheme} onClick={toggleSidebar} />
               }
             />
-            <Route path="admin/*" element={<AdminDashboard toggleTheme={toggleTheme} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />} />
+            <Route
+              path={RESTRICTED_ROUTES.ADMIN.path}
+              element={
+                <AdminLayout
+                    toggleTheme={toggleTheme}
+                    isOpen={isSidebarOpen}
+                    setIsOpen={setIsSidebarOpen}
+                  />
+              }
+            />
             <Route path="*" element={<Navigate to="/inicio" />} />
           </Routes>
         </MainContent>

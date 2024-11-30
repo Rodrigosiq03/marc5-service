@@ -40,7 +40,7 @@ import {
   SectionHeader,
   MenuToggleButton,
 } from "./styles";
-import { Loading } from "../Loading";
+import { Loading } from "../../components/Loading";
 import { useNavigate } from "react-router-dom";
 
 interface UserData {

@@ -46,7 +46,9 @@ const PlanCard: React.FC<PlanCardProps> = ({
           ))}
         </FutureFeaturesList>
       </UpdatesSection>
-      <SubscribeButton>ASSINAR</SubscribeButton>
+      <SubscribeButton>
+        {price === 'Sob consulta' ? 'ENTRAR EM CONTATO' : 'ASSINAR'}
+      </SubscribeButton>
     </CardContainer>
   );
 };

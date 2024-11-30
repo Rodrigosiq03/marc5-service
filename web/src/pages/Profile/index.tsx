@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import CourseCard from "../CourseCard";
+import CourseCard from "../../components/CourseCard";
 import {
   ProfileContainer,
   ProfileHeader,
@@ -26,7 +26,7 @@ import {
   ProgressBarContainer,
   ProgressText,
 } from "./styles";
-import { Loading } from "../Loading";
+import { Loading } from "../../components/Loading";
 
 interface UserInfo {
     name: string;

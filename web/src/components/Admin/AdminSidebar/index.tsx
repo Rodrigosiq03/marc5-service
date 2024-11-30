@@ -33,6 +33,7 @@ import {
   ThemeSwitcher,
   MenuToggleButton
 } from './styles';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   isOpen: boolean;
@@ -44,6 +45,7 @@ const AdminSidebar: React.FC<Props> = ({ isOpen, setIsOpen, toggleTheme }) => {
   const [activeSection, setActiveSection] = useState('dashboard');
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1280);
   const theme = useContext(ThemeContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -107,8 +109,11 @@ const AdminSidebar: React.FC<Props> = ({ isOpen, setIsOpen, toggleTheme }) => {
         <NavSection>
           <SectionTitle>Principal</SectionTitle>
           <MenuItem
+            onClick={() => {
+              navigate('/admin/dashboard');
+              setActiveSection('dashboard');
+            }}
             active={activeSection === 'dashboard'}
-            onClick={() => handleNavigation('dashboard')}
           >
             <ChartBar size={24} weight="bold" />
             <MenuText>Dashboard</MenuText>
@@ -119,15 +124,21 @@ const AdminSidebar: React.FC<Props> = ({ isOpen, setIsOpen, toggleTheme }) => {
         <NavSection>
           <SectionTitle>Gestão de Pessoas</SectionTitle>
           <MenuItem
+            onClick={() => {
+              navigate('/admin/employees');
+              setActiveSection('employees');
+            }}
             active={activeSection === 'employees'}
-            onClick={() => handleNavigation('employees')}
           >
             <Users size={24} weight="bold" />
             <MenuText>Colaboradores</MenuText>
           </MenuItem>
           <MenuItem
+            onClick={() => {
+              navigate('/admin/ranking');
+              setActiveSection('ranking');
+            }}
             active={activeSection === 'ranking'}
-            onClick={() => handleNavigation('ranking')}
           >
             <Trophy size={24} weight="bold" />
             <MenuText>Ranking</MenuText>
@@ -137,22 +148,31 @@ const AdminSidebar: React.FC<Props> = ({ isOpen, setIsOpen, toggleTheme }) => {
         <NavSection>
           <SectionTitle>Conteúdo</SectionTitle>
           <MenuItem
+            onClick={() => {
+              navigate('/admin/courses');
+              setActiveSection('courses');
+            }}
             active={activeSection === 'courses'}
-            onClick={() => handleNavigation('courses')}
           >
             <Books size={24} weight="bold" />
             <MenuText>Cursos</MenuText>
           </MenuItem>
           <MenuItem
-            active={activeSection === 'formations'}
-            onClick={() => handleNavigation('formations')}
-          >
-            <GraduationCap size={24} weight="bold" />
-            <MenuText>Formações</MenuText>
-          </MenuItem>
+          onClick={() => {
+            navigate('/admin/formations');
+            setActiveSection('formations');
+          }}
+          active={activeSection === 'formations'}
+        >
+          <GraduationCap size={24} weight="bold" />
+          <MenuText>Formações</MenuText>
+        </MenuItem>
           <MenuItem
+            onClick={() => {
+              navigate('/admin/videos');
+              setActiveSection('videos');
+            }}
             active={activeSection === 'videos'}
-            onClick={() => handleNavigation('videos')}
           >
             <VideoCamera size={24} weight="bold" />
             <MenuText>Vídeo Aulas</MenuText>
@@ -179,7 +199,7 @@ const AdminSidebar: React.FC<Props> = ({ isOpen, setIsOpen, toggleTheme }) => {
         </NavSection>
 
         <LogoutSection>
-          <LogoutButton>
+          <LogoutButton onClick={() => navigate('/')}>
             <SignOut size={24} weight="bold" />
             <MenuText>Sair do Sistema</MenuText>
           </LogoutButton>
