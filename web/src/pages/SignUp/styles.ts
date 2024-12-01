@@ -8,7 +8,7 @@ export const Container = styled.div`
 `;
 
 export const LeftSection = styled.main`
-  width: 30%;
+  width: 60%;
   background-color: ${({ theme }) => theme.colors.background};
   display: flex;
   flex-direction: column;
@@ -20,7 +20,7 @@ export const LeftSection = styled.main`
 `;
 
 export const RightSection = styled.div`
-  width: 70%;
+  width: 40%;
   background-color: ${({ theme }) => theme.colors.green_500};
   display: flex;
   flex-direction: column;
@@ -56,14 +56,9 @@ export const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  width: 100%;
-  max-width: 400px;
+  width: 80%;
   margin: 5rem auto;
   gap: 2rem;
-
-  @media (max-width: 1400px) {
-    width: 80%;
-  }
 `;
 
 export const Logo = styled.div`
@@ -87,13 +82,29 @@ export const Title = styled.h1`
   }
 `;
 
-export const LoginForm = styled.form`
+export const SignUpForm = styled.form`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 768px) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+`;
+
+export const FormGroup = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-export const LoginText = styled.p`
+export const ButtonContainer = styled.div`
+  grid-column: 1 / -1;
+  width: 100%;
+`;
+
+export const SignUpText = styled.p`
   font-size: ${({ theme }) => theme.fontsSizes.desktop.h6};
   margin: 0.3rem;
   color: ${({ theme }) => theme.colors.primary};
@@ -118,18 +129,6 @@ export const Input = styled.input`
   &:focus {
     outline: none;
     border-color: ${({ theme }) => theme.colors.green_300};
-  }
-`;
-
-export const ForgotPassword = styled.a`
-  color: #13bb81;
-  font-size: ${({ theme }) => theme.fontsSizes.desktop.p};
-  align-self: flex-start;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.input.background_hover};
-    border-color: ${({ theme }) => theme.colors.input.border_hover};
   }
 `;
 
@@ -232,7 +231,7 @@ export const WelcomeText = styled.h2`
   }
 `;
 
-export const SignUpLink = styled.a`
+export const LoginLink = styled.a`
   color: ${({ theme }) => theme.colors.green_300};
   font-size: ${({ theme }) => theme.fontsSizes.desktop.p};
   text-align: center;
@@ -240,6 +239,7 @@ export const SignUpLink = styled.a`
   padding: 0.5rem;
   transition: color 0.2s ease-in-out;
   margin-top: 0.5rem;
+  cursor: pointer;
 
   &:hover {
     color: ${({ theme }) => theme.colors.green_500};

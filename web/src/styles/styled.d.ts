@@ -18,13 +18,29 @@ declare module 'styled-components' {
         background_hover: string,
         border_hover: string,
       },
+
+      badges: {
+        success: {
+          background: string;
+          color: string;
+        };
+        neutral: {
+          background: string;
+          color: string;
+        };
+        danger: {
+          background: string;
+          color: string;
+        }
+      },
+
       icons: {
         color: string,
         background: string,
         background_hover: string,
         border: string,
         theme_switcher_hover: string,
-      }
+      },
     },
   
     fontsSizes: {
