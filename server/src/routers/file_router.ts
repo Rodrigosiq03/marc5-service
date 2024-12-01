@@ -31,3 +31,5 @@ fileRouter.post('/upload-health', (req: Request, res: Response) => {
 fileRouter.post('/start-upload', startUploadController.handle)
 fileRouter.post('/upload-chunk', upload.single('chunk'), uploadPartController.handle)
 fileRouter.post('/upload-file', upload.single('file'), uploadSimpleFileController.handle)
+
+export { fileRouter }
