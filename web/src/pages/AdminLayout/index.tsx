@@ -4,6 +4,7 @@ import AdminSidebar from '../../components/Admin/AdminSidebar';
 import AdminVideos from '../../components/Admin/AdminVideos';
 import AdminDashboard from '../../components/Admin/AdminDashboard';
 import { AdminContainer, AdminContent } from './styles';
+import AdminRanking from '../../components/Admin/AdminRanking';
 
 interface Props {
   toggleTheme: () => void;
@@ -20,6 +21,7 @@ const AdminLayout: React.FC<Props> = ({ toggleTheme, isOpen, setIsOpen }) => {
           <Route path="/" element={<Navigate to="dashboard" />} />
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="videos" element={<AdminVideos />} />
+          <Route path="ranking" element={<AdminRanking />} />
           <Route path="*" element={<Navigate to="dashboard" />} />
         </Routes>
       </AdminContent>
