@@ -21,6 +21,7 @@ import {
   DividerLine,
   SignUpLink,
 } from "./styles";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   toggleTheme: () => void;
@@ -29,6 +30,7 @@ interface Props {
 
 const LoginPage: React.FC<Props> = ({ toggleTheme, onClick }) => {
   const theme = useContext(ThemeContext);
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,7 +68,9 @@ const LoginPage: React.FC<Props> = ({ toggleTheme, onClick }) => {
               <span>Ou</span>
               <DividerLine />
             </DivorOrContent>
-            <SignUpLink href="/signup">Ainda não tem uma conta? Cadastre-se</SignUpLink>
+            <SignUpLink onClick={() => navigate("/signup")}>
+              Ainda não tem uma conta? Cadastre-se
+            </SignUpLink>
           </DividerContainer>
         </FormContainer>
       </LeftSection>
