@@ -13,4 +13,9 @@ export interface IFileRepository {
     uploadId: string | undefined,
     ETag: string | undefined
   } | undefined>
+  uploadSimpleFile(
+    courseId: string,
+    classId: string,
+    fileBuffer: Buffer | undefined
+  ) : Promise<string>
 }
