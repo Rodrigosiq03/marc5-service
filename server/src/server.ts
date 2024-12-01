@@ -3,16 +3,18 @@ import cors from 'cors'
 import ServerlessHttp from 'serverless-http'
 import { envs } from './helpers/envs'
 import { healthRouter } from './routers/health_router'
+import { fileRouter } from './routers/file_router'
 
 const app = express()
 
 app.use(express.json())
 app.use(cors())
 app.use(healthRouter)
+app.use(fileRouter)
 
 
 
-if (envs.STAGE !== 'test') {
+if (envs.STAGE !== 'test' && envs.STAGE !== 'dev') {
   module.exports.handler = ServerlessHttp(app, {
     binary: ['multipart/form-data'],
   })
