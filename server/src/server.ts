@@ -13,7 +13,9 @@ app.use(healthRouter)
 
 
 if (envs.STAGE !== 'test') {
-  module.exports.handler = ServerlessHttp(app)
+  module.exports.handler = ServerlessHttp(app, {
+    binary: ['multipart/form-data'],
+  })
 } else {
   app.listen(3000, async () => {
     console.log('Server is running on port 3000')
