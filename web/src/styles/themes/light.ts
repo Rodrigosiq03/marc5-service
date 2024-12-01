@@ -16,13 +16,28 @@ export default {
       border_hover: "#13BB81",
     },
 
+    badges: {
+      success: {
+        background: "rgba(4, 152, 101, 0.1)",
+        color: "#049865"
+      },
+      neutral: {
+        background: "rgba(0, 0, 0, 0.1)",
+        color: "#000000"
+      },
+      danger: {
+        background: "rgba(230, 57, 70, 0.1)",
+        color: "#E63946"
+      }
+    },
+
     icons: {
       color: "#000000",
       background: "transparent",
       background_hover: "#13BB81",
       border: "#13BB81",
       theme_switcher_hover: "black",
-    },
+    }
   },
 
   fontsSizes: {
