@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
-import { ThemeContext } from 'styled-components';
-import { Moon, Sun, GithubLogo } from "@phosphor-icons/react";
+import React, { useContext } from "react";
+import { ThemeContext } from "styled-components";
+import { Moon, Sun } from "@phosphor-icons/react";
 import {
   Container,
   LeftSection,
@@ -19,9 +19,8 @@ import {
   DividerContainer,
   DivorOrContent,
   DividerLine,
-  IconContainer,
-  IconButton,
-} from './styles';
+  SignUpLink,
+} from "./styles";
 
 interface Props {
   toggleTheme: () => void;
@@ -43,7 +42,7 @@ const LoginPage: React.FC<Props> = ({ toggleTheme, onClick }) => {
             onClick={toggleTheme}
             aria-label={`Alternar tema - Tema atual: ${theme?.title}`}
           >
-            {theme?.title === 'light' ? <Moon size={32} /> : <Sun size={32} />}
+            {theme?.title === "light" ? <Moon size={32} /> : <Sun size={32} />}
           </button>
         </ThemeSwitcher>
         <FormContainer>
@@ -52,22 +51,10 @@ const LoginPage: React.FC<Props> = ({ toggleTheme, onClick }) => {
           </Logo>
           <Title>Conecte-se já!</Title>
           <LoginForm onSubmit={handleSubmit}>
-            <LoginText>
-              E-mail
-            </LoginText>
-            <Input
-              type="email"
-              aria-label="Email"
-              required
-            />
-            <LoginText>
-              Senha
-            </LoginText>
-            <Input
-              type="password"
-              aria-label="Senha"
-              required
-            />
+            <LoginText>E-mail</LoginText>
+            <Input type="email" aria-label="Email" required />
+            <LoginText>Senha</LoginText>
+            <Input type="password" aria-label="Senha" required />
             <ForgotPassword>Esqueceu sua senha?</ForgotPassword>
             <SubmitButton type="submit" onClick={onClick}>
               Entrar
@@ -79,14 +66,7 @@ const LoginPage: React.FC<Props> = ({ toggleTheme, onClick }) => {
               <span>Ou</span>
               <DividerLine />
             </DivorOrContent>
-            <IconContainer>
-              <IconButton>
-                <GithubLogo size={32} color={theme?.colors.icons.color} />
-              </IconButton>
-              <IconButton>
-                <img src="/google_icon.png" alt="Google Icon" />
-              </IconButton>
-            </IconContainer>
+            <SignUpLink href="/signup">Ainda não tem uma conta? Cadastre-se</SignUpLink>
           </DividerContainer>
         </FormContainer>
       </LeftSection>
