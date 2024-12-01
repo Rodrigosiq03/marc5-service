@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
@@ -25,7 +25,7 @@ export const RightSection = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center; 
+  align-items: center;
 
   @media (max-width: 1024px) {
     display: none;
@@ -36,7 +36,7 @@ export const ThemeSwitcher = styled.div`
   position: absolute;
   top: 2rem;
   right: 2rem;
-  
+
   button {
     background-color: transparent;
     border: none;
@@ -165,7 +165,7 @@ export const DivorOrContent = styled.div`
   align-items: center;
   gap: 1rem;
   width: 100%;
-  
+
   span {
     color: ${({ theme }) => theme.colors.primary};
     font-size: 0.875rem;
@@ -175,7 +175,7 @@ export const DivorOrContent = styled.div`
 
 export const DividerLine = styled.div`
   height: 1px;
-  background-color: #13BB81;
+  background-color: #13bb81;
   width: 100%;
 `;
 
@@ -191,15 +191,15 @@ export const IconButton = styled.button`
   border-radius: 50%;
   margin-top: 1rem;
   background-color: ${({ theme }) => theme.colors.background};
-  border: 2px solid #1DB954;
+  border: 2px solid #1db954;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  
+
   &:hover {
-    background-color: #13BB81;
+    background-color: #13bb81;
   }
 
   img {
@@ -213,7 +213,6 @@ export const WelcomeImage = styled.img`
   max-width: 500px;
   height: auto;
   margin-bottom: 2rem;
-
 `;
 
 export const WelcomeText = styled.h2`
@@ -229,5 +228,20 @@ export const WelcomeText = styled.h2`
 
   @media (max-width: 1280px) {
     font-size: ${({ theme }) => theme.fontsSizes.mobile.h4};
+  }
+`;
+
+export const LoginLink = styled.a`
+  color: ${({ theme }) => theme.colors.green_300};
+  font-size: ${({ theme }) => theme.fontsSizes.desktop.p};
+  text-align: center;
+  text-decoration: none;
+  padding: 0.5rem;
+  transition: color 0.2s ease-in-out;
+  margin-top: 0.5rem;
+  cursor: pointer;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.green_500};
   }
 `;
