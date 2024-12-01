@@ -20,4 +20,8 @@ export class FileRepositoryMock implements IFileRepository {
   } | undefined> {
     return;
   }
+
+  async uploadSimpleFile(courseId: string, classId: string, fileBuffer: Buffer | undefined): Promise<string> {
+    return 'mocked_upload_id';
+  }
 }
