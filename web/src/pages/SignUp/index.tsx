@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
-import { ThemeContext } from 'styled-components';
-import { Moon, Sun, GithubLogo } from "@phosphor-icons/react";
+import React, { useContext } from "react";
+import { ThemeContext } from "styled-components";
+import { Moon, Sun } from "@phosphor-icons/react";
 import {
   Container,
   LeftSection,
@@ -18,11 +18,11 @@ import {
   DividerContainer,
   DivorOrContent,
   DividerLine,
-  IconContainer,
-  IconButton,
   FormGroup,
   ButtonContainer,
-} from './styles';
+  LoginLink,
+} from "./styles";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   toggleTheme: () => void;
@@ -31,7 +31,8 @@ interface Props {
 
 const SignUpPage: React.FC<Props> = ({ toggleTheme, onClick }) => {
   const theme = useContext(ThemeContext);
-  const [password, setPassword] = React.useState('');
+  const [password, setPassword] = React.useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,7 +40,9 @@ const SignUpPage: React.FC<Props> = ({ toggleTheme, onClick }) => {
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
-    const confirmPasswordInput = document.querySelector('input[name="confirmPassword"]') as HTMLInputElement;
+    const confirmPasswordInput = document.querySelector(
+      'input[name="confirmPassword"]'
+    ) as HTMLInputElement;
     if (confirmPasswordInput) {
       confirmPasswordInput.pattern = e.target.value;
     }
@@ -53,7 +56,7 @@ const SignUpPage: React.FC<Props> = ({ toggleTheme, onClick }) => {
             onClick={toggleTheme}
             aria-label={`Alternar tema - Tema atual: ${theme?.title}`}
           >
-            {theme?.title === 'light' ? <Moon size={32} /> : <Sun size={32} />}
+            {theme?.title === "light" ? <Moon size={32} /> : <Sun size={32} />}
           </button>
         </ThemeSwitcher>
         <FormContainer>
@@ -63,29 +66,15 @@ const SignUpPage: React.FC<Props> = ({ toggleTheme, onClick }) => {
           <Title>Crie sua conta</Title>
           <SignUpForm onSubmit={handleSubmit}>
             <FormGroup>
-              <SignUpText>
-                Nome
-              </SignUpText>
-              <Input
-                type="text"
-                aria-label="Nome"
-                required
-              />
+              <SignUpText>Nome</SignUpText>
+              <Input type="text" aria-label="Nome" required />
             </FormGroup>
             <FormGroup>
-              <SignUpText>
-                E-mail
-              </SignUpText>
-              <Input
-                type="email"
-                aria-label="Email"
-                required
-              />
+              <SignUpText>E-mail</SignUpText>
+              <Input type="email" aria-label="Email" required />
             </FormGroup>
             <FormGroup>
-              <SignUpText>
-                Senha
-              </SignUpText>
+              <SignUpText>Senha</SignUpText>
               <Input
                 type="password"
                 name="password"
@@ -96,9 +85,7 @@ const SignUpPage: React.FC<Props> = ({ toggleTheme, onClick }) => {
               />
             </FormGroup>
             <FormGroup>
-              <SignUpText>
-                Confirmar senha
-              </SignUpText>
+              <SignUpText>Confirmar senha</SignUpText>
               <Input
                 type="password"
                 name="confirmPassword"
@@ -120,14 +107,9 @@ const SignUpPage: React.FC<Props> = ({ toggleTheme, onClick }) => {
               <span>Ou</span>
               <DividerLine />
             </DivorOrContent>
-            <IconContainer>
-              <IconButton>
-                <GithubLogo size={32} color={theme?.colors.icons.color} />
-              </IconButton>
-              <IconButton>
-                <img src="/google_icon.png" alt="Google Icon" />
-              </IconButton>
-            </IconContainer>
+            <LoginLink onClick={() => navigate("/login")}>
+              Já possui uma conta? Faça login!
+            </LoginLink>
           </DividerContainer>
         </FormContainer>
       </LeftSection>
