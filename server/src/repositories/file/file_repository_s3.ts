@@ -7,6 +7,7 @@ import {
   UploadPartCommandInput,
   CompleteMultipartUploadCommand,
   CompleteMultipartUploadCommandInput,
+  PutObjectCommand,
 } from '@aws-sdk/client-s3'
 import multer from "multer";
 import { envs } from "../../helpers/envs";
@@ -75,6 +76,31 @@ export class FileRepositoryS3 implements IFileRepository {
         return { uploadId: uploadId, ETag: resp.ETag };
       }
 
+
+    } catch (error: any) {
+      throw new Error(`Error - FileRepos uploading part: ${error.message}`);
+    }
+  }
+
+
+  async uploadSimpleFile(
+    courseId: string,
+    classId: string,
+    fileBuffer: Buffer | undefined
+  ): Promise<string> {
+    try {
+      const finalKey = `${courseId}/${classId}.mp4`;
+      const client = new S3Client({ region: envs.AWS_REGION });
+      const command = new PutObjectCommand({
+        Bucket: envs.S3_BUCKET_NAME,
+        Key: finalKey,
+        Body: fileBuffer,
+        ContentType: 'video/mp4',
+      })
+
+      await client.send(command);
+
+      return finalKey;
 
     } catch (error: any) {
       throw new Error(`Error - FileRepos uploading part: ${error.message}`);
