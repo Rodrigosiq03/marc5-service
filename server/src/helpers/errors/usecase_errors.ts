@@ -42,6 +42,12 @@ export class FailToCreateMultipartUpload extends BaseError {
   }
 }
 
+export class FailToUploadSimpleFile extends BaseError {
+  constructor(message: string) {
+    super(`Falha ao realizar o upload ${message}`);
+  }
+}
+
 export class UserNotRegistered extends BaseError {
   constructor() {
     super('Usuário não cadastrado ainda');
