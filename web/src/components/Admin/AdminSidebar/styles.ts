@@ -111,6 +111,7 @@ export const MenuItem = styled.button<MenuItemProps>`
   width: 100%;
   padding: 0.75rem 1rem;
   background: ${({ active }) => active ? 'rgba(255, 255, 255, 0.1)' : 'transparent'};
+  opacity: ${({ active }) => active ? 1 : 0.7};
   border: none;
   border-radius: 0.5rem;
   color: ${({ theme }) => theme.fontsSizes.colors.white};
