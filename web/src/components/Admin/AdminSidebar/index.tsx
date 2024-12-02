@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { ThemeContext } from 'styled-components';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Users,
   Books,
@@ -33,7 +34,6 @@ import {
   ThemeSwitcher,
   MenuToggleButton
 } from './styles';
-import { useNavigate } from 'react-router-dom';
 
 interface Props {
   isOpen: boolean;
@@ -41,11 +41,88 @@ interface Props {
   toggleTheme: () => void;
 }
 
+interface NavItem {
+  icon: React.ReactNode;
+  label: string;
+  path: string;
+  notifications?: number;
+}
+
+interface NavSectionConfig {
+  title: string;
+  items: NavItem[];
+}
+
 const AdminSidebar: React.FC<Props> = ({ isOpen, setIsOpen, toggleTheme }) => {
-  const [activeSection, setActiveSection] = useState('dashboard');
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1280);
   const theme = useContext(ThemeContext);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const navSections: NavSectionConfig[] = [
+    {
+      title: 'Principal',
+      items: [
+        {
+          icon: <ChartBar size={24} weight="bold" />,
+          label: 'Dashboard',
+          path: '/admin/dashboard',
+          notifications: 2
+        }
+      ]
+    },
+    {
+      title: 'Gestão de Pessoas',
+      items: [
+        {
+          icon: <Users size={24} weight="bold" />,
+          label: 'Colaboradores',
+          path: '/admin/employees'
+        },
+        {
+          icon: <Trophy size={24} weight="bold" />,
+          label: 'Ranking',
+          path: '/admin/ranking'
+        }
+      ]
+    },
+    {
+      title: 'Conteúdo',
+      items: [
+        {
+          icon: <Books size={24} weight="bold" />,
+          label: 'Cursos',
+          path: '/admin/courses'
+        },
+        {
+          icon: <GraduationCap size={24} weight="bold" />,
+          label: 'Formações',
+          path: '/admin/formations'
+        },
+        {
+          icon: <VideoCamera size={24} weight="bold" />,
+          label: 'Vídeo Aulas',
+          path: '/admin/videos'
+        }
+      ]
+    },
+    {
+      title: 'Configurações',
+      items: [
+        {
+          icon: <Buildings size={24} weight="bold" />,
+          label: 'Perfil Empresa',
+          path: '/admin/company'
+        },
+        {
+          icon: <Bell size={24} weight="bold" />,
+          label: 'Notificações',
+          path: '/admin/notifications',
+          notifications: 3
+        }
+      ]
+    }
+  ];
 
   useEffect(() => {
     const handleResize = () => {
@@ -61,11 +138,15 @@ const AdminSidebar: React.FC<Props> = ({ isOpen, setIsOpen, toggleTheme }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, [setIsOpen]);
 
-  const handleNavigation = (section: string) => {
-    setActiveSection(section);
+  const handleNavigation = (path: string) => {
+    navigate(path);
     if (!isLargeScreen) {
       setIsOpen(false);
     }
+  };
+
+  const isActive = (path: string) => {
+    return location.pathname === path;
   };
 
   return (
@@ -106,100 +187,27 @@ const AdminSidebar: React.FC<Props> = ({ isOpen, setIsOpen, toggleTheme }) => {
           </AdminDetails>
         </AdminInfo>
 
-        <NavSection>
-          <SectionTitle>Principal</SectionTitle>
-          <MenuItem
-            onClick={() => {
-              navigate('/admin/dashboard');
-              setActiveSection('dashboard');
-            }}
-            active={activeSection === 'dashboard'}
-          >
-            <ChartBar size={24} weight="bold" />
-            <MenuText>Dashboard</MenuText>
-            <NotificationBadge>2</NotificationBadge>
-          </MenuItem>
-        </NavSection>
-
-        <NavSection>
-          <SectionTitle>Gestão de Pessoas</SectionTitle>
-          <MenuItem
-            onClick={() => {
-              navigate('/admin/employees');
-              setActiveSection('employees');
-            }}
-            active={activeSection === 'employees'}
-          >
-            <Users size={24} weight="bold" />
-            <MenuText>Colaboradores</MenuText>
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              navigate('/admin/ranking');
-              setActiveSection('ranking');
-            }}
-            active={activeSection === 'ranking'}
-          >
-            <Trophy size={24} weight="bold" />
-            <MenuText>Ranking</MenuText>
-          </MenuItem>
-        </NavSection>
-
-        <NavSection>
-          <SectionTitle>Conteúdo</SectionTitle>
-          <MenuItem
-            onClick={() => {
-              navigate('/admin/courses');
-              setActiveSection('courses');
-            }}
-            active={activeSection === 'courses'}
-          >
-            <Books size={24} weight="bold" />
-            <MenuText>Cursos</MenuText>
-          </MenuItem>
-          <MenuItem
-          onClick={() => {
-            navigate('/admin/formations');
-            setActiveSection('formations');
-          }}
-          active={activeSection === 'formations'}
-        >
-          <GraduationCap size={24} weight="bold" />
-          <MenuText>Formações</MenuText>
-        </MenuItem>
-          <MenuItem
-            onClick={() => {
-              navigate('/admin/videos');
-              setActiveSection('videos');
-            }}
-            active={activeSection === 'videos'}
-          >
-            <VideoCamera size={24} weight="bold" />
-            <MenuText>Vídeo Aulas</MenuText>
-          </MenuItem>
-        </NavSection>
-
-        <NavSection>
-          <SectionTitle>Configurações</SectionTitle>
-          <MenuItem
-            active={activeSection === 'company'}
-            onClick={() => handleNavigation('company')}
-          >
-            <Buildings size={24} weight="bold" />
-            <MenuText>Perfil Empresa</MenuText>
-          </MenuItem>
-          <MenuItem
-            active={activeSection === 'notifications'}
-            onClick={() => handleNavigation('notifications')}
-          >
-            <Bell size={24} weight="bold" />
-            <MenuText>Notificações</MenuText>
-            <NotificationBadge>3</NotificationBadge>
-          </MenuItem>
-        </NavSection>
+        {navSections.map((section, sectionIndex) => (
+          <NavSection key={sectionIndex}>
+            <SectionTitle>{section.title}</SectionTitle>
+            {section.items.map((item, itemIndex) => (
+              <MenuItem
+                key={itemIndex}
+                onClick={() => handleNavigation(item.path)}
+                active={isActive(item.path)}
+              >
+                {item.icon}
+                <MenuText>{item.label}</MenuText>
+                {item.notifications && (
+                  <NotificationBadge>{item.notifications}</NotificationBadge>
+                )}
+              </MenuItem>
+            ))}
+          </NavSection>
+        ))}
 
         <LogoutSection>
-          <LogoutButton onClick={() => navigate('/')}>
+          <LogoutButton onClick={() => handleNavigation('/')}>
             <SignOut size={24} weight="bold" />
             <MenuText>Sair do Sistema</MenuText>
           </LogoutButton>

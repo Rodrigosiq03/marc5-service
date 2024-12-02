@@ -36,6 +36,18 @@ export class FailToSendEmail extends BaseError {
   }
 }
 
+export class FailToCreateMultipartUpload extends BaseError {
+  constructor(message: string) {
+    super(`Falha ao iniciar o upload ${message}`);
+  }
+}
+
+export class FailToUploadSimpleFile extends BaseError {
+  constructor(message: string) {
+    super(`Falha ao realizar o upload ${message}`);
+  }
+}
+
 export class UserNotRegistered extends BaseError {
   constructor() {
     super('Usuário não cadastrado ainda');
