@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Title } from './styles';
+import { Container, Title, RankingTable, RankingItem, RankingHeader, NameTitle, ExpTitle, PositionColumn, Position, Name, Exp, TeamTitle, Team } from './styles';
 import {  } from '@phosphor-icons/react';
 
 interface User {
@@ -7,13 +7,6 @@ interface User {
     team: string;
     experience: number;
     rank?: number;
-}
-
-interface Team {
-    id: string;
-    rank: number;
-    name: string;
-    experience: number;
 }
 
 const AdminRanking: React.FC = () => {
@@ -64,7 +57,24 @@ const AdminRanking: React.FC = () => {
     return (
         <Container>
             <Title>Ranking de Colaboradores</Title>
-
+            <RankingTable>
+                <RankingHeader>
+                    <PositionColumn/>
+                    <NameTitle>Colaborador</NameTitle>
+                    <TeamTitle>Equipe</TeamTitle>
+                    <ExpTitle>Exp.</ExpTitle>
+                </RankingHeader>
+                {users.map((user) => (
+                    <RankingItem key={user.name}>
+                        <PositionColumn>
+                            <Position>{user.rank}</Position>
+                        </PositionColumn>
+                        <Name>{user.name}</Name>
+                        <Team>{user.team}</Team>
+                        <Exp>{user.experience}</Exp>
+                    </RankingItem>
+                ))}
+            </RankingTable>
             
         </Container>
     );
