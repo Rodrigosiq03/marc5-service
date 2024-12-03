@@ -12,6 +12,15 @@ const controller = new UserController(usecase);
 // query params: id
 userRouter.get('/user', controller.getUser);
 
+// GET /user/email
+// query params: email
+userRouter.get('/user/email', async (req, res) => {
+    const email = req.query.email as string;
+    console.log(email); 
+    const response = await repo.getByEmail(email);
+    console.log(response);
+    res.status(200).json(response);
+});
 // POST /user
 // body: User
 userRouter.post('/user', controller.createUser);

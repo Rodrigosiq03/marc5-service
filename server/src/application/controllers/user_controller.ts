@@ -48,6 +48,7 @@ export class UserController {
             const user = await this.usecase.get(id);
             res.status(200).json(user);
         } catch (error: any) {
+            console.log(error);
             if (error instanceof MissingParameters) {
                 res.status(400).send({ message: error.message });
             } else if (error instanceof NoItemsFound) {
@@ -64,7 +65,7 @@ export class UserController {
             if (!req.body) {
                 throw new EntityError('User data is required');
             }
-            const requiredFields = ['id', 'name', 'email', 'password', 'course'];
+            const requiredFields = ['userId', 'name', 'email', 'password', 'courses'];
             for (const field of requiredFields) {
                 if (!req.body[field]) {
                     throw new MissingParameters(field);
@@ -112,15 +113,15 @@ export class UserController {
             if (!req.body) {
                 throw new EntityError('Username and password are required');
             }
-            const requiredFields = ['username', 'password'];
+            const requiredFields = ['email', 'password'];
             for (const field of requiredFields) {
                 if (!req.body[field]) {
                     throw new MissingParameters(field);
                 }
             }
 
-            const { username, password } = req.body;
-            const token = await this.usecase.login(username, password);
+            const { email, password } = req.body;
+            const token = await this.usecase.login(email, password);
             res.status(200).json(token);
         } catch (error: any) {
             if (error instanceof MissingParameters) {

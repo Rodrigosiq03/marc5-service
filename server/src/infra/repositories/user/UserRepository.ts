@@ -13,8 +13,7 @@ export class UserRepository implements IUserRepository {
         var con = await connectDB();
         console.log('Creating user:', user);
         const password = await bcrypt.hash(user.password, 10);
-        user.password = password;
-        const userToMongo = { _id: user.userId as string, name: user.name, email: user.email, password: user.password, courses: user.courses };
+        const userToMongo = { _id: user.userId as string, name: user.name, email: user.email, password: password, courses: user.courses };
         const db = con.connection.db;
         const collection = db!.collection<UserDocument>('users');
         await collection.insertOne(userToMongo);
@@ -26,12 +25,13 @@ export class UserRepository implements IUserRepository {
         var con = await connectDB();
         console.log('Getting user:', userId);
         const db = con.connection.db;
-        const collection = db!.collection('users');
-        const response = await collection.findOne({ id: userId });
+        const collection = db!.collection<UserDocument>('users');
+        const response = await collection.findOne({ _id: userId });
+        console.log(response);
         if (!response) {
             return null;
         }
-        const user = new User(response.name, response.email, response.password, response.id, response.course);
+        const user = new User(response.name, response.email, response.password,response.courses, response._id);
         console.log(`User ${userId} retrieved`);
         return user;
     }
@@ -40,12 +40,12 @@ export class UserRepository implements IUserRepository {
         var con = await connectDB();
         console.log('Getting user by email:', email);
         const db = con.connection.db;
-        const collection = db!.collection('users');
+        const collection = db!.collection<UserDocument>('users');
         const response = await collection.findOne({ email: email });
         if (!response) {
             return null;
         }
-        const user = new User(response.name, response.email, response.password, response.id, response.course);
+        const user = new User(response.name, response.email, response.password,response.courses, response._id);
         console.log(`User ${email} retrieved`);
         return user;
     }
@@ -54,8 +54,10 @@ export class UserRepository implements IUserRepository {
         var con = await connectDB();
         console.log('Updating user:', user);
         const db = con.connection.db;
-        const collection = db!.collection('users');
-        await collection.updateOne({ id: user.userId }, { $set: user });
+        const collection = db!.collection<UserDocument>('users');
+        const hashedPassword = await bcrypt.hash(user.password, 10);
+        const userToMongo = { _id: user.userId as string, name: user.name, email: user.email, password: hashedPassword, courses: user.courses };
+        await collection.updateOne({ _id: user.userId }, { $set: userToMongo });
         console.log(`User ${user.userId} updated`);
         return user;
     }
@@ -64,36 +66,35 @@ export class UserRepository implements IUserRepository {
         var con = await connectDB();
         console.log('Deleting user:', userId);
         const db = con.connection.db;
-        const collection = db!.collection('users');
-        const response = await collection.findOne({ id: userId });
+        const collection = db!.collection<UserDocument>('users');
+        const response = await collection.findOne({ _id: userId });
         if (!response) {
             console.log(`User ${userId} not found`);
             return null;
         }
-        await collection.deleteOne({ id: userId });
+        await collection.deleteOne({ _id: userId });
         console.log(`User ${userId} deleted`);
-        return new User(response.name, response.email, response.password, response.id, response.course);
+        return new User(response.name, response.email, response.password,response.courses, response._id);
     }
 
-    async login(username: string, password: string) {
+    async login(email: string, password: string) {
         var con = await connectDB();
         const JWT_SECRET = process.env.JWT_SECRET!;
-        console.log('Logging in user:', username);
+        console.log('Logging in user:', email);
         const db = con.connection.db;
-        const collection = db!.collection('users');
-        const user = await collection.findOne({ name: username });
+        const collection = db!.collection<UserDocument>('users');
+        const user = await collection.findOne({ email: email });
         if (!user) {
-            console.log(`User ${username} not found`);
+            console.log(`User ${email} not found`);
             return null;
         }
-        const hashedPassword = bcrypt.hashSync(password, 10);
-        const isPasswordValid = await bcrypt.compare(hashedPassword, user.password);
+        const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
             console.log('Invalid password');
             throw new EntityError('password');
         }
-        const token = jwt.sign({ id: user.id, username: user.name }, JWT_SECRET, { expiresIn: '1h' });
-        console.log(`User ${username} logged in`);
+        const token = jwt.sign({ userId: user._id, name: user.name, email: user.email, courses: user.courses }, JWT_SECRET, { expiresIn: '1h' });
+        console.log(`User ${email} logged in`);
         return { token };
     }
 }

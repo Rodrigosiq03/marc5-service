@@ -22,7 +22,7 @@ export class UserUsecase {
 
     async get(id: string): Promise<User | null> {
         const user = await this.userRepository.get(id);
-
+        console.log(user);
         if (!user) {
             throw new NoItemsFound('user');
         }
