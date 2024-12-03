@@ -28,4 +28,12 @@ export class FileRepositoryMock implements IFileRepository {
   async createPresignedUrlVideo(courseId: string, classId: string): Promise<string> {
     return 'mocked_presigned_url';
   }
+
+  async createPresignedUrlUserImage(userId: string): Promise<string> {
+    return 'mocked_presigned_url';
+  }
+
+  async createPresignedUrlCourseImage(courseId: string): Promise<string> {
+    return 'mocked_presigned_url';
+  }
 }
