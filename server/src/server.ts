@@ -14,8 +14,6 @@ app.use(healthRouter)
 app.use(userRouter)
 app.use(fileRouter)
 
-
-
 if (envs.STAGE !== 'test' && envs.STAGE !== 'dev') {
   module.exports.handler = ServerlessHttp(app)
 } else {
