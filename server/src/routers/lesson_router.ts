@@ -9,22 +9,22 @@ const repo: ILessonRepository = new LessonRepository();
 const usecase = new LessonUsecase(repo);
 const controller = new LessonController(usecase);
 
-// GET /class
+// GET /lesson
 // query params: id
 lessonRouter.get('/lesson', controller.getLesson);
 
-// POST /class
-// body: Class
+// POST /lesson
+// body: Lesson
 lessonRouter.post('/lesson', controller.createLesson);
 
-// PUT /class
-// body: Class
+// PUT /lesson
+// body: Lesson
 lessonRouter.put('/lesson', controller.updateLesson);
 
-// DELETE /class
+// DELETE /lesson
 // query params: id
 lessonRouter.delete('/lesson', controller.deleteLesson);
 
-// GET /course/classes
+// GET /course/lessons
 // query params: courseId
 lessonRouter.get('/course/lessons', controller.getLessons);

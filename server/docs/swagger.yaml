@@ -1,0 +1,565 @@
+openapi: 3.0.0
+info:
+  title: MARC5
+  version: 1.0.0
+paths:
+  /health-db:
+    get:
+      summary: Check database health
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Database is healthy
+        '500':
+          description: Internal server error
+  /health:
+    get:
+      summary: Check service health
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Service is healthy
+  /upload-health:
+    post:
+      summary: Check upload service health
+      tags:
+        - File
+      responses:
+        '200':
+          description: Upload service is healthy
+  /presigned-url/video:
+    post:
+      summary: Create pre-signed URL for video
+      tags:
+        - File
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                courseId:
+                  type: string
+                classId:
+                  type: string
+      responses:
+        '200':
+          description: Pre-signed URL created
+        '400':
+          description: Missing or wrong parameters
+        '500':
+          description: Internal server error
+  /presigned-url/course-image:
+    post:
+      summary: Create pre-signed URL for course image
+      tags:
+        - File
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                courseId:
+                  type: string
+                mimetype:
+                  type: string
+      responses:
+        '200':
+          description: Pre-signed URL created
+        '400':
+          description: Missing or wrong parameters
+        '500':
+          description: Internal server error
+  /presigned-url/user-image:
+    post:
+      summary: Create pre-signed URL for user image
+      tags:
+        - File
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                mimetype:
+                  type: string
+      responses:
+        '200':
+          description: Pre-signed URL created
+        '400':
+          description: Missing or wrong parameters
+        '500':
+          description: Internal server error
+  /lesson:
+    get:
+      summary: Get a lesson by ID
+      tags:
+        - Lesson
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Lesson ID
+      responses:
+        '200':
+          description: Lesson details
+        '400':
+          description: Missing parameters
+        '404':
+          description: Lesson not found
+        '500':
+          description: Internal server error
+    post:
+      summary: Create a new lesson
+      tags:
+        - Lesson
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                courseId:
+                  type: string
+                title:
+                  type: string
+                description:
+                  type: string
+                videoUrl:
+                  type: string
+                section:
+                  type: string
+      responses:
+        '200':
+          description: Lesson created
+        '400':
+          description: Missing parameters
+        '500':
+          description: Internal server error
+    put:
+      summary: Update a lesson
+      tags:
+        - Lesson
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lessonId:
+                  type: string
+                courseId:
+                  type: string
+                title:
+                  type: string
+                description:
+                  type: string
+                videoUrl:
+                  type: string
+                section:
+                  type: string
+      responses:
+        '200':
+          description: Lesson updated
+        '400':
+          description: Missing parameters
+        '404':
+          description: Lesson not found
+        '500':
+          description: Internal server error
+    delete:
+      summary: Delete a lesson by ID
+      tags:
+        - Lesson
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Lesson ID
+      responses:
+        '200':
+          description: Lesson deleted
+        '400':
+          description: Missing parameters
+        '404':
+          description: Lesson not found
+        '500':
+          description: Internal server error
+  /course/lessons:
+    get:
+      summary: Get lessons for a course
+      tags:
+        - Lesson
+      parameters:
+        - in: query
+          name: courseId
+          schema:
+            type: string
+          required: true
+          description: Course ID
+      responses:
+        '200':
+          description: List of lessons
+        '400':
+          description: Missing parameters
+        '404':
+          description: Course not found
+        '500':
+          description: Internal server error
+  /course:
+    get:
+      summary: Get a course by ID
+      tags:
+        - Course
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Course ID
+      responses:
+        '200':
+          description: Course details
+        '400':
+          description: Missing parameters
+        '404':
+          description: Course not found
+        '500':
+          description: Internal server error
+    post:
+      summary: Create a new course
+      tags:
+        - Course
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                imageUrl:
+                  type: string
+                category:
+                  type: string
+                title:
+                  type: string
+                description:
+                  type: string
+                createdBy:
+                  type: string
+                visibility:
+                  type: string
+                price:
+                  type: number
+                subscribedUsers:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Course created
+        '400':
+          description: Missing parameters
+        '500':
+          description: Internal server error
+    put:
+      summary: Update a course
+      tags:
+        - Course
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                imageUrl:
+                  type: string
+                category:
+                  type: string
+                title:
+                  type: string
+                description:
+                  type: string
+                createdBy:
+                  type: string
+                visibility:
+                  type: string
+                price:
+                  type: number
+                subscribedUsers:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Course updated
+        '400':
+          description: Missing parameters
+        '404':
+          description: Course not found
+        '500':
+          description: Internal server error
+    delete:
+      summary: Delete a course by ID
+      tags:
+        - Course
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Course ID
+      responses:
+        '200':
+          description: Course deleted
+        '400':
+          description: Missing parameters
+        '404':
+          description: Course not found
+        '500':
+          description: Internal server error
+  /courses:
+    get:
+      summary: Get all courses
+      tags:
+        - Course
+      responses:
+        '200':
+          description: List of all courses
+        '500':
+          description: Internal server error
+  /course/subscribe:
+    post:
+      summary: Subscribe to a course
+      tags:
+        - Course
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                courseId:
+                  type: string
+                userId:
+                  type: string
+      responses:
+        '200':
+          description: Subscribed to course
+        '400':
+          description: Missing parameters
+        '404':
+          description: Course not found
+        '500':
+          description: Internal server error
+  /course/unsubscribe:
+    post:
+      summary: Unsubscribe from a course
+      tags:
+        - Course
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                courseId:
+                  type: string
+                userId:
+                  type: string
+      responses:
+        '200':
+          description: Unsubscribed from course
+        '400':
+          description: Missing parameters
+        '404':
+          description: Course not found
+        '500':
+          description: Internal server error
+  /user:
+    get:
+      summary: Get a user by ID
+      tags:
+        - User
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+          description: User ID
+      responses:
+        '200':
+          description: User details
+        '400':
+          description: Missing parameters
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+    post:
+      summary: Create a new user
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                courses:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: User created
+        '400':
+          description: Missing parameters
+        '500':
+          description: Internal server error
+    put:
+      summary: Update a user
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                courses:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: User updated
+        '400':
+          description: Missing parameters
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+    delete:
+      summary: Delete a user by ID
+      tags:
+        - User
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+          description: User ID
+      responses:
+        '200':
+          description: User deleted
+        '400':
+          description: Missing parameters
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+  /user/email:
+    get:
+      summary: Get a user by email
+      tags:
+        - User
+      parameters:
+        - in: query
+          name: email
+          schema:
+            type: string
+          required: true
+          description: User email
+      responses:
+        '200':
+          description: User details
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+  /user/login:
+    post:
+      summary: User login
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Login successful
+        '400':
+          description: Missing parameters
+        '404':
+          description: User not registered
+        '500':
+          description: Internal server error
+  /user/courses:
+    get:
+      summary: Get subscribed courses for a user
+      tags:
+        - User
+      parameters:
+        - in: query
+          name: userId
+          schema:
+            type: string
+          required: true
+          description: User ID
+      responses:
+        '200':
+          description: List of subscribed courses
+        '400':
+          description: Missing parameters
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
