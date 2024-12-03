@@ -4,6 +4,7 @@ import ServerlessHttp from 'serverless-http'
 import { envs } from './helpers/envs'
 import { healthRouter } from './routers/health_router'
 import { userRouter } from './routers/user_router'
+import { fileRouter } from './routers/file_router'
 
 const app = express()
 
@@ -15,11 +16,14 @@ app.use(userRouter)
 app.listen(3000, () => {
   console.log('Server is running on port 3000')
 })
+app.use(fileRouter)
 
 
 
-if (envs.STAGE !== 'test') {
-  module.exports.handler = ServerlessHttp(app)
+if (envs.STAGE !== 'test' && envs.STAGE !== 'dev') {
+  module.exports.handler = ServerlessHttp(app, {
+    binary: ['multipart/form-data'],
+  })
 } else {
   app.listen(3000, async () => {
     console.log('Server is running on port 3000')

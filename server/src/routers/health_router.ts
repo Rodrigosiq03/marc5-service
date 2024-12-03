@@ -1,9 +1,9 @@
 import { Router, Request, Response } from "express";
-import { HealthCheckController } from "../controllers/health_check_controller";
+import { HealthCheckController } from "../application/controllers/health_check_controller";
 import { HealthCheckUsecase } from "../application/usecases/health_check_usecase";
-import { HealthRepositoryMongo } from "../repositories/health/HealthRepository";
+import { HealthRepositoryMongo } from "../infra/repositories/health/HealthRepository";
 import { envs } from "../helpers/envs";
-import { HealthRepositoryMock } from "../repositories/health/HealthRepositoryMock";
+import { HealthRepositoryMock } from "../infra/repositories/health/HealthRepositoryMock";
 import { IHealthRepository } from "../domain/repositories/health_repository_interface";
 
 export const healthRouter = Router();

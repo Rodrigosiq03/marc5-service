@@ -1,4 +1,4 @@
-import { IHealthRepository } from "../../domain/repositories/health_repository_interface";
+import { IHealthRepository } from "../../../domain/repositories/health_repository_interface";
 
 export class HealthRepositoryMock implements IHealthRepository {
   private status: string = 'ok';

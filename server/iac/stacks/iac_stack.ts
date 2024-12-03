@@ -7,6 +7,7 @@ import { LambdaStack } from './lambda_stack';
 import { envs as environments } from '../../src/helpers/envs';
 import { S3Stack } from './s3_stack';
 import { CloudFrontStack } from './cloudfront_stack';
+import * as iam from 'aws-cdk-lib/aws-iam';
 
 export class IacStack extends Stack {
   constructor(scope: Construct, constructId: string, props?: StackProps) {
@@ -30,9 +31,21 @@ export class IacStack extends Stack {
 
     };
 
-    new LambdaStack(this, envs);
+    const lambdaStack = new LambdaStack(this, envs);
 
+    
     const bucket = new S3Stack(this, `${environments.STACK_NAME}-Bucket-${stage}`);
+
+    const s3Policy = new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: ["s3:PutObject", "s3:GetObject", "s3:DeleteObject", "s3:ListBucket"],
+      resources: [
+        bucket.bucket.bucketArn,
+        `${bucket.bucket.bucketArn}/*`
+      ],
+    });
+    
+    lambdaStack.lambdaFunction.addToRolePolicy(s3Policy);
 
     new CloudFrontStack(this, `${environments.STACK_NAME}-CloudFront-${stage}`, bucket.bucket);
     

@@ -1,11 +1,11 @@
-import { connectDB } from "../database/connection";
-import User from "../domain/entities/User";
-import { IUserRepository } from "../domain/repositories/user_repository_interface";
+import { connectDB } from "../../database/connection";
+import User from "../../../domain/entities/User";
+import { IUserRepository } from "../../../domain/repositories/user_repository_interface";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { EntityError } from "../helpers/errors/domain_errors";
+import { EntityError } from "../../../helpers/errors/domain_errors";
 import { ObjectId }  from 'mongodb';
-import { UserDocument } from "../database/models/user";
+import { UserDocument } from "../../database/models/user";
 
 export class UserRepository implements IUserRepository {
 

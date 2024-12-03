@@ -9,6 +9,7 @@ import usePersistedState from "./utils/usePersistedState";
 import { AppContainer, MainContent, SidebarContainer, Overlay } from "./styles";
 import { MenuToggleButton } from "./components/SideBar/styles";
 import { LoginPage } from "./pages/Login";
+import { SignUpPage } from "./pages/SignUp";
 import CoursesScreen from "./pages/Courses";
 import PlansScreen from "./pages/Plans";
 import HomeScreen from "./pages/Home";
@@ -108,6 +109,12 @@ function App() {
             />
             <Route path="/planos" element={<PlansScreen />} />
             <Route path="/perfil" element={<ProfileScreen />} />
+            <Route
+              path={RESTRICTED_ROUTES.SIGNUP.path}
+              element={
+                <SignUpPage toggleTheme={toggleTheme} onClick={toggleSidebar}/>
+              }
+            />
             <Route
               path={RESTRICTED_ROUTES.LOGIN.path}
               element={

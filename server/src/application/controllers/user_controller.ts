@@ -1,9 +1,9 @@
-import User from "../domain/entities/User";
+import User from "../../domain/entities/User";
 import { Request, Response } from "express";
-import { EntityError } from "../helpers/errors/domain_errors";
-import { MissingParameters } from "../helpers/errors/controller_errors";
-import { UserUsecase } from "../application/usecases/user_usecase";
-import { NoItemsFound, UserAlreadyExists, UserNotRegistered } from "../helpers/errors/usecase_errors";
+import { EntityError } from "../../helpers/errors/domain_errors";
+import { MissingParameters } from "../../helpers/errors/controller_errors";
+import { UserUsecase } from "../../application/usecases/user_usecase";
+import { NoItemsFound, UserAlreadyExists, UserNotRegistered } from "../../helpers/errors/usecase_errors";
 
 export class UserController {
     constructor(

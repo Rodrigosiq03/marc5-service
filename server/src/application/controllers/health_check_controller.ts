@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { HealthCheckUsecase } from "../application/usecases/health_check_usecase";
-import { NoItemsFound } from "../helpers/errors/usecase_errors";
+import { HealthCheckUsecase } from "../../application/usecases/health_check_usecase";
+import { NoItemsFound } from "../../helpers/errors/usecase_errors";
 
 export class HealthCheckController {
   constructor(
