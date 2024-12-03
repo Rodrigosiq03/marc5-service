@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { LessonRepository } from "../infra/repositories/class/LessonRepository";
+import { LessonRepository } from "../infra/repositories/lesson/LessonRepository";
 import { ILessonRepository } from "../domain/repositories/lesson_repository_interface";
 import { LessonUsecase } from "../application/usecases/lesson_usecase";
 import { LessonController } from "../application/controllers/lesson_controller";
