@@ -22,4 +22,12 @@ export interface IFileRepository {
     courseId: string,
     classId: string
   ): Promise<string>
+  createPresignedUrlUserImage(
+    userId: string,
+    mimetype: string
+  ): Promise<string>
+  createPresignedUrlCourseImage(
+    courseId: string,
+    mimetype: string
+  ): Promise<string>
 }

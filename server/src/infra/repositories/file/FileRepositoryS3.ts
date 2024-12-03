@@ -114,9 +114,45 @@ export class FileRepositoryS3 implements IFileRepository {
       const finalKey = `${courseId}/${classId}.mp4`;
       const client = new S3Client({ region: envs.AWS_REGION });
       const command = new PutObjectCommand({
-        Bucket: envs.S3_BUCKET_NAME,
+        Bucket: envs.S3_BUCKET_NAME + `-${envs.STAGE.toLowerCase()}`,
         Key: finalKey,
         ContentType: 'video/mp4',
+      });
+
+      const response = await getSignedUrl(client, command, { expiresIn: 3600 });
+
+      return response;
+    } catch (error: any) {
+      throw new Error(`Error - FileRepos creating presigned url: ${error.message}`);
+    }
+  }
+
+  async createPresignedUrlCourseImage(courseId: string, mimetype: string): Promise<string> {
+    try {
+      const finalKey = `${courseId}/course-logo.${mimetype.split('/')[1]}`;
+      const client = new S3Client({ region: envs.AWS_REGION });
+      const command = new PutObjectCommand({
+        Bucket: envs.S3_BUCKET_NAME + `-${envs.STAGE.toLowerCase()}`,
+        Key: finalKey,
+        ContentType: mimetype
+      });
+
+      const response = await getSignedUrl(client, command, { expiresIn: 3600 });
+
+      return response;
+    } catch (error: any) {
+      throw new Error(`Error - FileRepos creating presigned url: ${error.message}`);
+    }
+  }
+
+  async createPresignedUrlUserImage(userId: string, mimetype: string): Promise<string> {
+    try {
+      const finalKey = `${userId}/user-image.${mimetype.split('/')[1]}`;
+      const client = new S3Client({ region: envs.AWS_REGION });
+      const command = new PutObjectCommand({
+        Bucket: envs.S3_BUCKET_NAME + `-${envs.STAGE.toLowerCase()}`,
+        Key: finalKey,
+        ContentType: mimetype
       });
 
       const response = await getSignedUrl(client, command, { expiresIn: 3600 });

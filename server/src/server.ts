@@ -17,9 +17,7 @@ app.use(fileRouter)
 app.use(lessonRouter)
 
 if (envs.STAGE !== 'test' && envs.STAGE !== 'dev') {
-  module.exports.handler = ServerlessHttp(app, {
-    binary: ['multipart/form-data'],
-  })
+  module.exports.handler = ServerlessHttp(app)
 } else {
   app.listen(3000, async () => {
     console.log('Server is running on port 3000')

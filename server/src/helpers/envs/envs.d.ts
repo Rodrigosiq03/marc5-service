@@ -7,5 +7,6 @@ declare namespace NodeJS {
     STAGE: string;
     MONGO_URI: string;
     S3_BUCKET_NAME: string;
+    JWT_SECRET: string;
   }
 }
