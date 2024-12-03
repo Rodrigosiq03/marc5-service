@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 
-export interface UserDocument extends Document {
+export interface UserDocument {
   _id: string;
   name: string;
   email: string;

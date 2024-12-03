@@ -4,6 +4,7 @@ import { EntityError } from "../../helpers/errors/domain_errors";
 import { MissingParameters } from "../../helpers/errors/controller_errors";
 import { UserUsecase } from "../../application/usecases/user_usecase";
 import { NoItemsFound, UserAlreadyExists, UserNotRegistered } from "../../helpers/errors/usecase_errors";
+import { UserViewModel } from "../viewmodels/user_viewmodel";
 
 export class UserController {
     constructor(
@@ -27,7 +28,8 @@ export class UserController {
 
             const user = req.body as User;
             const newUser = await this.usecase.create(user);
-            res.status(200).json(newUser);
+            const response = UserViewModel.fromEntity(newUser).toModel();
+            res.status(200).json(response);
         } catch (error: any) {
             if (error instanceof UserAlreadyExists || error instanceof EntityError) {
                 res.status(400).send({ message: error.message });
@@ -46,8 +48,10 @@ export class UserController {
 
             const id = req.query.id as string;
             const user = await this.usecase.get(id);
-            res.status(200).json(user);
+            const response = UserViewModel.fromEntity(user).toModel();
+            res.status(200).json(response);
         } catch (error: any) {
+            console.log(error);
             if (error instanceof MissingParameters) {
                 res.status(400).send({ message: error.message });
             } else if (error instanceof NoItemsFound) {
@@ -64,7 +68,7 @@ export class UserController {
             if (!req.body) {
                 throw new EntityError('User data is required');
             }
-            const requiredFields = ['id', 'name', 'email', 'password', 'course'];
+            const requiredFields = ['userId', 'name', 'email', 'password', 'courses'];
             for (const field of requiredFields) {
                 if (!req.body[field]) {
                     throw new MissingParameters(field);
@@ -73,7 +77,8 @@ export class UserController {
 
             const user = req.body as User;
             const updatedUser = await this.usecase.update(user);
-            res.status(200).json(updatedUser);
+            const response = UserViewModel.fromEntity(updatedUser).toModel();
+            res.status(200).json(response);
         } catch (error: any) {
             if (error instanceof MissingParameters) {
                 res.status(400).send({ message: error.message });
@@ -94,7 +99,8 @@ export class UserController {
 
             const id = req.query.id as string;
             const deletedUser = await this.usecase.delete(id);
-            res.status(200).json(deletedUser);
+            const response = UserViewModel.fromEntity(deletedUser).toModel();
+            res.status(200).json(response);
         } catch (error: any) {
             if (error instanceof MissingParameters) {
                 res.status(400).send({ message: error.message });
@@ -112,15 +118,15 @@ export class UserController {
             if (!req.body) {
                 throw new EntityError('Username and password are required');
             }
-            const requiredFields = ['username', 'password'];
+            const requiredFields = ['email', 'password'];
             for (const field of requiredFields) {
                 if (!req.body[field]) {
                     throw new MissingParameters(field);
                 }
             }
 
-            const { username, password } = req.body;
-            const token = await this.usecase.login(username, password);
+            const { email, password } = req.body;
+            const token = await this.usecase.login(email, password);
             res.status(200).json(token);
         } catch (error: any) {
             if (error instanceof MissingParameters) {
