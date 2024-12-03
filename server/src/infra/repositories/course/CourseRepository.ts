@@ -42,6 +42,9 @@ export class CourseRepository implements ICourseRepository {
         const collection = db!.collection<CourseDocument>('Course');
 
         const response = await collection.find().toArray();
+        if (!response) {
+            return [];
+        }
         const courses = response.map((course) => new Course(course._id, course.imageUrl, course.category, course.title, course.description, course.createdBy, course.visibility, course.subscribedUsers, course.price));
         return courses;
     }
