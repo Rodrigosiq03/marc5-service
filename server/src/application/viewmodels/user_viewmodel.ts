@@ -21,6 +21,7 @@ export class UserViewModel {
 
     toModel() {
         return {
+            userId: this.userId,
             name: this.name,
             email: this.email,
             courses: this.courses,

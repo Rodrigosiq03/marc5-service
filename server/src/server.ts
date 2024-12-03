@@ -5,6 +5,7 @@ import { envs } from './helpers/envs'
 import { healthRouter } from './routers/health_router'
 import { userRouter } from './routers/user_router'
 import { fileRouter } from './routers/file_router'
+import { lessonRouter } from './routers/lesson_router'
 
 const app = express()
 
@@ -13,6 +14,7 @@ app.use(cors())
 app.use(healthRouter)
 app.use(userRouter)
 app.use(fileRouter)
+app.use(lessonRouter)
 
 if (envs.STAGE !== 'test' && envs.STAGE !== 'dev') {
   module.exports.handler = ServerlessHttp(app)
