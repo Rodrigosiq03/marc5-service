@@ -8,9 +8,9 @@ export default class Course {
     createdBy: string;
     visibility: "public" | "private";
     subscribedUsers: string[]; // [userId]
-    price?: number;
+    price: number;
 
-    constructor(courseId: string, imageUrl: string, catergory: string, title: string, description: string, content: string, createdBy: string, visibility: "public" | "private", subscribedUsers: string[], price?: number) {
+    constructor(courseId: string, imageUrl: string, catergory: string, title: string, description: string, content: string, createdBy: string, visibility: "public" | "private", subscribedUsers: string[], price: number) {
         this.courseId = courseId;
         this.imageUrl = imageUrl;
         this.category = catergory;
