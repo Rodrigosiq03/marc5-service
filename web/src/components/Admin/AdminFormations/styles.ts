@@ -11,7 +11,20 @@ export const Container = styled.div`
 `;
 
 export const Title = styled.h1`
+    text-align: center;
     font-size: ${({ theme }) => theme.fontsSizes.desktop.h3};
     color: ${({ theme }) => theme.colors.primary};
     margin-bottom: 2rem;
+
+    @media (max-width: 768px) {
+        font-size: ${({ theme }) => theme.fontsSizes.mobile.h3};
+    }
+`;
+
+export const Image = styled.img`
+    width: 50%;
+
+    @media (max-width: 768px) {
+        width: 80%;
+    }
 `;
