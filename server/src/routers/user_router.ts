@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { IUserRepository } from "../domain/repositories/user_repository_interface";
-import { UserRepository } from "../repositories/UserRepository";
+import { UserRepository } from "../infra/repositories/user/UserRepository";
 import { UserController } from "../application/controllers/user_controller";
 import { UserUsecase } from "../application/usecases/user_usecase";
 
