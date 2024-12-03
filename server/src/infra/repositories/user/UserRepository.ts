@@ -96,6 +96,4 @@ export class UserRepository implements IUserRepository {
         console.log(`User ${username} logged in`);
         return { token };
     }
-
-
 }
