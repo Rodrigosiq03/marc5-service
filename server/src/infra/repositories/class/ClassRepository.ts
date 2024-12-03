@@ -11,7 +11,7 @@ export class ClassRepository implements IClassRepository {
 
         const classToMongo = { _id: classEntity.classId as string, courseId: classEntity.courseId, title: classEntity.title, description: classEntity.description, videoUrl: classEntity.videoUrl, section: classEntity.section };
 
-        const collection = db!.collection<ClassDocument>('classes');
+        const collection = db!.collection<ClassDocument>('Class');
         await collection.insertOne(classToMongo);
         console.log(`Class ${classEntity.title} created`);
         return classEntity;
@@ -20,7 +20,7 @@ export class ClassRepository implements IClassRepository {
         var con = await connectDB();
         const db = con.connection.db;
         console.log('Getting class:', classId);
-        const collection = db!.collection<ClassDocument>('classes');
+        const collection = db!.collection<ClassDocument>('Class');
         
         const response = await collection.findOne({ _id: classId });
         if (!response) {
@@ -35,7 +35,7 @@ export class ClassRepository implements IClassRepository {
         var con = await connectDB();
         const db = con.connection.db;
         console.log('Getting classes for course:', courseId);
-        const collection = db!.collection<ClassDocument>('classes');
+        const collection = db!.collection<ClassDocument>('Class');
         
         const response = await collection.find({ courseId: courseId }).toArray();
         if (!response) {
@@ -51,7 +51,7 @@ export class ClassRepository implements IClassRepository {
         var con = await connectDB();
         const db = con.connection.db;
         console.log('Updating class:', classEntity);
-        const collection = db!.collection<ClassDocument>('classes');
+        const collection = db!.collection<ClassDocument>('Class');
 
         const classToMongo = { _id: classEntity.classId as string, courseId: classEntity.courseId, title: classEntity.title, description: classEntity.description, videoUrl: classEntity.videoUrl, section: classEntity.section };
         await collection.updateOne({ _id: classEntity.classId }, { $set: classToMongo });
@@ -62,7 +62,7 @@ export class ClassRepository implements IClassRepository {
         var con = await connectDB();
         const db = con.connection.db;
         console.log('Deleting class:', classId);
-        const collection = db!.collection<ClassDocument>('classes');
+        const collection = db!.collection<ClassDocument>('Class');
         
         const response = await collection.findOneAndDelete({ _id: classId });
         if (!response) {
