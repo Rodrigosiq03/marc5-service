@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { IUserRepository } from "../domain/repositories/user_repository_interface";
 import { UserRepository } from "../repositories/UserRepository";
-import { UserController } from "../controllers/user_controller";
+import { UserController } from "../application/controllers/user_controller";
 import { UserUsecase } from "../application/usecases/user_usecase";
 
 export const userRouter = Router();
