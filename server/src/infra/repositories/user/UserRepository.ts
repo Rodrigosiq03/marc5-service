@@ -14,7 +14,7 @@ export class UserRepository implements IUserRepository {
         console.log('Creating user:', user);
         const password = await bcrypt.hash(user.password, 10);
         user.password = password;
-        const userToMongo = { _id: user.userId, name: user.name, email: user.email, password: user.password, courses: user.courses };
+        const userToMongo = { _id: user.userId as string, name: user.name, email: user.email, password: user.password, courses: user.courses };
         const db = con.connection.db;
         const collection = db!.collection<UserDocument>('users');
         await collection.insertOne(userToMongo);
