@@ -4,6 +4,8 @@ import { IUserRepository } from "../domain/repositories/user_repository_interfac
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { EntityError } from "../helpers/errors/domain_errors";
+import { ObjectId }  from 'mongodb';
+import { UserDocument } from "../database/models/user";
 
 export class UserRepository implements IUserRepository {
 
@@ -12,9 +14,10 @@ export class UserRepository implements IUserRepository {
         console.log('Creating user:', user);
         const password = await bcrypt.hash(user.password, 10);
         user.password = password;
+        const userToMongo = { _id: user.userId, name: user.name, email: user.email, password: user.password, courses: user.courses };
         const db = con.connection.db;
-        const collection = db!.collection('users');
-        await collection.insertOne(user);
+        const collection = db!.collection<UserDocument>('users');
+        await collection.insertOne(userToMongo);
         console.log(`User ${user.name} created`);
         return user;
     }
@@ -30,6 +33,20 @@ export class UserRepository implements IUserRepository {
         }
         const user = new User(response.name, response.email, response.password, response.id, response.course);
         console.log(`User ${userId} retrieved`);
+        return user;
+    }
+
+    async getByEmail(email: string) {
+        var con = await connectDB();
+        console.log('Getting user by email:', email);
+        const db = con.connection.db;
+        const collection = db!.collection('users');
+        const response = await collection.findOne({ email: email });
+        if (!response) {
+            return null;
+        }
+        const user = new User(response.name, response.email, response.password, response.id, response.course);
+        console.log(`User ${email} retrieved`);
         return user;
     }
 

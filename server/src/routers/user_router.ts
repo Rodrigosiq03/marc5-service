@@ -14,24 +14,16 @@ userRouter.get('/user', controller.getUser);
 
 // POST /user
 // body: User
-userRouter.post('/user', (req, res) => {
-    res.status(200).json({ status: 'ok' });
-});
+userRouter.post('/user', controller.createUser);
 
 // PUT /user
 // body: User
-userRouter.put('/user', (req, res) => {
-    res.status(200).json({ status: 'ok' });
-});
+userRouter.put('/user', controller.updateUser);
 
 // DELETE /user
 // query params: id
-userRouter.delete('/user', (req, res) => {
-    res.status(200).json({ status: 'ok' });
-});
+userRouter.delete('/user', controller.deleteUser);
 
 // POST /user/login
 // body: { username: string, password: string }
-userRouter.post('/user/login', (req, res) => {
-    res.status(200).json({ status: 'ok' });
-})
+userRouter.post('/user/login', controller.login);

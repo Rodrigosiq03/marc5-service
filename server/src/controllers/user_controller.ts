@@ -15,11 +15,14 @@ export class UserController {
             if (!req.body) {
                 throw new EntityError('User data is required');
             }
-            const requiredFields = ['name', 'email', 'password', 'course'];
+            const requiredFields = ['name', 'email', 'password'];
             for (const field of requiredFields) {
                 if (!req.body[field]) {
                     throw new MissingParameters(field);
                 }
+            }
+            if (!req.body['courses']) {
+                req.body['courses'] = [];
             }
 
             const user = req.body as User;

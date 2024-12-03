@@ -1,7 +1,7 @@
 import User from "../../domain/entities/User";
 import { IUserRepository } from "../../domain/repositories/user_repository_interface";
-import { EntityError } from "../../helpers/errors/domain_errors";
 import { UserAlreadyExists, NoItemsFound, UserNotRegistered } from "../../helpers/errors/usecase_errors";
+import { v4 as uuidv4 } from 'uuid';
 
 export class UserUsecase {
     private userRepository: IUserRepository;
@@ -11,7 +11,8 @@ export class UserUsecase {
     }
 
     async create(user: User): Promise<User> {
-        const userExists = await this.userRepository.get(user.userId);
+        user.userId = uuidv4();
+        const userExists = await this.userRepository.getByEmail(user.email);
 
         if (userExists) {
             throw new UserAlreadyExists();
@@ -30,7 +31,7 @@ export class UserUsecase {
     }
 
     async update(user: User): Promise<User | null> {
-        const userExists = await this.userRepository.get(user.userId);
+        const userExists = await this.userRepository.get(user.userId!);
         if (!userExists) {
             throw new NoItemsFound('user');
         }
