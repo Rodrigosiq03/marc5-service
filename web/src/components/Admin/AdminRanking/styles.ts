@@ -1,20 +1,41 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-    padding: 2rem;
+    display: flex;
     min-height: 100vh;
     background-color: ${({ theme }) => theme.colors.background};
+    position: relative;
+`;
 
-    @media (max-width: 768px) {
-        padding: 1rem;
+export const MainContent = styled.main`
+    flex: 1;
+    padding: 2rem;
+    min-height: 100vh;
+    
+    @media (max-width: 1280px) {
+        margin-left: 0;
+        padding: 1.5rem;
     }
 `;
 
-export const Title = styled.h1`
+export const Header = styled.header`
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.input.border};
+`;
+
+export const PageTitle = styled.h1`
+    display: flex;
+    align-items: center;
+    gap: 1rem;
     font-size: ${({ theme }) => theme.fontsSizes.desktop.h3};
     color: ${({ theme }) => theme.colors.primary};
-    margin-bottom: 2rem;
+    margin-bottom: 0.75rem;
     font-weight: 600;
+
+    svg {
+        color: ${({ theme }) => theme.colors.green_500};
+    }
 
     @media (max-width: 768px) {
         font-size: ${({ theme }) => theme.fontsSizes.mobile.h3};
@@ -22,31 +43,46 @@ export const Title = styled.h1`
 `;
 
 export const RankingTable = styled.div`
-    width: 80%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     border-radius: 0.75rem;
-
-    @media (max-width: 768px) {
-        width: 100%;
-    }
+    background: ${({ theme }) => theme.colors.input.background};
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid ${({ theme }) => theme.colors.input.border};
 `;
 
 export const RankingHeader = styled.div`
-    background: ${({ theme }) => theme.colors.input.background};
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid ${({ theme }) => theme.colors.primary};
-    border-radius: 0.75rem 0.75rem 0 0;
+    padding: 1rem;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.input.border};
+`;
+
+export const PositionColumn = styled.div`
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+export const Position = styled.span`
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: ${({ theme }) => theme.colors.green_500};
+    color: white;
+    border-radius: 50%;
+    font-weight: bold;
 `;
 
 export const NameTitle = styled.h6`
     font-size: ${({ theme }) => theme.fontsSizes.desktop.h6};
     color: ${({ theme }) => theme.colors.primary};
     font-weight: bold;
-    padding: 0 1rem;
     flex: 1;
     
     @media (max-width: 768px) {
@@ -58,7 +94,6 @@ export const TeamTitle = styled.h6`
     font-size: ${({ theme }) => theme.fontsSizes.desktop.h6};
     color: ${({ theme }) => theme.colors.primary};
     font-weight: bold;
-    padding: 0 1rem;
     flex: 1;
     
     @media (max-width: 768px) {
@@ -74,7 +109,8 @@ export const ExpTitle = styled.h6`
     font-size: ${({ theme }) => theme.fontsSizes.desktop.h6};
     color: ${({ theme }) => theme.colors.primary};
     font-weight: bold;
-    padding: 0 1rem;
+    width: 100px;
+    text-align: center;
     
     @media (max-width: 768px) {
         font-size: ${({ theme }) => theme.fontsSizes.mobile.h6};
@@ -82,95 +118,40 @@ export const ExpTitle = styled.h6`
 `;
 
 export const RankingItem = styled.div`
-    background: ${({ theme }) => theme.title === 'light' 
-        ? '#F5F5F5'  // Light gray for light mode
-        : theme.colors.input.background+'99'  // Darker gray for dark mode
-    };
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 0.75rem 0;
+    padding: 1rem;
     align-items: center;
+    transition: background-color 0.2s;
+    
+    &:hover {
+        background: ${({ theme }) => theme.colors.input.border}33;
+    }
     
     &:not(:last-child) {
         border-bottom: 1px solid ${({ theme }) => theme.colors.input.border};
     }
-
-    &:last-child {
-        border-radius: 0 0 0.75rem 0.75rem;
-    }
 `;
 
-export const PositionColumn = styled.div`
-    width: 70px;
-
-    @media (max-width: 768px) {
-        width: 45px;
-    }
-`;
-
-export const Position = styled.h6`
-    font-size: ${({ theme }) => theme.fontsSizes.desktop.h6};
-    text-align: center;
-    color: ${({ theme }) => theme.colors.primary};
-    font-weight: 500;
-    margin: 0 auto;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    
-    ${({ children }) => {
-        if (children === 1) return 'background-color: #FFD700;'; // Gold
-        if (children === 2) return 'background-color: #C0C0C0;'; // Silver
-        if (children === 3) return 'background-color: #CD7F32;'; // Bronze
-        return '';
-    }}
-    
-    @media (max-width: 768px) {
-        font-size: ${({ theme }) => theme.fontsSizes.mobile.h6};
-        width: 20px;
-        height: 20px;
-    }
-`;
-
-export const Name = styled.h6`
-    font-size: ${({ theme }) => theme.fontsSizes.desktop.h6};
-    color: ${({ theme }) => theme.colors.primary};
-    font-weight: 500;
-    padding: 0 1rem;
+export const Name = styled.span`
     flex: 1;
-    
-    @media (max-width: 768px) {
-        font-size: ${({ theme }) => theme.fontsSizes.mobile.h6};
-    }
-`;
-
-export const Team = styled.h6`
-    font-size: ${({ theme }) => theme.fontsSizes.desktop.h6};
     color: ${({ theme }) => theme.colors.primary};
     font-weight: 500;
-    padding: 0 1rem;
+`;
+
+export const Team = styled.span`
     flex: 1;
-    
-    @media (max-width: 768px) {
-        font-size: ${({ theme }) => theme.fontsSizes.mobile.h6};
-    }
+    color: ${({ theme }) => theme.colors.primary}CC;
 
     @media (max-width: 576px) {
         display: none;
     }
 `;
 
-export const Exp = styled.h6`
-    font-size: ${({ theme }) => theme.fontsSizes.desktop.h6};
-    color: ${({ theme }) => theme.colors.primary};
+export const Exp = styled.span`
+    width: 100px;
+    text-align: center;
+    color: ${({ theme }) => theme.colors.green_500};
     font-weight: 500;
-    padding: 0 1rem;
-    
-    @media (max-width: 768px) {
-        font-size: ${({ theme }) => theme.fontsSizes.mobile.h6};
-    }
 `;
