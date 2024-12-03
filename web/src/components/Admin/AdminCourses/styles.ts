@@ -12,7 +12,7 @@ interface CourseImageProps {
 }
 
 interface VisibilityBadgeProps {
-  visibility: "Public" | "Private";
+  visibility: "public" | "private";
 }
 
 const buttonVariants = {
@@ -147,7 +147,7 @@ export const VisibilityBadge = styled.span<VisibilityBadgeProps>`
   font-size: ${({ theme }) => theme.fontsSizes.desktop.p_small};
 
   ${({ visibility, theme }) =>
-    visibility === "Public"
+    visibility === "public"
       ? css`
           background: ${theme.colors.badges.success.background};
           color: ${theme.colors.badges.success.color};

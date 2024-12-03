@@ -76,15 +76,19 @@ const VideoSelector: React.FC<VideoSelectorProps> = ({
   const filteredVideos = videos.filter(
     (video) =>
       video.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      !existingContent.find((content) => content.video.id === video.id)
+      !existingContent.find((content) => content.videoUrl === video.url)
   );
 
   const handleAddVideo = () => {
     const subcategory = isNewSubcategory ? newSubcategory : selectedSubcategory;
     if (selectedVideo && subcategory) {
       onVideoSelect({
-        video: selectedVideo,
-        subcategory,
+        classId: crypto.randomUUID(),
+        courseId: "",
+        title: selectedVideo.title,
+        description: "",
+        videoUrl: selectedVideo.url,
+        section: subcategory
       });
       onClose();
     }
@@ -232,7 +236,7 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
     const { name, value } = e.target;
     setEditedCourse((prev) => ({
       ...prev,
-      [name]: name === "price" ? parseFloat(value) : value,
+      [name]: value,
     }));
   };
 
@@ -242,12 +246,8 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
       content: [
         ...prev.content,
         {
-          classId: crypto.randomUUID(),
-          courseId: prev.courseId,
-          title: newContent.video.title,
-          description: "",
-          videoUrl: newContent.video.url,
-          section: newContent.subcategory,
+          ...newContent,
+          courseId: prev.courseId
         },
       ],
     }));
@@ -263,8 +263,10 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
   const handleUpdateSubcategory = (classId: string, newSection: string) => {
     setEditedCourse((prev) => ({
       ...prev,
-      content: prev.content.map((lesson) =>
-        lesson.classId === classId ? { ...lesson, section: newSection } : lesson
+      content: prev.content.map((content) =>
+        content.classId === classId 
+          ? { ...content, section: newSection } 
+          : content
       ),
     }));
   };
@@ -368,8 +370,8 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
               required
               aria-required="true"
             >
-              <option value="Public">Público</option>
-              <option value="Private">Privado</option>
+              <option value="public">Público</option>
+              <option value="private">Privado</option>
             </Select>
           </FormGroup>
 
@@ -483,9 +485,9 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
             </ModalHeader>
             <ModalBody>
               <SubcategorySelector>
-                <SubcategoryLabel id="edit-subcategory-label">
-                  Nova subcategoria para "{selectedContent.video.title}":
-                </SubcategoryLabel>
+              <SubcategoryLabel id="edit-subcategory-label">
+                Nova subcategoria para "{selectedContent.title}":
+              </SubcategoryLabel>
                 <SubcategoryOptions
                   role="radiogroup"
                   aria-labelledby="edit-subcategory-label"
@@ -550,7 +552,7 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
                 variant="primary"
                 onClick={() => {
                   handleUpdateSubcategory(
-                    selectedContent,
+                    selectedContent.classId,
                     isNewEditSubcategory
                       ? newEditSubcategory
                       : selectedEditSubcategory

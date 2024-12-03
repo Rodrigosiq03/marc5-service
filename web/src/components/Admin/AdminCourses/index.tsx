@@ -35,7 +35,7 @@ export interface Video {
 }
 
 export interface Content {
-  classId: string;
+    classId: string;
     courseId: string;
     title: string;
     description: string;
@@ -79,38 +79,20 @@ const AdminCourses: React.FC = () => {
         description: "Learn the basics of React development with hands-on projects",
         content: [
           {
-            subcategory: "Basics",
-            lessons: [
-              {
-                id: "1",
-                title: "Introduction to React",
-                duration: 120,
-                url: "video-url-1"
-              },
-              {
-                id: "2",
-                title: "Components and Props",
-                duration: 180,
-                url: "video-url-2"
-              }
-            ]
+            classId: "1",
+            courseId: "1",
+            title: "Introduction to React",
+            description: "Learn the basics of React",
+            videoUrl: "video-url-1",
+            section: "Basics"
           },
           {
-            subcategory: "State Management",
-            lessons: [
-              {
-                id: "3",
-                title: "useState Hook",
-                duration: 150,
-                url: "video-url-3"
-              },
-              {
-                id: "4",
-                title: "useEffect Hook",
-                duration: 160,
-                url: "video-url-4"
-              }
-            ]
+            classId: "2",
+            courseId: "1",
+            title: "Components and Props",
+            description: "Understanding components",
+            videoUrl: "video-url-2",
+            section: "Basics"
           }
         ],
         createdBy: "John Doe",
@@ -121,46 +103,28 @@ const AdminCourses: React.FC = () => {
       {
         courseId: "2",
         imageUrl: "/curso.png",
-        category: "Frontend",
-        title: "Advanced React Patterns",
-        description: "Master advanced React concepts and design patterns",
+        category: "Backend",
+        title: "Node.js Masterclass",
+        description: "Become a Node.js expert with this advanced course",
         content: [
           {
-            subcategory: "Advanced Patterns",
-            lessons: [
-              {
-                id: "5",
-                title: "Higher Order Components",
-                duration: 240,
-                url: "video-url-5"
-              },
-              {
-                id: "6",
-                title: "Render Props Pattern",
-                duration: 210,
-                url: "video-url-6"
-              }
-            ]
+            classId: "1",
+            courseId: "2",
+            title: "Introduction to Node.js",
+            description: "Learn the basics of Node.js",
+            videoUrl: "video-url-3",
+            section: "Basics"
           },
           {
-            subcategory: "Performance",
-            lessons: [
-              {
-                id: "7",
-                title: "React.memo",
-                duration: 180,
-                url: "video-url-7"
-              },
-              {
-                id: "8",
-                title: "useMemo and useCallback",
-                duration: 200,
-                url: "video-url-8"
-              }
-            ]
+            classId: "2",
+            courseId: "2",
+            title: "Express.js Fundamentals",
+            description: "Understanding Express.js",
+            videoUrl: "video-url-4",
+            section: "Basics"
           }
         ],
-        createdBy: "Jane Smith",
+        createdBy: "Jane Doe",
         visibility: "private",
         subscribedUsers: ["user789"],
         price: 149.90
@@ -180,14 +144,15 @@ const AdminCourses: React.FC = () => {
   const handleCreateNew = () => {
     const newCourse: Course = {
       courseId: "",
+      imageUrl: "",
+      category: "",
       title: "",
       description: "",
       content: [],
-      creator: "",
-      visibility: "Private",
+      createdBy: "",
+      visibility: "private",
       subscribedUsers: [],
-      price: 0,
-      imageUrl: "",
+      price: 0
     };
     setEditedCourse(newCourse);
     setIsModalOpen(true);
@@ -235,14 +200,14 @@ const AdminCourses: React.FC = () => {
               <CourseDescription>{course.description}</CourseDescription>
               <CourseMeta>
                 <VisibilityBadge visibility={course.visibility}>
-                  {course.visibility === "Public" ? (
+                  {course.visibility === "public" ? (
                     <Eye size={16} />
                   ) : (
                     <EyeSlash size={16} />
                   )}
                   {course.visibility}
                 </VisibilityBadge>
-                <PriceTag>R$ {course.price.toFixed(2)}</PriceTag>
+                <PriceTag>R$ {course.price?.toFixed(2) || '0.00'}</PriceTag>
                 <span>{course.content.length} vídeos</span>
                 <span>{course.subscribedUsers.length} inscritos</span>
               </CourseMeta>
