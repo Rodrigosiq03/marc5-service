@@ -1,4 +1,4 @@
-import { IFileRepository } from "../../domain/repositories/file_repository_interface";
+import { IFileRepository } from "../../../domain/repositories/file_repository_interface";
 
 export class FileRepositoryMock implements IFileRepository {
   async createMultipartUpload(
@@ -23,5 +23,9 @@ export class FileRepositoryMock implements IFileRepository {
 
   async uploadSimpleFile(courseId: string, classId: string, fileBuffer: Buffer | undefined): Promise<string> {
     return 'mocked_upload_id';
+  }
+
+  async createPresignedUrlVideo(courseId: string, classId: string): Promise<string> {
+    return 'mocked_presigned_url';
   }
 }

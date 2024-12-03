@@ -1,16 +1,18 @@
-import { IFileRepository } from "../../domain/repositories/file_repository_interface";
+import { IFileRepository } from "../../../domain/repositories/file_repository_interface";
 import {
   S3Client,
   CreateMultipartUploadCommand,
   CreateBucketCommandInput,
+  
   UploadPartCommand,
   UploadPartCommandInput,
   CompleteMultipartUploadCommand,
   CompleteMultipartUploadCommandInput,
   PutObjectCommand,
 } from '@aws-sdk/client-s3'
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import multer from "multer";
-import { envs } from "../../helpers/envs";
+import { envs } from "../../../helpers/envs";
 
 
 let uploadId: string | undefined = undefined
@@ -104,6 +106,24 @@ export class FileRepositoryS3 implements IFileRepository {
 
     } catch (error: any) {
       throw new Error(`Error - FileRepos uploading part: ${error.message}`);
+    }
+  }
+
+  async createPresignedUrlVideo(courseId: string, classId: string): Promise<string> {
+    try {
+      const finalKey = `${courseId}/${classId}.mp4`;
+      const client = new S3Client({ region: envs.AWS_REGION });
+      const command = new PutObjectCommand({
+        Bucket: envs.S3_BUCKET_NAME,
+        Key: finalKey,
+        ContentType: 'video/mp4',
+      });
+
+      const response = await getSignedUrl(client, command, { expiresIn: 3600 });
+
+      return response;
+    } catch (error: any) {
+      throw new Error(`Error - FileRepos creating presigned url: ${error.message}`);
     }
   }
 }

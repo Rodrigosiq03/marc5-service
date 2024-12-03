@@ -18,4 +18,8 @@ export interface IFileRepository {
     classId: string,
     fileBuffer: Buffer | undefined
   ) : Promise<string>
+  createPresignedUrlVideo(
+    courseId: string,
+    classId: string
+  ): Promise<string>
 }

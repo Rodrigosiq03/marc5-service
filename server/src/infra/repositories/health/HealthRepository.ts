@@ -1,5 +1,5 @@
 import { connectDB } from "../../database/connection";
-import { IHealthRepository } from "../../domain/repositories/health_repository_interface";
+import { IHealthRepository } from "../../../domain/repositories/health_repository_interface";
 import { HealthDocument } from "../../database/models/health";
 
 export class HealthRepositoryMongo implements IHealthRepository {

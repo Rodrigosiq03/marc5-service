@@ -1,5 +1,5 @@
 import mongoose, { Mongoose, ConnectOptions } from 'mongoose';
-import { envs } from '../helpers/envs';
+import { envs } from '../../helpers/envs';
 
 let mongoConnection: Mongoose | null = null;
 
