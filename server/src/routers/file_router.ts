@@ -16,6 +16,8 @@ fileRouter.post('/upload-health', (req: Request, res: Response) => {
   res.status(200).json({ status: 'upload ok' });
 })
 
-fileRouter.post('/create-presigned-url', createPreSignedUrlController.handle);
+fileRouter.post('/presigned-url/video', createPreSignedUrlController.createPreSignedUrlVideo);
+fileRouter.post('/presigned-url/course-image', createPreSignedUrlController.createPreSignedUrlCourseImage);
+fileRouter.post('/presigned-url/user-image', createPreSignedUrlController.createPreSignedUrlUserImage);
 
 export { fileRouter }
