@@ -20,7 +20,7 @@ export class UserUsecase {
         return this.userRepository.create(user);
     }
 
-    async get(id: string): Promise<User | null> {
+    async get(id: string): Promise<User> {
         const user = await this.userRepository.get(id);
         console.log(user);
         if (!user) {
@@ -30,7 +30,7 @@ export class UserUsecase {
         return user;
     }
 
-    async update(user: User): Promise<User | null> {
+    async update(user: User): Promise<User> {
         const userExists = await this.userRepository.get(user.userId!);
         if (!userExists) {
             throw new NoItemsFound('user');
@@ -39,13 +39,13 @@ export class UserUsecase {
         return this.userRepository.update(user);
     }
 
-    async delete(id: string): Promise<User | null> {
-        const user = await this.userRepository.get(id);
-        if (!user) {
+    async delete(id: string): Promise<User> {
+        const deletedUser = await this.userRepository.delete(id);
+        if (!deletedUser) {
             throw new NoItemsFound('user');
         }
 
-        return this.userRepository.delete(id);
+        return deletedUser;
     }
 
     async login(username: string, password: string): Promise<{ token: string } | null> {
