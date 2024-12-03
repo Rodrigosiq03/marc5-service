@@ -114,7 +114,7 @@ export class FileRepositoryS3 implements IFileRepository {
       const finalKey = `${courseId}/${classId}.mp4`;
       const client = new S3Client({ region: envs.AWS_REGION });
       const command = new PutObjectCommand({
-        Bucket: envs.S3_BUCKET_NAME + envs.STAGE,
+        Bucket: envs.S3_BUCKET_NAME + envs.STAGE.toLowerCase(),
         Key: finalKey,
         ContentType: 'video/mp4',
       });
@@ -132,7 +132,7 @@ export class FileRepositoryS3 implements IFileRepository {
       const finalKey = `${courseId}/course-logo.${mimetype.split('/')[1]}`;
       const client = new S3Client({ region: envs.AWS_REGION });
       const command = new PutObjectCommand({
-        Bucket: envs.S3_BUCKET_NAME + envs.STAGE,
+        Bucket: envs.S3_BUCKET_NAME + envs.STAGE.toLowerCase(),
         Key: finalKey,
         ContentType: mimetype
       });
@@ -150,7 +150,7 @@ export class FileRepositoryS3 implements IFileRepository {
       const finalKey = `${userId}/user-image.${mimetype.split('/')[1]}`;
       const client = new S3Client({ region: envs.AWS_REGION });
       const command = new PutObjectCommand({
-        Bucket: envs.S3_BUCKET_NAME,
+        Bucket: envs.S3_BUCKET_NAME + envs.STAGE.toLowerCase(),
         Key: finalKey,
         ContentType: mimetype
       });
