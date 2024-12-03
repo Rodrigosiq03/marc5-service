@@ -17,11 +17,6 @@ export class S3Stack extends Construct {
       versioned: true,
       encryption: s3.BucketEncryption.S3_MANAGED,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      lifecycleRules: [
-        {
-          expiration: cdk.Duration.days(30),
-        },
-      ],
       cors: [
         {
           allowedMethods: [
