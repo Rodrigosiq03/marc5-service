@@ -14,4 +14,5 @@ export const envs = {
   STAGE: process.env.STAGE,
   MONGO_URI: process.env.MONGO_URI,
   S3_BUCKET_NAME: process.env.S3_BUCKET_NAME,
+  JWT_SECRET: process.env.JWT_SECRET,
 };
