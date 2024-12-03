@@ -2,6 +2,7 @@ import Course from "../../../domain/entities/Course";
 import { ICourseRepository } from "../../../domain/repositories/course_repository_interface";
 import { connectDB } from "../../database/connection";
 import { CourseDocument } from "../../database/models/course";
+import { UserDocument } from "../../database/models/user";
 
 
 // courseId: string;
@@ -73,31 +74,35 @@ export class CourseRepository implements ICourseRepository {
     async subscribe(courseId: string, userId: string): Promise<Course | null> {
         var con = await connectDB();
         const db = con.connection.db;
-        const collection = db!.collection<CourseDocument>('Course');
+        const courseCollection = db!.collection<CourseDocument>('Course');
+        const userCollection = db!.collection<UserDocument>('User');
 
-        const course = await collection.findOne({ _id: courseId });
+        const course = await courseCollection.findOne({ _id: courseId });
         if (!course) {
             return null;
         }
         if (!course.subscribedUsers.includes(userId)) {
-            course.subscribedUsers.push(userId);
-            await collection.updateOne({ _id: courseId }, { $set: { subscribedUsers: course.subscribedUsers } });
+            await courseCollection.updateOne({ _id: courseId }, { $push: { subscribedUsers: userId } });
+            await userCollection.updateOne({ _id: userId }, { $push: { subscribedCourses: courseId } });
         }
+        course.subscribedUsers.push(userId);
         return new Course(course._id, course.imageUrl, course.category, course.title, course.description, course.createdBy, course.visibility, course.subscribedUsers, course.price);
     }
     async unsubscribe(courseId: string, userId: string): Promise<Course | null> {
         var con = await connectDB();
         const db = con.connection.db;
-        const collection = db!.collection<CourseDocument>('Course');
+        const courseCollection = db!.collection<CourseDocument>('Course');
+        const userCollection = db!.collection<UserDocument>('User');
 
-        const course = await collection.findOne({ _id: courseId });
+        const course = await courseCollection.findOne({ _id: courseId });
         if (!course) {
             return null;
         }
         if (course.subscribedUsers.includes(userId)) {
-            course.subscribedUsers = course.subscribedUsers.filter((id) => id !== userId);
-            await collection.updateOne({ _id: courseId }, { $set: { subscribedUsers: course.subscribedUsers } });
+            await courseCollection.updateOne({ _id: courseId }, { $pull: { subscribedUsers: userId } });
+            await userCollection.updateOne({ _id: userId }, { $pull: { subscribedCourses: courseId } });
         }
+        course.subscribedUsers = course.subscribedUsers.filter((user) => user !== userId);
         return new Course(course._id, course.imageUrl, course.category, course.title, course.description, course.createdBy, course.visibility, course.subscribedUsers, course.price);
     }
     async getSubscribedCourses(userId: string): Promise<Course[]> {

@@ -15,7 +15,7 @@ export class UserRepository implements IUserRepository {
         const password = await bcrypt.hash(user.password, 10);
         const userToMongo = { _id: user.userId as string, name: user.name, email: user.email, password: password, courses: user.courses };
         const db = con.connection.db;
-        const collection = db!.collection<UserDocument>('users');
+        const collection = db!.collection<UserDocument>('User');
         await collection.insertOne(userToMongo);
         console.log(`User ${user.name} created`);
         return user;
@@ -25,7 +25,7 @@ export class UserRepository implements IUserRepository {
         var con = await connectDB();
         console.log('Getting user:', userId);
         const db = con.connection.db;
-        const collection = db!.collection<UserDocument>('users');
+        const collection = db!.collection<UserDocument>('User');
         const response = await collection.findOne({ _id: userId });
         console.log(response);
         if (!response) {
@@ -40,7 +40,7 @@ export class UserRepository implements IUserRepository {
         var con = await connectDB();
         console.log('Getting user by email:', email);
         const db = con.connection.db;
-        const collection = db!.collection<UserDocument>('users');
+        const collection = db!.collection<UserDocument>('User');
         const response = await collection.findOne({ email: email });
         if (!response) {
             return null;
@@ -54,7 +54,7 @@ export class UserRepository implements IUserRepository {
         var con = await connectDB();
         console.log('Updating user:', user);
         const db = con.connection.db;
-        const collection = db!.collection<UserDocument>('users');
+        const collection = db!.collection<UserDocument>('User');
         const hashedPassword = await bcrypt.hash(user.password, 10);
         const userToMongo = { _id: user.userId as string, name: user.name, email: user.email, password: hashedPassword, courses: user.courses };
         await collection.updateOne({ _id: user.userId }, { $set: userToMongo });
@@ -66,7 +66,7 @@ export class UserRepository implements IUserRepository {
         var con = await connectDB();
         console.log('Deleting user:', userId);
         const db = con.connection.db;
-        const collection = db!.collection<UserDocument>('users');
+        const collection = db!.collection<UserDocument>('User');
         const response = await collection.findOne({ _id: userId });
         if (!response) {
             console.log(`User ${userId} not found`);
@@ -82,7 +82,7 @@ export class UserRepository implements IUserRepository {
         const JWT_SECRET = process.env.JWT_SECRET!;
         console.log('Logging in user:', email);
         const db = con.connection.db;
-        const collection = db!.collection<UserDocument>('users');
+        const collection = db!.collection<UserDocument>('User');
         const user = await collection.findOne({ email: email });
         if (!user) {
             console.log(`User ${email} not found`);
