@@ -28,7 +28,7 @@ export class IacStack extends Stack {
     const envs = {
       'STAGE': stage,
       'MONGO_URI': environments.MONGO_URI,
-
+      'S3_BUCKET_NAME': environments.S3_BUCKET_NAME,
     };
 
     const lambdaStack = new LambdaStack(this, envs);
