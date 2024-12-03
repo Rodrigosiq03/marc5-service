@@ -1,13 +1,13 @@
 import { MissingParameters } from "../../helpers/errors/controller_errors";
 import { EntityError } from "../../helpers/errors/domain_errors";
 import { NoItemsFound } from "../../helpers/errors/usecase_errors";
-import { ClassUsecase } from "../usecases/class_usecase";
+import { LessonUsecase } from "../usecases/lesson_usecase";
 import { Request, Response } from "express";
 
-export class ClassController {
-    constructor(private usecase: ClassUsecase) { }
+export class LessonController {
+    constructor(private usecase: LessonUsecase) { }
 
-    createClass = async (req: Request, res: Response) => {
+    createLesson = async (req: Request, res: Response) => {
         try {
             if (!req.body) {
                 throw new MissingParameters(req.body);
@@ -19,9 +19,9 @@ export class ClassController {
                 }
             }
 
-            const classEntity = req.body;
-            const newClass = await this.usecase.create(classEntity);
-            res.status(200).json(newClass);
+            const lesson = req.body;
+            const createdLesson = await this.usecase.create(lesson);
+            res.status(200).json(createdLesson);
         } catch (error: any) {
             if (error instanceof NoItemsFound || error instanceof MissingParameters) {
                 res.status(400).send({ message: error.message });
@@ -32,7 +32,7 @@ export class ClassController {
         }
     }
 
-    getClass = async (req: Request, res: Response) => {
+    getLesson = async (req: Request, res: Response) => {
         try {
             if (!req.query.id) {
                 throw new MissingParameters('id');
@@ -53,7 +53,7 @@ export class ClassController {
         }
     }
 
-    getClasses = async (req: Request, res: Response) => {
+    getLessons = async (req: Request, res: Response) => {
         try {
             if (!req.query.courseId) {
                 throw new MissingParameters('courseId');
@@ -63,8 +63,8 @@ export class ClassController {
             // if (!courseRepository.get(courseId)) {
             //     throw new NoItemsFound('course');
             // }
-            const classes = await this.usecase.getClasses(courseId);
-            res.status(200).json(classes);
+            const lessons = await this.usecase.getLessons(courseId);
+            res.status(200).json(lessons);
         } catch (error: any) {
             if (error instanceof MissingParameters) {
                 res.status(400).send({ message: error.message });
@@ -77,21 +77,21 @@ export class ClassController {
         }
     }
 
-    updateClass = async (req: Request, res: Response) => {
+    updateLesson = async (req: Request, res: Response) => {
         try {
             if (!req.body) {
                 throw new MissingParameters(req.body);
             }
-            const requiredFields = ['classId', 'courseId', 'title', 'description', 'videoUrl', 'section'];
+            const requiredFields = ['lessonId', 'courseId', 'title', 'description', 'videoUrl', 'section'];
             for (const field of requiredFields) {
                 if (!req.body[field]) {
                     throw new MissingParameters(field);
                 }
             }
 
-            const classEntity = req.body;
-            const updatedClass = await this.usecase.update(classEntity);
-            res.status(200).json(updatedClass);
+            const lesson = req.body;
+            const updatedLesson = await this.usecase.update(lesson);
+            res.status(200).json(updatedLesson);
         } catch (error: any) {
             if (error instanceof NoItemsFound || error instanceof MissingParameters) {
                 res.status(400).send({ message: error.message });
@@ -102,15 +102,15 @@ export class ClassController {
         }
     }
 
-    deleteClass = async (req: Request, res: Response) => {
+    deleteLesson = async (req: Request, res: Response) => {
         try {
             if (!req.query.id) {
                 throw new MissingParameters('id');
             }
 
             const id = req.query.id as string;
-            const deletedClass = await this.usecase.delete(id);
-            res.status(200).json(deletedClass);
+            const deletedLesson = await this.usecase.delete(id);
+            res.status(200).json(deletedLesson);
         } catch (error: any) {
             if (error instanceof MissingParameters) {
                 res.status(400).send({ message: error.message });

@@ -1,6 +1,6 @@
 import { Document } from "mongoose";
 
-export interface ClassDocument {
+export interface LessonDocument {
     _id: string;
     courseId: string;
     title: string;
