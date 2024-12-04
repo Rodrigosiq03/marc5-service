@@ -111,6 +111,7 @@ const AdminEmployees: React.FC = () => {
         },
       ];
       setEmployees(mockEmployees);
+      console.log("Employee selected:", selectedEmployee);
     } catch (error) {
       console.error("Error fetching employees:", error);
     }

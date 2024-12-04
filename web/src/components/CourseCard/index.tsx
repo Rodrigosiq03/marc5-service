@@ -28,8 +28,6 @@ const CourseCard: React.FC<Course> = ({
   imageUrl,
   category,
   price,
-  date,
-  subscribers,
 }) => {
   const navigate = useNavigate();
   const formattedPrice = formatPrice(price);

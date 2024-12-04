@@ -5,21 +5,6 @@ interface VideoItemProps {
   isSelected: boolean;
 }
 
-const buttonSizes = {
-  small: css`
-    padding: 0.25rem 0.5rem;
-    font-size: ${({ theme }) => theme.fontsSizes.desktop.p_small};
-  `,
-  medium: css`
-    padding: 0.5rem 1rem;
-    font-size: ${({ theme }) => theme.fontsSizes.desktop.p};
-  `,
-  large: css`
-    padding: 0.75rem 1.5rem;
-    font-size: ${({ theme }) => theme.fontsSizes.desktop.h6};
-  `,
-};
-
 const buttonVariants = {
   primary: css`
     background: ${({ theme }) => theme.colors.green_500};
