@@ -4,7 +4,7 @@ export default class Creator extends User {
     maintainedCourses: string[]; // [courseId]
 
     constructor(userId: string, name: string, email: string, password: string, courses: string[], maintainedCourses: string[], createdBy?: string) {
-        super(userId, name, email, password, courses, createdBy);
+        super(name, email, password, courses, userId, createdBy);
         this.maintainedCourses = maintainedCourses;
     }
 }
