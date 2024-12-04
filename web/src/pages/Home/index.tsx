@@ -1,34 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import CourseCard from "../../components/CourseCard";
-import {
-  HomeContainer,
-  Section,
-  SectionTitle,
-  CourseGrid,
-  HeaderContainer,
-  HeaderTitle,
-  HeaderDescription,
-  PartnersSection,
-  PartnersTitle,
-  PartnersGrid,
-  PartnerImage,
-  DifferentialDescription,
-  DifferentialItem,
-  DifferentialsList,
-  DifferentialTitle,
-  CourseGridLoadingWrapper,
-  PartnerName,
-  PartnersDescription,
-  PartnerCard,
-} from "./styles";
+import * as S from "./styles";
 import { Loading } from "../../components/Loading";
-import { Course } from "../../hooks/useCoursesFilter";
+import { useCourse } from "../../hooks/useCourse";
 
 const HomeScreen: React.FC = () => {
-  const [isLoadingRecent, setIsLoadingRecent] = useState(true);
-  const [isLoadingNew, setIsLoadingNew] = useState(true);
-  const [recentCourses, setRecentCourses] = useState<Course[]>([]);
-  const [newContent, setNewContent] = useState<Course[]>([]);
+  const { courses, loading, fetchCourses } = useCourse();
+
+  const formattedCourses = useMemo(() => 
+    courses.map(course => ({
+      _id: course.courseId,
+      title: course.title,
+      description: course.description,
+      creator: course.createdBy,
+      imageUrl: course.imageUrl,
+      category: course.category,
+      price: `R$ ${course.price.toFixed(2).replace('.', ',')}`,
+      date: new Date().toISOString(),
+      subscribers: course.subscribedUsers?.length || 0
+    })), [courses]
+  );
+
+  const featuredCourses = useMemo(() => {
+    return [...formattedCourses]
+      .sort((a, b) => b.subscribers - a.subscribers)
+      .slice(0, 3);
+  }, [formattedCourses]);
+
+  const recentCourses = useMemo(() => {
+    return formattedCourses.slice(0, 1);
+  }, [formattedCourses]);
+
+  useEffect(() => {
+    fetchCourses();
+  }, [fetchCourses]);
 
   const partners = [
     { name: "MetLife", logo: "/empresa.png" },
@@ -37,145 +42,67 @@ const HomeScreen: React.FC = () => {
     { name: "Partner 4", logo: "/empresa.png" },
   ];
 
-  // Simulando carregamento dos dados
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-
-        setRecentCourses([
-          {
-            _id: "asdasdasd",
-            title: "Deep Learning",
-            description: "O curso abrange todas as técnicas mais atualizadas de DeepLearning do mercado",
-            creator: "Rodrigo Siqueira",
-            imageUrl: "/curso.png",
-            category: "Desenvolvimento",
-            price: "R$ 200,00",
-            date: "28/11/24",
-            subscribers: 100,
-          },
-        ]);
-        setIsLoadingRecent(false);
-
-        setNewContent([
-          {
-            _id: "j3k4j3k4j3k4j3k4j3k4",
-            title: "Desenvolvimento back-end",
-            description: "Aprenda as principais tecnologias de backend",
-            creator: "Rafael Bietti",
-            imageUrl: "/curso.png",
-            category: "Desenvolvimento",
-            price: "R$ 200,00",
-            date: "28/11/24",
-            subscribers: 100,
-          },
-          {
-            _id: "a1b2c3d4e5f6g7h8",
-            title: "React Native Avançado",
-            description: "Desenvolvimento mobile com React Native e TypeScript",
-            creator: "Amanda Silva",
-            imageUrl: "/curso.png",
-            category: "Mobile",
-            price: "R$ 299,90",
-            date: "15/12/24",
-            subscribers: 250,
-          },
-          {
-            _id: "h7g6f5e4d3c2b1a",
-            title: "DevOps na Prática",
-            description: "Docker, Kubernetes e CI/CD para desenvolvedores",
-            creator: "Carlos Santos",
-            imageUrl: "/curso.png",
-            category: "Infraestrutura",
-            price: "R$ 349,00",
-            date: "10/01/25",
-            subscribers: 180,
-          },
-          {
-            _id: "x9y8z7w6v5u4t3s",
-            title: "UX/UI Design Master",
-            description: "Design de interfaces modernas e experiência do usuário",
-            creator: "Julia Costa",
-            imageUrl: "/curso.png",
-            category: "Design",
-            price: "R$ 275,00",
-            date: "05/02/25",
-            subscribers: 320,
-          }
-        ]);
-
-        setIsLoadingNew(false);
-      } catch (error) {
-        console.error("Erro ao carregar dados:", error);
-        setIsLoadingNew(false);
-        setIsLoadingRecent(false);
-      }
-    };
-
-    loadData();
-  }, []);
-
   return (
-    <HomeContainer role="main">
-      <HeaderContainer role="banner">
-        <HeaderTitle>
+    <S.HomeContainer role="main">
+      <S.HeaderContainer role="banner">
+        <S.HeaderTitle>
           A plataforma de educação digital que coloca sua empresa no controle.
-        </HeaderTitle>
-        <HeaderDescription>
+        </S.HeaderTitle>
+        <S.HeaderDescription>
           A MARC5 oferece uma solução completa para empresas que desejam
           gerenciar cursos internos com segurança e eficiência, além de
           possibilitar a criação de conteúdos para o público externo.
           Desenvolvida em React e Typescript, nossa plataforma está em fase de
           MVP, focada em atender empresas com um sistema dedicado e exclusivo
           para desktop.
-        </HeaderDescription>
+        </S.HeaderDescription>
 
-        <HeaderTitle>Nossos Diferenciais</HeaderTitle>
-        <DifferentialsList>
-          <DifferentialItem>
-            <DifferentialTitle>Segurança e Controle</DifferentialTitle>
-            <DifferentialDescription>
+        <S.HeaderTitle>Nossos Diferenciais</S.HeaderTitle>
+        <S.DifferentialsList>
+          <S.DifferentialItem>
+            <S.DifferentialTitle>Segurança e Controle</S.DifferentialTitle>
+            <S.DifferentialDescription>
               Acesso seguro e controle personalizado para cada empresa, com
               soluções adaptadas às necessidades e ao tamanho do seu negócio.
-            </DifferentialDescription>
-          </DifferentialItem>
-          <DifferentialItem>
-            <DifferentialTitle>
+            </S.DifferentialDescription>
+          </S.DifferentialItem>
+          <S.DifferentialItem>
+            <S.DifferentialTitle>
               Versatilidade na Criação de Cursos
-            </DifferentialTitle>
-            <DifferentialDescription>
+            </S.DifferentialTitle>
+            <S.DifferentialDescription>
               Crie, personalize e distribua cursos de maneira eficaz, seja para
               sua equipe ou para o público externo. Nossa plataforma permite
               cursos gratuitos, pagos ou sustentados por anúncios, adaptando-se
               às necessidades e estratégias de cada empresa.
-            </DifferentialDescription>
-          </DifferentialItem>
-          <DifferentialItem>
-            <DifferentialTitle>Monetização Facilitada</DifferentialTitle>
-            <DifferentialDescription>
+            </S.DifferentialDescription>
+          </S.DifferentialItem>
+          <S.DifferentialItem>
+            <S.DifferentialTitle>Monetização Facilitada</S.DifferentialTitle>
+            <S.DifferentialDescription>
               Cursos gratuitos com lucro através de anúncios ou pagos com
               comissão sobre o valor, criando novas fontes de receita.
-            </DifferentialDescription>
-          </DifferentialItem>
-          <DifferentialItem>
-            <DifferentialTitle>Foco em Experiência Desktop</DifferentialTitle>
-            <DifferentialDescription>
+            </S.DifferentialDescription>
+          </S.DifferentialItem>
+          <S.DifferentialItem>
+            <S.DifferentialTitle>Foco em Experiência Desktop</S.DifferentialTitle>
+            <S.DifferentialDescription>
               Plataforma otimizada para uso em desktops, oferecendo uma
               experiência focada e ideal para ambientes corporativos.
-            </DifferentialDescription>
-          </DifferentialItem>
-        </DifferentialsList>
-      </HeaderContainer>
+            </S.DifferentialDescription>
+          </S.DifferentialItem>
+        </S.DifferentialsList>
+      </S.HeaderContainer>
 
-      <Section role="region" aria-label="Cursos em andamento">
-        <SectionTitle className="text-2xl font-bold text-gray-900" tabIndex={0}>
+      <S.Section role="region" aria-label="Cursos em andamento">
+        <S.SectionTitle className="text-2xl font-bold text-gray-900" tabIndex={0}>
           Continue seu aprendizado
-        </SectionTitle>
-        <CourseGrid role="list">
-          {isLoadingRecent ? (
-            <CourseGridLoadingWrapper>
+        </S.SectionTitle>
+        <S.CourseGrid role="list">
+          {loading ? (
+            <S.CourseGridLoadingWrapper>
               <Loading isLoading={true} message="Carregando os seus cursos" />
-            </CourseGridLoadingWrapper>
+            </S.CourseGridLoadingWrapper>
           ) : (
             recentCourses.map((course) => (
               <div key={course._id} role="listitem">
@@ -183,48 +110,46 @@ const HomeScreen: React.FC = () => {
               </div>
             ))
           )}
-        </CourseGrid>
-      </Section>
+        </S.CourseGrid>
+      </S.Section>
 
-      <Section role="region" aria-label="Cursos em destaque">
-        <SectionTitle tabIndex={0}>
-          Destaque
-        </SectionTitle>
-        <CourseGrid role="list">
-          {isLoadingNew ? (
-            <CourseGridLoadingWrapper>
+      <S.Section role="region" aria-label="Cursos em destaque">
+        <S.SectionTitle tabIndex={0}>Destaque</S.SectionTitle>
+        <S.CourseGrid role="list">
+          {loading ? (
+            <S.CourseGridLoadingWrapper>
               <Loading isLoading={true} message="Carregando cursos em destaque" />
-            </CourseGridLoadingWrapper>
+            </S.CourseGridLoadingWrapper>
           ) : (
-            newContent.map((course) => (
+            featuredCourses.map((course) => (
               <div key={course._id} role="listitem">
                 <CourseCard {...course} />
               </div>
             ))
           )}
-        </CourseGrid>
-      </Section>
+        </S.CourseGrid>
+      </S.Section>
 
-      <PartnersSection>
-        <PartnersTitle>Empresas Parceiras</PartnersTitle>
-        <PartnersDescription>
+      <S.PartnersSection>
+        <S.PartnersTitle>Empresas Parceiras</S.PartnersTitle>
+        <S.PartnersDescription>
           Conheça as empresas que confiam em nossa plataforma para capacitar suas equipes
           e desenvolver talentos.
-        </PartnersDescription>
-        <PartnersGrid role="list">
+        </S.PartnersDescription>
+        <S.PartnersGrid role="list">
           {partners.map((partner, index) => (
-            <PartnerCard key={`partner-${index}`} role="listitem">
-              <PartnerImage
+            <S.PartnerCard key={`partner-${index}`} role="listitem">
+              <S.PartnerImage
                 src={partner.logo}
                 alt={`Logo da empresa parceira ${partner.name}`}
                 loading="lazy"
               />
-              <PartnerName>{partner.name}</PartnerName>
-            </PartnerCard>
+              <S.PartnerName>{partner.name}</S.PartnerName>
+            </S.PartnerCard>
           ))}
-        </PartnersGrid>
-      </PartnersSection>
-    </HomeContainer>
+        </S.PartnersGrid>
+      </S.PartnersSection>
+    </S.HomeContainer>
   );
 };
 

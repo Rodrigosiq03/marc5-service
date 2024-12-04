@@ -34,6 +34,13 @@ export const Title = styled.h1`
 export const FilterContainer = styled.div`
   position: relative;
   z-index: 10;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 export const SearchFilterContainer = styled.div`
@@ -95,7 +102,7 @@ export const CourseGrid = styled.div`
   gap: 1.5rem;
   width: 100%;
   padding: 1.5rem;
-  max-height: 400px;
+  min-height: 400px;
   background-color: ${({ theme }) => theme.colors.background};
   border-radius: 0.5rem;
   position: relative;
@@ -126,23 +133,17 @@ export const LoadingWrapper = styled.div`
 `;
 
 export const EmptyState = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  grid-column: 1 / -1;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   color: ${({ theme }) => theme.colors.primary};
-  background-color: ${({ theme }) => theme.colors.background};
-  padding: 0 1rem;
-  border-radius: 0.5rem;
+  min-height: 400px;
+  padding: 2rem;
 
   p {
     font-size: ${({ theme }) => theme.fontsSizes.desktop.p};
-    margin-bottom: 0.5rem;
   }
 `;
 
@@ -175,10 +176,38 @@ export const FilterButton = styled.button`
     outline: none;
     box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.green_500}33;
   }
+`;
 
-  @media (max-width: 768px) {
-    width: 100%;
-    justify-content: center;
+export const RefreshButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid ${({ theme }) => theme.colors.input.border};
+  border-radius: 0.375rem;
+  background: ${({ theme }) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.primary};
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover:not(:disabled) {
+    border-color: ${({ theme }) => theme.colors.green_500};
+    color: ${({ theme }) => theme.colors.green_500};
+    background: ${({ theme }) => theme.colors.background};
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  svg {
+    transition: transform 0.3s ease;
+  }
+
+  &:not(:disabled):hover svg {
+    transform: rotate(180deg);
   }
 `;
 
