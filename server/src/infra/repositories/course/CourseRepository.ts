@@ -4,16 +4,6 @@ import { connectDB } from "../../database/connection";
 import { CourseDocument } from "../../database/models/course";
 import { UserDocument } from "../../database/models/user";
 
-
-// courseId: string;
-// imageUrl: string;
-// category: string;
-// title: string;
-// description: string;
-// createdBy: string;
-// visibility: "public" | "private";
-// subscribedUsers: string[]; // [userId]
-// price: number;
 export class CourseRepository implements ICourseRepository {
     async create(course: Course): Promise<Course> {
         var con = await connectDB();

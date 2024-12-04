@@ -24,7 +24,14 @@ export class CourseUsecase {
     }
 
     async getAll() : Promise<Course[]> {
-        return this.courseRepo.getAll();
+        const courses = await this.courseRepo.getAll();
+        for (const course of courses) {
+            const creator = await this.userRepo.get(course.createdBy);
+            if (creator) {
+                course.createdBy = creator.name;
+            }
+        }
+        return courses;
     }
 
     async update(course: Course) : Promise<Course> {
