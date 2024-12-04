@@ -4,7 +4,7 @@ export const Container = styled.div`
   display: flex;
   height: 100vh;
   width: 100vw;
-  overflow: hidden;
+  overflow-y: auto;
 `;
 
 export const LeftSection = styled.main`
@@ -239,6 +239,7 @@ export const LoginLink = styled.a`
   padding: 0.5rem;
   transition: color 0.2s ease-in-out;
   margin-top: 0.5rem;
+  margin-bottom: 2rem;
   cursor: pointer;
 
   &:hover {
