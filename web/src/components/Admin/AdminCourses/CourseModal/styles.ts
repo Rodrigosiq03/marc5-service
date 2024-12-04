@@ -17,7 +17,7 @@ const buttonSizes = {
   large: css`
     padding: 0.75rem 1.5rem;
     font-size: ${({ theme }) => theme.fontsSizes.desktop.h6};
-  `
+  `,
 };
 
 const buttonVariants = {
@@ -44,7 +44,7 @@ const buttonVariants = {
     &:hover:not(:disabled) {
       opacity: 0.9;
     }
-  `
+  `,
 };
 
 export const Modal = styled.div`
@@ -60,10 +60,6 @@ export const Modal = styled.div`
   z-index: 40;
 `;
 
-export const VideoSelectorModal = styled(Modal)`
-  z-index: 50;
-`;
-
 export const ModalContent = styled.div`
   background: ${({ theme }) => theme.colors.background};
   border-radius: 8px;
@@ -71,6 +67,8 @@ export const ModalContent = styled.div`
   max-width: 600px;
   max-height: 90vh;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const ModalHeader = styled.div`
@@ -80,14 +78,6 @@ export const ModalHeader = styled.div`
   padding: 1rem;
   border-bottom: 1px solid ${({ theme }) => theme.colors.input.border};
 
-  h2 {
-    margin: 0;
-    color: ${({ theme }) => theme.colors.primary};
-    font-size: ${({ theme }) => theme.fontsSizes.desktop.h4};
-  }
-`;
-
-export const VideoSelectorHeader = styled(ModalHeader)`
   h3 {
     margin: 0;
     color: ${({ theme }) => theme.colors.primary};
@@ -95,22 +85,31 @@ export const VideoSelectorHeader = styled(ModalHeader)`
   }
 `;
 
+export const HeaderButtons = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+`;
+
 export const CloseButton = styled.button`
-  background: ${({ theme }) => theme.colors.input.background};
+  background: none;
   border: none;
-  color: ${({ theme }) => theme.colors.primary};
-  cursor: pointer;
   padding: 0.5rem;
+  cursor: pointer;
+  color: ${({ theme }) => theme.colors.primary};
+  background: ${({ theme }) => theme.colors.input.background};
   border-radius: 4px;
   transition: background 0.2s;
 
   &:hover {
-    background: ${({ theme }) => theme.colors.input.background_hover};
+    background: ${({ theme }) => theme.colors.primary}10;
   }
 `;
 
 export const ModalBody = styled.div`
   padding: 1rem;
+  flex: 1;
+  overflow-y: auto;
 `;
 
 export const FormGroup = styled.div`
@@ -121,16 +120,18 @@ export const FormGroup = styled.div`
     margin-bottom: 0.5rem;
     color: ${({ theme }) => theme.colors.primary};
     font-size: ${({ theme }) => theme.fontsSizes.desktop.p};
+    font-weight: 500;
   }
 
   input, textarea, select {
     width: 100%;
-    padding: 0.5rem;
+    padding: 0.75rem;
     border: 1px solid ${({ theme }) => theme.colors.input.border};
     border-radius: 4px;
     background: ${({ theme }) => theme.colors.input.background};
     color: ${({ theme }) => theme.colors.primary};
     font-size: ${({ theme }) => theme.fontsSizes.desktop.p};
+    transition: all 0.2s ease-in-out;
 
     &::placeholder {
       color: ${({ theme }) => theme.colors.input.placeholder};
@@ -142,8 +143,9 @@ export const FormGroup = styled.div`
     }
 
     &:focus {
-      border-color: ${({ theme }) => theme.colors.input.border_hover};
+      border-color: ${({ theme }) => theme.colors.green_500};
       outline: none;
+      box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.green_500}20;
     }
 
     &:disabled {
@@ -166,41 +168,43 @@ export const FormGroup = styled.div`
   }
 `;
 
-export const SearchContainer = styled.div`
-  position: relative;
-  margin-bottom: 1rem;
+export const Button = styled.button<ButtonProps>`
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  font-size: ${({ theme }) => theme.fontsSizes.desktop.p};
+  width: ${({ fullWidth }) => (fullWidth ? '100%' : 'auto')};
 
-  input {
-    width: 100%;
-    padding: 0.5rem 2.5rem 0.5rem 0.5rem;
-    border: 1px solid ${({ theme }) => theme.colors.input.border};
-    border-radius: 4px;
-    background: ${({ theme }) => theme.colors.input.background};
-    color: ${({ theme }) => theme.colors.primary};
-    font-size: ${({ theme }) => theme.fontsSizes.desktop.p};
+  ${({ variant = 'primary' }) => buttonVariants[variant]}
 
-    &::placeholder {
-      color: ${({ theme }) => theme.colors.input.placeholder};
-    }
-
-    &:hover {
-      background: ${({ theme }) => theme.colors.input.background_hover};
-      border-color: ${({ theme }) => theme.colors.input.border_hover};
-    }
-
-    &:focus {
-      border-color: ${({ theme }) => theme.colors.input.border_hover};
-      outline: none;
-    }
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
   }
+`;
 
-  svg {
-    position: absolute;
-    right: 0.5rem;
-    top: 50%;
-    transform: translateY(-50%);
+export const IconButton = styled(Button)`
+  padding: 0.5rem;
+  min-width: 2rem;
+  height: 2.5rem;
+`;
+
+export const VideoSelectorModal = styled(Modal)`
+  z-index: 50;
+`;
+
+export const VideoSelectorHeader = styled(ModalHeader)`
+  h3 {
+    margin: 0;
     color: ${({ theme }) => theme.colors.primary};
-    opacity: 0.5;
+    font-size: ${({ theme }) => theme.fontsSizes.desktop.h5};
   }
 `;
 
@@ -307,27 +311,6 @@ export const ModalFooter = styled.div`
 
 export const VideoSelectorFooter = styled(ModalFooter)``;
 
-export const Button = styled.button<ButtonProps>`
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.2s;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-
-  ${({ size = 'medium' }) => buttonSizes[size]}
-  ${({ variant = 'primary' }) => buttonVariants[variant]}
-  ${({ fullWidth }) => fullWidth && css`width: 100%;`}
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
-  }
-`;
-
 export const VideoSelectorTitle = styled.h3`
   margin: 0;
   color: ${({ theme }) => theme.colors.primary};
@@ -346,7 +329,6 @@ export const VideoDuration = styled.p`
   font-size: ${({ theme }) => theme.fontsSizes.desktop.p_small};
   opacity: 0.8;
 `;
-
 
 export const ModalTitle = styled.h2`
   margin: 0;
@@ -589,10 +571,42 @@ export const SubcategoryOptions = styled.div`
   margin-top: 0.5rem;
 `;
 
-export const IconButton = styled(Button)`
-  padding: 0.5rem;
-  min-width: 2rem;
-  height: 2rem;
+export const SearchContainer = styled.div`
+  position: relative;
+  margin-bottom: 1rem;
+
+  input {
+    width: 100%;
+    padding: 0.5rem 2.5rem 0.5rem 0.5rem;
+    border: 1px solid ${({ theme }) => theme.colors.input.border};
+    border-radius: 4px;
+    background: ${({ theme }) => theme.colors.input.background};
+    color: ${({ theme }) => theme.colors.primary};
+    font-size: ${({ theme }) => theme.fontsSizes.desktop.p};
+
+    &::placeholder {
+      color: ${({ theme }) => theme.colors.input.placeholder};
+    }
+
+    &:hover {
+      background: ${({ theme }) => theme.colors.input.background_hover};
+      border-color: ${({ theme }) => theme.colors.input.border_hover};
+    }
+
+    &:focus {
+      border-color: ${({ theme }) => theme.colors.input.border_hover};
+      outline: none;
+    }
+  }
+
+  svg {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: ${({ theme }) => theme.colors.primary};
+    opacity: 0.5;
+  }
 `;
 
 export const SearchInput = styled(Input)`

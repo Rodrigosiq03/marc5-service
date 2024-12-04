@@ -35,12 +35,12 @@ export interface Video {
 }
 
 export interface Content {
-    classId: string;
-    courseId: string;
-    title: string;
-    description: string;
-    videoUrl: string;
-    section: string;
+  classId: string;
+  courseId: string;
+  title: string;
+  description: string;
+  videoUrl: string;
+  section: string;
 }
 
 export interface Course {
@@ -159,11 +159,19 @@ const AdminCourses: React.FC = () => {
     setIsEditing(true);
   };
 
+  const handleStartEditing = () => {
+    setIsEditing(true);
+  };
+
   const handleSave = async (savedCourse: Course) => {
     try {
-      await fetchCourses();
-      setIsModalOpen(false);
-      setIsEditing(false);
+      if (isEditing) {
+        await fetchCourses();
+        setIsModalOpen(false);
+        setIsEditing(false);
+      } else {
+        handleStartEditing();
+      }
     } catch (error) {
       console.error("Error saving course:", error);
     }

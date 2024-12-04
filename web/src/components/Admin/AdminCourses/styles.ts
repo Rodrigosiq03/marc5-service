@@ -44,6 +44,10 @@ const buttonVariants = {
 
 export const Container = styled.div`
   padding: 2rem;
+
+  @media (max-width: 768px) {
+    padding: 0rem;
+  }
 `;
 
 export const Header = styled.div`
@@ -91,6 +95,7 @@ export const CourseCard = styled.div`
   &:hover {
     background: ${({ theme }) => theme.colors.input.background_hover};
     transform: translateY(-2px);
+    border-color: ${({ theme }) => theme.colors.input.border_hover};
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 `;

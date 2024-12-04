@@ -49,6 +49,7 @@ import {
   SubcategoryOptions,
   SubcategorySelector,
   VideoListItem,
+  HeaderButtons,
 } from "./styles";
 import { Video, Content, Course } from "..";
 
@@ -295,9 +296,21 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
           <ModalTitle id="modal-title">
             {isEditing ? "Editar Curso" : "Detalhes do Curso"}
           </ModalTitle>
-          <CloseButton onClick={onClose} aria-label="Fechar modal">
-            <X size={20} aria-hidden="true" />
-          </CloseButton>
+          <HeaderButtons>
+            {!isEditing && (
+              <IconButton
+                onClick={() => onSave(editedCourse)}
+                size="large"
+                aria-label="Editar curso"
+                title="Editar curso"
+              >
+                <PencilSimple size={20} aria-hidden="true" />
+              </IconButton>
+            )}
+            <CloseButton onClick={onClose} aria-label="Fechar modal">
+              <X size={20} aria-hidden="true" />
+            </CloseButton>
+          </HeaderButtons>
         </ModalHeader>
 
         <ModalBody>
