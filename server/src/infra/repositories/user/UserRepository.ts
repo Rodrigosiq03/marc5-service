@@ -13,7 +13,7 @@ export class UserRepository implements IUserRepository {
         var con = await connectDB();
         console.log('Creating user:', user);
         const password = await bcrypt.hash(user.password, 10);
-        const userToMongo = { _id: user.userId as string, name: user.name, email: user.email, password: password, courses: user.courses };
+        const userToMongo = { _id: user.userId as string, name: user.name, email: user.email, password: password, courses: user.courses, xp: user.xp, createdBy: user.createdBy, pictureUrl: user.pictureUrl };
         const db = con.connection.db;
         const collection = db!.collection<UserDocument>('User');
         await collection.insertOne(userToMongo);
@@ -31,7 +31,7 @@ export class UserRepository implements IUserRepository {
         if (!response) {
             return null;
         }
-        const user = new User(response.name, response.email, response.password,response.courses, response._id);
+        const user = new User(response.name, response.email, response.password,response.courses, response.xp, response._id, response.createdBy, response.pictureUrl);
         console.log(`User ${userId} retrieved`);
         return user;
     }
@@ -45,7 +45,7 @@ export class UserRepository implements IUserRepository {
         if (!response) {
             return null;
         }
-        const user = new User(response.name, response.email, response.password,response.courses, response._id);
+        const user = new User(response.name, response.email, response.password,response.courses, response.xp, response._id, response.createdBy, response.pictureUrl);
         console.log(`User ${email} retrieved`);
         return user;
     }
@@ -56,7 +56,7 @@ export class UserRepository implements IUserRepository {
         const db = con.connection.db;
         const collection = db!.collection<UserDocument>('User');
         const hashedPassword = await bcrypt.hash(user.password, 10);
-        const userToMongo = { _id: user.userId as string, name: user.name, email: user.email, password: hashedPassword, courses: user.courses };
+        const userToMongo = { _id: user.userId as string, name: user.name, email: user.email, password: hashedPassword, courses: user.courses, xp: user.xp, createdBy: user.createdBy, pictureUrl: user.pictureUrl };
         await collection.updateOne({ _id: user.userId }, { $set: userToMongo });
         console.log(`User ${user.userId} updated`);
         return user;
@@ -74,7 +74,7 @@ export class UserRepository implements IUserRepository {
         }
         await collection.deleteOne({ _id: userId });
         console.log(`User ${userId} deleted`);
-        return new User(response.name, response.email, response.password,response.courses, response._id);
+        return new User(response.name, response.email, response.password,response.courses, response.xp, response._id, response.createdBy, response.pictureUrl);
     }
 
     async login(email: string, password: string) {
@@ -93,7 +93,7 @@ export class UserRepository implements IUserRepository {
             console.log('Invalid password');
             throw new EntityError('password');
         }
-        const token = jwt.sign({ userId: user._id, name: user.name, email: user.email, courses: user.courses }, JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user._id, name: user.name, email: user.email, courses: user.courses, xp:user.xp, pictureUrl: user.pictureUrl }, JWT_SECRET, { expiresIn: '1h' });
         console.log(`User ${email} logged in`);
         return { token };
     }
