@@ -3,6 +3,8 @@ export interface User {
   name: string;
   email: string;
   courses: string[];
+  xp: number;
+  pictureUrl: string;
 }
 
 export interface CreateUserRequest {
@@ -18,6 +20,8 @@ export interface UpdateUserRequest {
   email: string;
   password: string;
   courses?: string[];
+  xp: number;
+  pictureUrl: string;
 }
 
 export interface LoginRequest {
