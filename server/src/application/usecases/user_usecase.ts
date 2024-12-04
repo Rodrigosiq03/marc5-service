@@ -30,6 +30,15 @@ export class UserUsecase {
         return user;
     }
 
+    async getByEmail(email: string): Promise<User> {
+        const user = await this.userRepository.getByEmail(email);
+        if (!user) {
+            throw new NoItemsFound('user');
+        }
+
+        return user;
+    }
+
     async update(user: User): Promise<User> {
         const userExists = await this.userRepository.get(user.userId!);
         if (!userExists) {

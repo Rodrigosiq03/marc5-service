@@ -7,6 +7,9 @@ export interface UserDocument {
   email: string;
   password: string;
   courses: string[];
+  xp: number;
+  createdBy?: string;
+  pictureUrl?: string;
 }
 
 const UserSchema: Schema = new Schema<UserDocument>({

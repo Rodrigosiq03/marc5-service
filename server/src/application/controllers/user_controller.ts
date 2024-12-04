@@ -22,9 +22,12 @@ export class UserController {
                     throw new MissingParameters(field);
                 }
             }
-            if (!req.body['courses']) {
-                req.body['courses'] = [];
-            }
+            
+            !req.body['courses'] ? req.body['courses'] = [] : req.body['courses'];
+
+            !req.body['pictureUrl'] ? req.body['pictureUrl'] = 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg' : req.body['pictureUrl'];
+
+            !req.body['xp'] ? req.body['xp'] = 0 : req.body['xp'];
 
             const user = req.body as User;
             const newUser = await this.usecase.create(user);
@@ -63,12 +66,34 @@ export class UserController {
         }
     }
 
+    getUserByEmail = async (req: Request, res: Response) => {
+        try {
+            if (!req.query.email) {
+                throw new MissingParameters('email');
+            }
+
+            const email = req.query.email as string;
+            const user = await this.usecase.getByEmail(email);
+            const response = UserViewModel.fromEntity(user).toModel();
+            res.status(200).json(response);
+        } catch (error: any) {
+            if (error instanceof MissingParameters) {
+                res.status(400).send({ message: error.message });
+            } else if (error instanceof NoItemsFound) {
+                res.status(404).send({ message: error.message });
+            }
+            else {
+                res.status(500).send({ message: error.message });
+            }
+        }
+    }
+
     updateUser = async (req: Request, res: Response) => {
         try {
             if (!req.body) {
                 throw new EntityError('User data is required');
             }
-            const requiredFields = ['userId', 'name', 'email', 'password', 'courses'];
+            const requiredFields = ['userId', 'name', 'email', 'password', 'courses', 'pictureUrl'];
             for (const field of requiredFields) {
                 if (!req.body[field]) {
                     throw new MissingParameters(field);
@@ -133,8 +158,8 @@ export class UserController {
                 res.status(400).send({ message: error.message });
             } else if (error instanceof UserNotRegistered) {
                 res.status(404).send({ message: error.message });
-            } else { 
-                res.status(500).send({ message: error.message }); 
+            } else {
+                res.status(500).send({ message: error.message });
             }
         }
     }
