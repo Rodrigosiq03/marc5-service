@@ -1,8 +1,8 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const Container = styled.div`
   display: flex;
-  height: 100vh;
+  height: 100%;
   width: 100vw;
   overflow-y: auto;
 `;
@@ -110,25 +110,36 @@ export const SignUpText = styled.p`
   color: ${({ theme }) => theme.colors.primary};
 `;
 
-export const Input = styled.input`
+export const Input = styled.input<{ disabled?: boolean; $hasError?: boolean }>`
   width: 100%;
   padding: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   border-radius: 4px;
-  border: 1px solid ${({ theme }) => theme.colors.input.border};
+  border: 1px solid ${({ theme, $hasError }) => 
+    $hasError ? theme.colors.red_500 : theme.colors.input.border};
   background-color: ${({ theme }) => theme.colors.input.background};
   color: ${({ theme }) => theme.colors.primary};
   font-size: ${({ theme }) => theme.fontsSizes.desktop.h5};
   transition: all 0.2s ease-in-out;
 
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      opacity: 0.7;
+      cursor: not-allowed;
+    `}
+
   &:hover {
-    background-color: ${({ theme }) => theme.colors.input.background_hover};
-    border-color: ${({ theme }) => theme.colors.input.border_hover};
+    background-color: ${({ theme, disabled }) =>
+      !disabled && theme.colors.input.background_hover};
+    border-color: ${({ theme, disabled, $hasError }) =>
+      !disabled && ($hasError ? theme.colors.red_500 : theme.colors.input.border_hover)};
   }
 
   &:focus {
     outline: none;
-    border-color: ${({ theme }) => theme.colors.green_300};
+    border-color: ${({ theme, $hasError }) => 
+      $hasError ? theme.colors.red_500 : theme.colors.green_300};
   }
 `;
 
@@ -245,4 +256,30 @@ export const LoginLink = styled.a`
   &:hover {
     color: ${({ theme }) => theme.colors.green_500};
   }
+`;
+
+export const ErrorMessage = styled.div`
+  color: ${({ theme }) => theme.colors.red_500};
+  font-size: ${({ theme }) => theme.fontsSizes.desktop.p};
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  background-color: ${({ theme }) => 
+    theme.title === 'dark' 
+      ? 'rgba(230, 57, 70, 0.1)'
+      : 'rgba(230, 57, 70, 0.05)'
+  };
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+`;
+
+export const InputError = styled.span`
+  color: ${({ theme }) => theme.colors.red_500};
+  font-size: ${({ theme }) => theme.fontsSizes.desktop.p_small};
+  margin-bottom: 0.5rem;
+  margin-top: -0.25rem;
+  display: block;
 `;
