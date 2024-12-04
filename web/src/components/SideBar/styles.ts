@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 interface SidebarContainerProps {
-  isOpen: boolean;
+  $isOpen: boolean;
 }
 
 export const SidebarContainer = styled.aside<SidebarContainerProps>`
@@ -14,7 +14,7 @@ export const SidebarContainer = styled.aside<SidebarContainerProps>`
   background-color: ${({ theme }) => theme.colors.green_500};
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  transform: ${({ isOpen }) => (isOpen ? "translateX(0)" : "translateX(-100%)")};
+  transform: ${({ $isOpen }) => ($isOpen ? "translateX(0)" : "translateX(-100%)")};
   transition: transform 0.3s ease-in-out;
   overflow-y: auto;
   z-index: 1000;
@@ -149,14 +149,10 @@ export const UserProgressBar = styled.div`
   margin-bottom: 4px;
 `;
 
-interface ProgressProps {
-  width: number;
-}
-
-export const Progress = styled.div<ProgressProps>`
+export const Progress = styled.div<{ $width: number }>`
   background-color: ${({ theme }) => theme.colors.green_300};
   height: 100%;
-  width: ${({ width }) => width}%;
+  width: ${({ $width }) => $width}%;
 `;
 
 export const ProgressText = styled.div`

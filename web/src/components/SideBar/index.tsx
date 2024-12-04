@@ -20,6 +20,8 @@ import {
   UserInfoContainer,
 } from "./styles";
 import { Loading } from "../Loading";
+import { AuthContext } from "../../contexts/auth/authContext";
+import { useLevelCalculation } from "../../hooks/useLevelCalculator";
 
 interface Props {
   toggleTheme: () => void;
@@ -27,20 +29,24 @@ interface Props {
   setIsOpen: (isOpen: boolean) => void;
 }
 
+const DEFAULT_AVATAR = "/default_profile.png";
+
 interface UserInfo {
   name: string;
-  avatarUrl: string;
-  level: number;
-  progress: number;
-  maxProgress: number;
+  email: string;
+  courses: string[];
+  xp: number;
+  pictureUrl: string;
 }
 
 const Sidebar: React.FC<Props> = ({ toggleTheme, isOpen, setIsOpen }) => {
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1280);
   const [isUserLoading, setIsUserLoading] = useState(true);
   const theme = useContext(ThemeContext);
   const navigate = useNavigate();
+  const { user, signOut } = useContext(AuthContext);
+
+  const { level, progress, maxProgress } = useLevelCalculation(user?.xp || 0);
 
   useEffect(() => {
     const handleResize = () => {
@@ -49,32 +55,23 @@ const Sidebar: React.FC<Props> = ({ toggleTheme, isOpen, setIsOpen }) => {
 
     window.addEventListener("resize", handleResize);
     handleResize();
+
+    if (!user) {
+      signOut();
+      navigate('/login');
+    } else {
+      setIsUserLoading(false);
+    }
+
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [navigate, signOut, user]);
 
-  useEffect(() => {
-    const userData = localStorage.getItem("user");
-    if (userData) {
-      setUserInfo(JSON.parse(userData));
-      setIsUserLoading(false);
-    } else {
-      setUserInfo({
-        name: "Luigi Trevisan",
-        avatarUrl: "/teste.png",
-        level: 1,
-        progress: 65,
-        maxProgress: 100,
-      });
-      setIsUserLoading(false);
-    }
-  }, []);
-
-  if (!userInfo) {
+  if (isUserLoading || !user) {
     return (
       <SidebarContainer 
-        isOpen={isOpen || isLargeScreen}
+        $isOpen={isOpen || isLargeScreen}
         role="navigation"
         aria-label="Menu principal"
       >
@@ -83,9 +80,12 @@ const Sidebar: React.FC<Props> = ({ toggleTheme, isOpen, setIsOpen }) => {
     );
   }
 
-  const progressPercent = (userInfo.progress / userInfo.maxProgress) * 100;
+  const progressPercent = (progress / maxProgress) * 100;
 
   const handleNavigation = (path: string) => {
+    if (path === '/login') {
+      signOut();
+    }
     navigate(path);
     if (!isLargeScreen) {
       setIsOpen(false);
@@ -94,7 +94,7 @@ const Sidebar: React.FC<Props> = ({ toggleTheme, isOpen, setIsOpen }) => {
 
   return (
     <SidebarContainer 
-      isOpen={isOpen || isLargeScreen}
+      $isOpen={isOpen || isLargeScreen}
       role="navigation"
       aria-label="Menu principal"
     >
@@ -118,30 +118,33 @@ const Sidebar: React.FC<Props> = ({ toggleTheme, isOpen, setIsOpen }) => {
             onClick={() => handleNavigation('/perfil')}
             onKeyDown={(e) => e.key === 'Enter' && handleNavigation('/perfil')}
             tabIndex={0}
-            aria-label={`Perfil de ${userInfo.name}. Clique para ver detalhes`}
+            aria-label={`Perfil de ${user.name}. Clique para ver detalhes`}
           >
             <UserAvatar 
-              src={userInfo.avatarUrl} 
-              alt={`Foto de perfil de ${userInfo.name}`} 
+              src={user.pictureUrl || DEFAULT_AVATAR} 
+              alt={`Foto de perfil de ${user.name}`}
+              onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+                e.currentTarget.src = DEFAULT_AVATAR;
+              }}
             />
             <UserDetailsContainer>
               <UserNameContainer>
-                <UserName>{userInfo.name}</UserName>
-                <UserLevel aria-label={`Level ${userInfo.level}`}>
-                  Lv. {userInfo.level}
+                <UserName>{user.name}</UserName>
+                <UserLevel aria-label={`Level ${level}`}>
+                  Lv. {level}
                 </UserLevel>
               </UserNameContainer>
               <UserProgressBar 
                 role="progressbar" 
-                aria-valuenow={userInfo.progress}
+                aria-valuenow={progress}
                 aria-valuemin={0}
-                aria-valuemax={userInfo.maxProgress}
+                aria-valuemax={maxProgress}
                 aria-label="Progresso do usuário"
               >
-                <Progress width={progressPercent} />
+                <Progress $width={progressPercent} />
               </UserProgressBar>
-              <ProgressText aria-label={`${userInfo.progress} de ${userInfo.maxProgress} pontos`}>
-                {userInfo.progress} / {userInfo.maxProgress}
+              <ProgressText aria-label={`${progress} de ${maxProgress} pontos`}>
+                {progress} / {maxProgress}
               </ProgressText>
             </UserDetailsContainer>
           </UserInfo>

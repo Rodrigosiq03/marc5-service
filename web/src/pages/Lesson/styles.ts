@@ -309,10 +309,6 @@ export const MainContent = styled.main`
   overflow-y: auto;
   margin-left: 0;
   transition: margin-left 0.3s ease-in-out;
-
-  @media (min-width: 1280px) {
-    margin-left: 350px;
-  }
 `;
 
 export const ContentWrapper = styled.div`
