@@ -67,6 +67,7 @@ const AdminCourses: React.FC = () => {
 
   useEffect(() => {
     fetchCourses();
+    fetchVideos();
   }, []);
 
   const fetchCourses = async () => {
@@ -76,7 +77,8 @@ const AdminCourses: React.FC = () => {
         imageUrl: "/curso.png",
         category: "Frontend",
         title: "React Fundamentals",
-        description: "Learn the basics of React development with hands-on projects",
+        description:
+          "Learn the basics of React development with hands-on projects",
         content: [
           {
             classId: "1",
@@ -84,7 +86,7 @@ const AdminCourses: React.FC = () => {
             title: "Introduction to React",
             description: "Learn the basics of React",
             videoUrl: "video-url-1",
-            section: "Basics"
+            section: "Basics",
           },
           {
             classId: "2",
@@ -92,13 +94,13 @@ const AdminCourses: React.FC = () => {
             title: "Components and Props",
             description: "Understanding components",
             videoUrl: "video-url-2",
-            section: "Basics"
-          }
+            section: "Basics",
+          },
         ],
         createdBy: "John Doe",
         visibility: "public",
         subscribedUsers: ["user123", "user456"],
-        price: 99.90
+        price: 99.9,
       },
       {
         courseId: "2",
@@ -113,7 +115,7 @@ const AdminCourses: React.FC = () => {
             title: "Introduction to Node.js",
             description: "Learn the basics of Node.js",
             videoUrl: "video-url-3",
-            section: "Basics"
+            section: "Basics",
           },
           {
             classId: "2",
@@ -121,17 +123,42 @@ const AdminCourses: React.FC = () => {
             title: "Express.js Fundamentals",
             description: "Understanding Express.js",
             videoUrl: "video-url-4",
-            section: "Basics"
-          }
+            section: "Basics",
+          },
         ],
         createdBy: "Jane Doe",
         visibility: "private",
         subscribedUsers: ["user789"],
-        price: 149.90
-      }
+        price: 149.9,
+      },
     ];
-    
+
     setCourses(mockCourses);
+  };
+
+  const fetchVideos = async () => {
+    const mockVideos: Video[] = [
+      {
+        id: "1",
+        title: "Introduction to React",
+        duration: 120,
+        url: "video-url-1",
+      },
+      {
+        id: "2",
+        title: "Components and Props",
+        duration: 180,
+        url: "video-url-2",
+      },
+      {
+        id: "3",
+        title: "State and Lifecycle",
+        duration: 200,
+        url: "video-url-3",
+      },
+    ];
+
+    setAvailableVideos(mockVideos);
   };
 
   const handleViewDetails = (course: Course) => {
@@ -152,7 +179,7 @@ const AdminCourses: React.FC = () => {
       createdBy: "",
       visibility: "private",
       subscribedUsers: [],
-      price: 0
+      price: 0,
     };
     setEditedCourse(newCourse);
     setIsModalOpen(true);
@@ -166,6 +193,7 @@ const AdminCourses: React.FC = () => {
   const handleSave = async (savedCourse: Course) => {
     try {
       if (isEditing) {
+        console.log("Saving edited course:", savedCourse);
         await fetchCourses();
         setIsModalOpen(false);
         setIsEditing(false);
@@ -215,7 +243,7 @@ const AdminCourses: React.FC = () => {
                   )}
                   {course.visibility}
                 </VisibilityBadge>
-                <PriceTag>R$ {course.price?.toFixed(2) || '0.00'}</PriceTag>
+                <PriceTag>R$ {course.price?.toFixed(2) || "0.00"}</PriceTag>
                 <span>{course.content.length} vídeos</span>
                 <span>{course.subscribedUsers.length} inscritos</span>
               </CourseMeta>

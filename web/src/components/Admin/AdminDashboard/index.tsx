@@ -29,7 +29,6 @@ import {
   SectionTitle
 } from './styles';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import AdminVideos from '../AdminVideos';
 
 interface DashboardMetric {
   title: string;
@@ -45,7 +44,7 @@ interface Activity {
 }
 
 const AdminDashboard: React.FC = () => {
-  const [metrics, setMetrics] = useState<DashboardMetric[]>([
+  const [metrics] = useState<DashboardMetric[]>([
     {
       title: 'Total de Colaboradores',
       value: 145,

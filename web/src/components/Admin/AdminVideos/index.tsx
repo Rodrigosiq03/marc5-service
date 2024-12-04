@@ -22,7 +22,7 @@ import {
   Button,
   DeleteConfirmation
 } from './styles';
-import { DotsThreeVertical, X, Plus, PencilSimple, Trash, Play } from '@phosphor-icons/react';
+import { DotsThreeVertical, X, Plus, Trash, Play } from '@phosphor-icons/react';
 
 interface Video {
   id: string;
