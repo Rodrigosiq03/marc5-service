@@ -24,6 +24,7 @@ import { RESTRICTED_ROUTES } from "./types/routes";
 import AdminLayout from "./pages/AdminLayout";
 import { AuthProvider } from "./contexts/auth/authContext";
 import AdminSidebar from "./components/Admin/AdminSidebar";
+import { CourseProvider } from "./contexts/course/courseContext";
 
 function App() {
   const { isRestricted } = useRouteRestriction();
@@ -76,83 +77,85 @@ function App() {
   return (
     <AuthProvider>
       <ThemeProvider theme={theme}>
-        <GlobalStyles />
-        <AppContainer $isLargeScreen={isLargeScreen}>
-          {shouldShowSidebar && !isLoginOrSignup && (
-            <>
-              {!isLargeScreen && (
-                <MenuToggleButton
-                  onClick={toggleSidebar}
-                  aria-label={isSidebarOpen ? "Fechar menu" : "Abrir menu"}
-                  aria-expanded={isSidebarOpen}
-                >
-                  {isSidebarOpen ? <X size={32} /> : <List size={32} />}
-                </MenuToggleButton>
-              )}
-              <SidebarContainer
-                $isLargeScreen={isLargeScreen}
-                $isOpen={isSidebarOpen}
-              >
-                {isAdminRoute ? (
-                  <AdminSidebar
-                    toggleTheme={toggleTheme}
-                    isOpen={isSidebarOpen}
-                    setIsOpen={setIsSidebarOpen}
-                  />
-                ) : (
-                  <Sidebar
-                    toggleTheme={toggleTheme}
-                    isOpen={isSidebarOpen}
-                    setIsOpen={setIsSidebarOpen}
-                  />
+        <CourseProvider>
+          <GlobalStyles />
+          <AppContainer $isLargeScreen={isLargeScreen}>
+            {shouldShowSidebar && !isLoginOrSignup && (
+              <>
+                {!isLargeScreen && (
+                  <MenuToggleButton
+                    onClick={toggleSidebar}
+                    aria-label={isSidebarOpen ? "Fechar menu" : "Abrir menu"}
+                    aria-expanded={isSidebarOpen}
+                  >
+                    {isSidebarOpen ? <X size={32} /> : <List size={32} />}
+                  </MenuToggleButton>
                 )}
-              </SidebarContainer>
-              {!isLargeScreen && isSidebarOpen && (
-                <Overlay onClick={handleOverlayClick} />
-              )}
-            </>
-          )}
-          <MainContent
-            $isLargeScreen={isLargeScreen}
-            $isRestricted={isLoginOrSignup}
-          >
-            <Routes>
-              <Route path="/" element={<Navigate to="/inicio" />} />
-              <Route path="/inicio" element={<HomeScreen />} />
-              <Route path="/cursos" element={<CoursesScreen />} />
-              <Route path="/cursos/:courseId" element={<CourseHomeScreen />} />
-              <Route
-                path={RESTRICTED_ROUTES.LESSON.path}
-                element={<LessonScreen toggleTheme={toggleTheme} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />}
-              />
-              <Route path="/planos" element={<PlansScreen />} />
-              <Route path="/perfil" element={<ProfileScreen />} />
-              <Route
-                path={RESTRICTED_ROUTES.SIGNUP.path}
-                element={
-                  <SignUpPage toggleTheme={toggleTheme} onClick={toggleSidebar}/>
-                }
-              />
-              <Route
-                path={RESTRICTED_ROUTES.LOGIN.path}
-                element={
-                  <LoginPage toggleTheme={toggleTheme} onClick={toggleSidebar} />
-                }
-              />
-              <Route
-                path={RESTRICTED_ROUTES.ADMIN.path}
-                element={
-                  <AdminLayout
+                <SidebarContainer
+                  $isLargeScreen={isLargeScreen}
+                  $isOpen={isSidebarOpen}
+                >
+                  {isAdminRoute ? (
+                    <AdminSidebar
                       toggleTheme={toggleTheme}
                       isOpen={isSidebarOpen}
                       setIsOpen={setIsSidebarOpen}
                     />
-                }
-              />
-              <Route path="*" element={<Navigate to="/inicio" />} />
-            </Routes>
-          </MainContent>
-        </AppContainer>
+                  ) : (
+                    <Sidebar
+                      toggleTheme={toggleTheme}
+                      isOpen={isSidebarOpen}
+                      setIsOpen={setIsSidebarOpen}
+                    />
+                  )}
+                </SidebarContainer>
+                {!isLargeScreen && isSidebarOpen && (
+                  <Overlay onClick={handleOverlayClick} />
+                )}
+              </>
+            )}
+            <MainContent
+              $isLargeScreen={isLargeScreen}
+              $isRestricted={isLoginOrSignup}
+            >
+              <Routes>
+                <Route path="/" element={<Navigate to="/inicio" />} />
+                <Route path="/inicio" element={<HomeScreen />} />
+                <Route path="/cursos" element={<CoursesScreen />} />
+                <Route path="/cursos/:courseId" element={<CourseHomeScreen />} />
+                <Route
+                  path={RESTRICTED_ROUTES.LESSON.path}
+                  element={<LessonScreen toggleTheme={toggleTheme} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />}
+                />
+                <Route path="/planos" element={<PlansScreen />} />
+                <Route path="/perfil" element={<ProfileScreen />} />
+                <Route
+                  path={RESTRICTED_ROUTES.SIGNUP.path}
+                  element={
+                    <SignUpPage toggleTheme={toggleTheme} onClick={toggleSidebar}/>
+                  }
+                />
+                <Route
+                  path={RESTRICTED_ROUTES.LOGIN.path}
+                  element={
+                    <LoginPage toggleTheme={toggleTheme} onClick={toggleSidebar} />
+                  }
+                />
+                <Route
+                  path={RESTRICTED_ROUTES.ADMIN.path}
+                  element={
+                    <AdminLayout
+                        toggleTheme={toggleTheme}
+                        isOpen={isSidebarOpen}
+                        setIsOpen={setIsSidebarOpen}
+                      />
+                  }
+                />
+                <Route path="*" element={<Navigate to="/inicio" />} />
+              </Routes>
+            </MainContent>
+          </AppContainer>
+        </CourseProvider>
       </ThemeProvider>
     </AuthProvider>
   );

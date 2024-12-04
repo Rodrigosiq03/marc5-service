@@ -1,151 +1,31 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Funnel, MagnifyingGlass } from "@phosphor-icons/react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Funnel, MagnifyingGlass, ArrowClockwise } from "@phosphor-icons/react";
 import CourseCard from "../../components/CourseCard";
-import { useCoursesFilter, Course, FilterState } from "../../hooks/useCoursesFilter";
+import { useCoursesFilter, FilterState } from "../../hooks/useCoursesFilter";
 import * as S from "./styles";
 import FilterPanel from "../../components/Filter";
 import { Loading } from "../../components/Loading";
-
-const courses: Course[] = [
-  {
-    _id: "1",
-    title: "JavaScript Moderno",
-    description: "Domine JavaScript ES6+, Promises, Async/Await e as últimas features da linguagem",
-    creator: "Rafael Bietti",
-    imageUrl: "/curso.png",
-    category: "Desenvolvimento",
-    price: "R$ 199,90",
-    date: "2024-04-10",
-    subscribers: 1432
-  },
-  {
-    _id: "2",
-    title: "Design de Interface Web",
-    description: "Aprenda a criar interfaces modernas e responsivas com as melhores práticas de UI",
-    creator: "Julia Santos",
-    imageUrl: "/curso.png",
-    category: "Design",
-    price: "R$ 159,90",
-    date: "2024-03-15",
-    subscribers: 856
-  },
-  {
-    _id: "3",
-    title: "Docker & Kubernetes",
-    description: "Containerização de aplicações e orquestração com Docker e Kubernetes",
-    creator: "André Silva",
-    imageUrl: "/curso.png",
-    category: "DevOps",
-    price: "R$ 249,90",
-    date: "2024-02-20",
-    subscribers: 723
-  },
-  {
-    _id: "4",
-    title: "React Native do Zero",
-    description: "Desenvolvimento de aplicativos móveis com React Native e TypeScript",
-    creator: "Rafael Bietti",
-    imageUrl: "/curso.png",
-    category: "Desenvolvimento",
-    price: "R$ 299,90",
-    date: "2024-04-05",
-    subscribers: 1876
-  },
-  {
-    _id: "5",
-    title: "UX Writing",
-    description: "Aprenda a escrever textos efetivos para interfaces digitais",
-    creator: "Mariana Costa",
-    imageUrl: "/curso.png",
-    category: "Design",
-    price: "R$ 129,90",
-    date: "2024-03-25",
-    subscribers: 435
-  },
-  {
-    _id: "6",
-    title: "CI/CD na Prática",
-    description: "Implementação de pipelines de integração e deploy contínuo",
-    creator: "André Silva",
-    imageUrl: "/curso.png",
-    category: "DevOps",
-    price: "R$ 189,90",
-    date: "2024-01-30",
-    subscribers: 612
-  },
-  {
-    _id: "7",
-    title: "TypeScript Avançado",
-    description: "Domine TypeScript com padrões avançados e melhores práticas",
-    creator: "Rafael Bietti",
-    imageUrl: "/curso.png",
-    category: "Desenvolvimento",
-    price: "R$ 219,90",
-    date: "2024-04-15",
-    subscribers: 945
-  },
-  {
-    _id: "8",
-    title: "Design System",
-    description: "Criação e implementação de Design Systems escaláveis",
-    creator: "Julia Santos",
-    imageUrl: "/curso.png",
-    category: "Design",
-    price: "R$ 179,90",
-    date: "2024-03-20",
-    subscribers: 567
-  },
-  {
-    _id: "9",
-    title: "AWS para Desenvolvedores",
-    description: "Aprenda a utilizar os principais serviços da AWS para suas aplicações",
-    creator: "André Silva",
-    imageUrl: "/curso.png",
-    category: "DevOps",
-    price: "R$ 269,90",
-    date: "2024-02-28",
-    subscribers: 834
-  },
-  {
-    _id: "10",
-    title: "Next.js na Prática",
-    description: "Desenvolvimento de aplicações web com Next.js e SSR",
-    creator: "Rafael Bietti",
-    imageUrl: "/curso.png",
-    category: "Desenvolvimento",
-    price: "R$ 229,90",
-    date: "2024-04-01",
-    subscribers: 1234
-  },
-  {
-    _id: "11",
-    title: "Figma Masterclass",
-    description: "Do básico ao avançado no Figma para design de interfaces",
-    creator: "Julia Santos",
-    imageUrl: "/curso.png",
-    category: "Design",
-    price: "R$ 149,90",
-    date: "2024-03-10",
-    subscribers: 789
-  },
-  {
-    _id: "12",
-    title: "Git Avançado",
-    description: "Fluxos de trabalho avançados com Git e GitHub",
-    creator: "André Silva",
-    imageUrl: "/curso.png",
-    category: "DevOps",
-    price: "R$ 139,90",
-    date: "2024-02-15",
-    subscribers: 678
-  }
-];
+import { useCourse } from "../../hooks/useCourse";
 
 const CoursesScreen: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const { courses, loading: isLoading, hasLoadedCourses, fetchCourses } = useCourse();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const filterButtonRef = useRef<HTMLButtonElement>(null);
   
+  const transformedCourses = useMemo(() => 
+    courses.map(course => ({
+      _id: course.courseId,
+      title: course.title,
+      description: course.description,
+      creator: course.createdBy,
+      imageUrl: course.imageUrl,
+      category: course.category,
+      price: `R$ ${course.price.toFixed(2).replace('.', ',')}`,
+      date: new Date().toISOString(),
+      subscribers: course.subscribedUsers?.length || 0
+    })), [courses]
+  );
+
   const {
     filters,
     filteredCourses,
@@ -156,16 +36,13 @@ const CoursesScreen: React.FC = () => {
     updateOrder,
     updatePriceRange,
     resetFilters,
-  } = useCoursesFilter(courses);
+  } = useCoursesFilter(transformedCourses);
 
   useEffect(() => {
-    // Simulando carregamento dos cursos
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
-
-    return () => clearTimeout(timer);
-  }, []);
+    if (!hasLoadedCourses) {
+      fetchCourses();
+    }
+  }, [hasLoadedCourses, fetchCourses]);
 
   const handleOpenFilters = () => {
     setIsFilterOpen(true);
@@ -173,60 +50,18 @@ const CoursesScreen: React.FC = () => {
 
   const handleCloseFilters = () => {
     setIsFilterOpen(false);
-    filterButtonRef.current?.focus();
   };
 
   const handleApplyFilters = (newFilters: FilterState) => {
+    updateSearch(newFilters.searchQuery);
     updateCategory(newFilters.selectedCategory);
     updateOrder(newFilters.selectedOrder);
     updatePriceRange(newFilters.priceRange);
   };
 
-  const renderFilterButton = () => (
-    <S.FilterButton
-      ref={filterButtonRef}
-      onClick={handleOpenFilters}
-      aria-expanded={isFilterOpen}
-      aria-controls="filter-panel"
-      aria-haspopup="dialog"
-    >
-      <span>Filtros</span>
-      <Funnel aria-hidden="true" size={20} />
-    </S.FilterButton>
-  );
-
-  const renderFilterPanel = () => (
-    <FilterPanel
-      isOpen={isFilterOpen}
-      onClose={handleCloseFilters}
-      initialFilters={{
-        searchQuery: filters.searchQuery,
-        selectedCategory: filters.selectedCategory,
-        selectedOrder: filters.selectedOrder,
-        priceRange: filters.priceRange,
-      }}
-      categories={categories}
-      maxPrice={maxPrice} // Adicionando a prop maxPrice
-      onApplyFilters={handleApplyFilters}
-      onResetFilters={resetFilters}
-    />
-  );
-
-  const renderSearchInput = () => (
-    <S.SearchWrapper>
-      <S.SearchInput
-        type="search"
-        id="course-search"
-        placeholder="Pesquise o seu curso aqui por título ou instrutor..."
-        value={filters.searchQuery}
-        onChange={(e) => updateSearch(e.target.value)}
-        aria-label="Buscar cursos"
-      />
-      <S.SearchIcon>
-        <MagnifyingGlass aria-hidden="true" size={20} />
-      </S.SearchIcon>
-    </S.SearchWrapper>
-  );
+  const handleRefresh = () => {
+    fetchCourses();
+  };
 
   return (
     <S.CoursesContainer role="main">
@@ -234,10 +69,46 @@ const CoursesScreen: React.FC = () => {
         <S.Title>Todos os Cursos</S.Title>
   
         <S.SearchFilterContainer>
-          {renderSearchInput()}
+          <S.SearchWrapper>
+            <S.SearchInput
+              type="search"
+              id="course-search"
+              placeholder="Pesquise o seu curso aqui por título ou instrutor..."
+              value={filters.searchQuery}
+              onChange={(e) => updateSearch(e.target.value)}
+              aria-label="Buscar cursos"
+            />
+            <S.SearchIcon>
+              <MagnifyingGlass aria-hidden="true" size={20} />
+            </S.SearchIcon>
+          </S.SearchWrapper>
           <S.FilterContainer>
-            {renderFilterButton()}
-            {renderFilterPanel()}
+            <S.FilterButton
+              ref={filterButtonRef}
+              onClick={handleOpenFilters}
+              aria-expanded={isFilterOpen}
+              aria-controls="filter-panel"
+              aria-haspopup="dialog"
+            >
+              <span>Filtros</span>
+              <Funnel aria-hidden="true" size={20} />
+            </S.FilterButton>
+            <S.RefreshButton
+              onClick={handleRefresh}
+              disabled={isLoading}
+              aria-label="Atualizar cursos"
+            >
+              <ArrowClockwise size={20} />
+            </S.RefreshButton>
+            <FilterPanel
+              isOpen={isFilterOpen}
+              onClose={handleCloseFilters}
+              initialFilters={filters}
+              categories={categories}
+              maxPrice={maxPrice}
+              onApplyFilters={handleApplyFilters}
+              onResetFilters={resetFilters}
+            />
           </S.FilterContainer>
         </S.SearchFilterContainer>
 

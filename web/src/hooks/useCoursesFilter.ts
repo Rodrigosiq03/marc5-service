@@ -33,7 +33,7 @@ export function useCoursesFilter(courses: Course[]) {
     searchQuery: '',
     selectedCategory: '',
     selectedOrder: 'todos',
-    priceRange: maxPrice // Inicializa com o preço mais alto
+    priceRange: maxPrice
   });
 
   const debouncedSearch = useDebounce(filters.searchQuery, 300);
@@ -64,7 +64,7 @@ export function useCoursesFilter(courses: Course[]) {
       searchQuery: '',
       selectedCategory: '',
       selectedOrder: 'todos',
-      priceRange: maxPrice // Reseta para o preço mais alto
+      priceRange: maxPrice
     });
   }, [maxPrice]);
 
