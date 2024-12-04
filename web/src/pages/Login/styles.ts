@@ -69,7 +69,7 @@ export const FormContainer = styled.div`
 export const Logo = styled.div`
   width: 100%;
   max-width: 350px;
-  margin-bottom: 3.5rem;
+  margin-bottom: 2rem;
   align-self: center;
 
   img {
